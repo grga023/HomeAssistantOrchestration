@@ -1,0 +1,34 @@
+@startuml esp2_temperature
+title ESP2 - Temperature/Humidity (DHT22) + heater relay
+
+participant "Home Assistant" as HA
+participant "MQTT broker" as BROKER
+participant "mqtt_wrap" as MQTT
+participant "climate.c" as CLIM
+participant "poll_task\n(FreeRTOS)" as TASK
+participant "dht22.c" as DHT
+participant "Heater GPIO" as GPIO
+
+== Discovery (on connect) ==
+MQTT -> CLIM: on_connect()
+CLIM -> BROKER: subscribe home/temperature/heater/set
+CLIM -> BROKER: publish sensor/temperature + sensor/humidity config (retain)
+CLIM -> BROKER: publish switch/heater config (retain)
+BROKER -> HA: entities appear
+
+== Periodic sensor read (every publish_ms) ==
+TASK -> CLIM: poll_task()
+CLIM -> DHT: dht22_read(pin, &t, &h)
+DHT -> DHT: bit-bang 40 bits + checksum
+DHT --> CLIM: ESP_OK, t, h
+CLIM -> CLIM: build JSON (cJSON)
+CLIM -> BROKER: publish home/temperature/sensor/state = {temperature,humidity} (retain)
+BROKER -> HA: sensor values update
+
+== Heater control ==
+HA -> BROKER: home/temperature/heater/set = "ON"
+BROKER -> MQTT: MQTT_EVENT_DATA
+MQTT -> CLIM: on_message(...,"ON")
+CLIM -> GPIO: gpio_set_level(heater, ON ^ active_low)
+CLIM -> BROKER: publish home/temperature/heater/state = "ON" (retain)
+@enduml

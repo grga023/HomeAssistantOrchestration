@@ -1,0 +1,27 @@
+@startuml esp1_lights
+title ESP1 - Lights (relay switches)
+
+participant "Home Assistant" as HA
+participant "MQTT broker" as BROKER
+participant "mqtt_wrap" as MQTT
+participant "lights.c" as LIGHTS
+participant "Relay GPIO" as GPIO
+
+== Discovery (on connect) ==
+MQTT -> LIGHTS: on_connect()
+loop each relay i (1..N)
+  LIGHTS -> BROKER: subscribe home/lights/light<i>/set
+  LIGHTS -> BROKER: publish homeassistant/switch/lights/light<i>/config (retain)
+  LIGHTS -> BROKER: publish home/lights/light<i>/state = OFF (retain)
+end
+BROKER -> HA: switches appear
+
+== User toggles a light ==
+HA -> BROKER: home/lights/light2/set = "ON"
+BROKER -> MQTT: MQTT_EVENT_DATA
+MQTT -> LIGHTS: on_message(topic, "ON")
+LIGHTS -> LIGHTS: match cmd topic -> index 2
+LIGHTS -> GPIO: gpio_set_level(pin, ON ^ active_low)
+LIGHTS -> BROKER: publish home/lights/light2/state = "ON" (retain)
+BROKER -> HA: switch shows ON
+@enduml

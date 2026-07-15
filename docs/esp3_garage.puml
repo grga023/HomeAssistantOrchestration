@@ -1,0 +1,38 @@
+@startuml esp3_garage
+title ESP3 - Garage door (cover)
+
+participant "Home Assistant" as HA
+participant "MQTT broker" as BROKER
+participant "mqtt_wrap" as MQTT
+participant "garage.c" as GAR
+participant "update_task\n(FreeRTOS)" as TASK
+participant "Relay GPIO" as RELAY
+participant "Reed switch" as REED
+
+== Discovery (on connect) ==
+MQTT -> GAR: on_connect()
+GAR -> BROKER: subscribe home/garage/door/set
+GAR -> BROKER: publish cover/garage/door config (retain)
+GAR -> BROKER: publish home/garage/door/state (retain)
+BROKER -> HA: cover appears
+
+== Open command ==
+HA -> BROKER: home/garage/door/set = "OPEN"
+BROKER -> MQTT: MQTT_EVENT_DATA
+MQTT -> GAR: on_message(...,"OPEN")
+GAR -> RELAY: pulse_relay() (press ~pulse_ms)
+GAR -> GAR: state = OPENING, t0 = now
+GAR -> BROKER: publish state = "opening"
+
+== State machine (every 200 ms) ==
+loop until settled
+  TASK -> GAR: update_task()
+  GAR -> REED: gpio_get_level(reed)
+  alt reed shows closed
+    GAR -> BROKER: publish state = "closed"
+  else travel_ms elapsed & not closed
+    GAR -> BROKER: publish state = "open"
+  end
+end
+BROKER -> HA: cover state updates
+@enduml

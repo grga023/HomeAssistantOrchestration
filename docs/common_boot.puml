@@ -1,0 +1,34 @@
+@startuml common_boot
+title Common boot & connectivity (shared by all boards)
+
+actor "Power on" as PWR
+participant "app_main()" as APP
+participant "wifi_sta" as WIFI
+participant "AP / Router" as AP
+participant "mqtt_wrap\n(esp-mqtt)" as MQTT
+participant "MQTT broker\n(RPi / Mosquitto)" as BROKER
+participant "Home Assistant" as HA
+participant "board on_connect()" as BOARD
+
+PWR -> APP: reset
+APP -> WIFI: wifi_sta_start(hostname)
+WIFI -> WIFI: nvs_flash_init()\nnetif + event loop
+WIFI -> AP: esp_wifi_connect()
+AP --> WIFI: IP_EVENT_STA_GOT_IP
+note right of WIFI: s_connected = true
+
+APP -> MQTT: mqtt_start(board, on_msg, on_conn)
+MQTT -> BROKER: CONNECT\n(LWT: home/<board>/status = "offline", retain)
+BROKER --> MQTT: MQTT_EVENT_CONNECTED
+MQTT -> BROKER: publish home/<board>/status = "online" (retain)
+MQTT -> BOARD: on_connect()
+BOARD -> BROKER: subscribe command topic(s)
+BOARD -> BROKER: publish homeassistant/.../config (retained discovery)
+BROKER -> HA: discovery + availability
+HA -> HA: entities appear online
+
+... connection lost ...
+MQTT -x BROKER: TCP drop
+BROKER -> HA: LWT home/<board>/status = "offline"
+note over MQTT: esp-mqtt auto-reconnects,\nthen on_connect() runs again
+@enduml

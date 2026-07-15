@@ -1,0 +1,17 @@
+idf_component_register(
+    SRCS
+        "src/wifi_sta.c"
+        "src/mqtt_wrap.c"
+        "src/ha_discovery.c"
+        "src/app_rtos.c"
+    INCLUDE_DIRS
+        "include"
+    REQUIRES
+        nvs_flash
+        esp_wifi
+        esp_event
+        esp_netif
+        mqtt
+        driver
+        json
+)
