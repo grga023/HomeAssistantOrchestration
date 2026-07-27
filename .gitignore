@@ -32,3 +32,9 @@ docs/measurement/broker/*.srl
 .DS_Store
 Thumbs.db
 *.swp
+
+# graphify: version the shareable outputs (graph.json/html, GRAPH_REPORT.md),
+# ignore the regenerated cache + machine-local internal state (churn on every rebuild)
+graphify-out/cache/
+graphify-out/.graphify_*
+graphify-out/.node_index.txt
