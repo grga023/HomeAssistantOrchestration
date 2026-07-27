@@ -32,6 +32,3 @@ docs/measurement/broker/*.srl
 .DS_Store
 Thumbs.db
 *.swp
-
-# Tooling output (graphify)
-graphify-out/

@@ -1,0 +1,110 @@
+components_common_include_app_rtos  |  app_rtos.h  |  components/common/include/app_rtos.h
+components_common_include_ha_discovery  |  ha_discovery.h  |  components/common/include/ha_discovery.h
+components_common_include_mqtt_wrap  |  mqtt_wrap.h  |  components/common/include/mqtt_wrap.h
+components_common_include_secrets_example  |  secrets.example.h  |  components/common/include/secrets.example.h
+components_common_include_wifi_sta  |  wifi_sta.h  |  components/common/include/wifi_sta.h
+components_common_src_app_rtos  |  app_rtos.c  |  components/common/src/app_rtos.c
+components_common_src_app_rtos_periodic_trampoline  |  periodic_trampoline()  |  components/common/src/app_rtos.c
+components_common_src_app_rtos_rtos_every_ms  |  rtos_every_ms()  |  components/common/src/app_rtos.c
+taskhandle_t  |  TaskHandle_t  |  
+rtos_periodic_fn  |  rtos_periodic_fn  |  
+ubasetype_t  |  UBaseType_t  |  
+basetype_t  |  BaseType_t  |  
+components_common_src_ha_discovery  |  ha_discovery.c  |  components/common/src/ha_discovery.c
+components_common_src_ha_discovery_ha_set_device  |  ha_set_device()  |  components/common/src/ha_discovery.c
+components_common_src_ha_discovery_ha_publish_config  |  ha_publish_config()  |  components/common/src/ha_discovery.c
+components_common_src_mqtt_wrap  |  mqtt_wrap.c  |  components/common/src/mqtt_wrap.c
+components_common_src_mqtt_wrap_mqtt_event_handler  |  mqtt_event_handler()  |  components/common/src/mqtt_wrap.c
+components_common_src_mqtt_wrap_c_esp_event_base_t  |  esp_event_base_t  |  
+components_common_src_mqtt_wrap_mqtt_start  |  mqtt_start()  |  components/common/src/mqtt_wrap.c
+mqtt_msg_cb  |  mqtt_msg_cb  |  
+mqtt_conn_cb  |  mqtt_conn_cb  |  
+components_common_src_mqtt_wrap_mqtt_publish  |  mqtt_publish()  |  components/common/src/mqtt_wrap.c
+components_common_src_mqtt_wrap_mqtt_subscribe  |  mqtt_subscribe()  |  components/common/src/mqtt_wrap.c
+components_common_src_mqtt_wrap_mqtt_is_connected  |  mqtt_is_connected()  |  components/common/src/mqtt_wrap.c
+components_common_src_mqtt_wrap_mqtt_availability_topic  |  mqtt_availability_topic()  |  components/common/src/mqtt_wrap.c
+components_common_src_wifi_sta  |  wifi_sta.c  |  components/common/src/wifi_sta.c
+components_common_src_wifi_sta_on_wifi_event  |  on_wifi_event()  |  components/common/src/wifi_sta.c
+components_common_src_wifi_sta_c_esp_event_base_t  |  esp_event_base_t  |  
+components_common_src_wifi_sta_wifi_sta_start  |  wifi_sta_start()  |  components/common/src/wifi_sta.c
+components_common_src_wifi_sta_wifi_sta_connected  |  wifi_sta_connected()  |  components/common/src/wifi_sta.c
+docs_measurement_broker_gen_certs  |  gen-certs.sh  |  docs/measurement/broker/gen-certs.sh
+docs_measurement_broker_gen_certs_sh__entry  |  gen-certs.sh script  |  docs/measurement/broker/gen-certs.sh
+docs_measurement_plot_results  |  plot_results.py  |  docs/measurement/plot_results.py
+docs_measurement_plot_results_load_results  |  load_results()  |  docs/measurement/plot_results.py
+docs_measurement_plot_results_style_axis  |  _style_axis()  |  docs/measurement/plot_results.py
+docs_measurement_plot_results_bar2  |  bar2()  |  docs/measurement/plot_results.py
+docs_measurement_plot_results_annotate_delta  |  annotate_delta()  |  docs/measurement/plot_results.py
+docs_measurement_plot_results_fig_heap  |  fig_heap()  |  docs/measurement/plot_results.py
+docs_measurement_plot_results_fig_handshake  |  fig_handshake()  |  docs/measurement/plot_results.py
+docs_measurement_plot_results_fig_rtt  |  fig_rtt()  |  docs/measurement/plot_results.py
+docs_measurement_plot_results_fig_packet  |  fig_packet()  |  docs/measurement/plot_results.py
+docs_measurement_plot_results_main  |  main()  |  docs/measurement/plot_results.py
+docs_measurement_plot_results_rationale_72  |  Dvo-stubični magnitude grafikon: x-osa nosi identitet (ne samo boja).  |  docs/measurement/plot_results.py
+docs_measurement_rtt  |  rtt.py  |  docs/measurement/rtt.py
+docs_measurement_rtt_make_client  |  make_client()  |  docs/measurement/rtt.py
+docs_measurement_rtt_rttmeter  |  RttMeter  |  docs/measurement/rtt.py
+docs_measurement_rtt_rttmeter_init  |  .__init__()  |  docs/measurement/rtt.py
+docs_measurement_rtt_rttmeter_on_connect  |  .on_connect()  |  docs/measurement/rtt.py
+docs_measurement_rtt_rttmeter_on_message  |  .on_message()  |  docs/measurement/rtt.py
+docs_measurement_rtt_percentile  |  percentile()  |  docs/measurement/rtt.py
+docs_measurement_rtt_main  |  main()  |  docs/measurement/rtt.py
+docs_measurement_rtt_rationale_38  |  paho-mqtt 2.x (VERSION2) uz fallback na 1.x.  |  docs/measurement/rtt.py
+src_esp1_lights_include_lights  |  lights.h  |  src/esp1_lights/include/lights.h
+src_esp1_lights_src_lights  |  lights.c  |  src/esp1_lights/src/lights.c
+src_esp1_lights_src_lights_cmd_topic  |  cmd_topic()  |  src/esp1_lights/src/lights.c
+src_esp1_lights_src_lights_state_topic  |  state_topic()  |  src/esp1_lights/src/lights.c
+src_esp1_lights_src_lights_apply_relay  |  apply_relay()  |  src/esp1_lights/src/lights.c
+src_esp1_lights_src_lights_on_message  |  on_message()  |  src/esp1_lights/src/lights.c
+src_esp1_lights_src_lights_on_connect  |  on_connect()  |  src/esp1_lights/src/lights.c
+src_esp1_lights_src_lights_lights_start  |  lights_start()  |  src/esp1_lights/src/lights.c
+src_esp1_lights_src_main  |  main.c  |  src/esp1_lights/src/main.c
+src_esp1_lights_src_main_app_main  |  app_main()  |  src/esp1_lights/src/main.c
+src_esp2_temperature_include_climate  |  climate.h  |  src/esp2_temperature/include/climate.h
+src_esp2_temperature_include_dht22  |  dht22.h  |  src/esp2_temperature/include/dht22.h
+src_esp2_temperature_src_climate  |  climate.c  |  src/esp2_temperature/src/climate.c
+src_esp2_temperature_src_climate_apply_heater  |  apply_heater()  |  src/esp2_temperature/src/climate.c
+src_esp2_temperature_src_climate_poll_task  |  poll_task()  |  src/esp2_temperature/src/climate.c
+src_esp2_temperature_src_climate_on_message  |  on_message()  |  src/esp2_temperature/src/climate.c
+src_esp2_temperature_src_climate_on_connect  |  on_connect()  |  src/esp2_temperature/src/climate.c
+src_esp2_temperature_src_climate_climate_start  |  climate_start()  |  src/esp2_temperature/src/climate.c
+src_esp2_temperature_src_dht22  |  dht22.c  |  src/esp2_temperature/src/dht22.c
+src_esp2_temperature_src_dht22_wait_level  |  wait_level()  |  src/esp2_temperature/src/dht22.c
+gpio_num_t  |  gpio_num_t  |  
+src_esp2_temperature_src_dht22_dht22_read  |  dht22_read()  |  src/esp2_temperature/src/dht22.c
+esp_err_t  |  esp_err_t  |  
+src_esp2_temperature_src_main  |  main.c  |  src/esp2_temperature/src/main.c
+src_esp2_temperature_src_main_app_main  |  app_main()  |  src/esp2_temperature/src/main.c
+src_esp3_garage_include_garage  |  garage.h  |  src/esp3_garage/include/garage.h
+src_esp3_garage_src_garage  |  garage.c  |  src/esp3_garage/src/garage.c
+src_esp3_garage_src_garage_now_ms  |  now_ms()  |  src/esp3_garage/src/garage.c
+src_esp3_garage_src_garage_reed_closed  |  reed_closed()  |  src/esp3_garage/src/garage.c
+src_esp3_garage_src_garage_state_str  |  state_str()  |  src/esp3_garage/src/garage.c
+door_state_t  |  door_state_t  |  
+src_esp3_garage_src_garage_publish_state  |  publish_state()  |  src/esp3_garage/src/garage.c
+src_esp3_garage_src_garage_pulse_relay  |  pulse_relay()  |  src/esp3_garage/src/garage.c
+src_esp3_garage_src_garage_trigger_open  |  trigger_open()  |  src/esp3_garage/src/garage.c
+src_esp3_garage_src_garage_trigger_close  |  trigger_close()  |  src/esp3_garage/src/garage.c
+src_esp3_garage_src_garage_on_message  |  on_message()  |  src/esp3_garage/src/garage.c
+src_esp3_garage_src_garage_on_connect  |  on_connect()  |  src/esp3_garage/src/garage.c
+src_esp3_garage_src_garage_update_task  |  update_task()  |  src/esp3_garage/src/garage.c
+src_esp3_garage_src_garage_garage_start  |  garage_start()  |  src/esp3_garage/src/garage.c
+src_esp3_garage_src_main  |  main.c  |  src/esp3_garage/src/main.c
+src_esp3_garage_src_main_app_main  |  app_main()  |  src/esp3_garage/src/main.c
+src_esp4_security_include_security  |  security.h  |  src/esp4_security/include/security.h
+src_esp4_security_src_main  |  main.c  |  src/esp4_security/src/main.c
+src_esp4_security_src_main_app_main  |  app_main()  |  src/esp4_security/src/main.c
+src_esp4_security_src_security  |  security.c  |  src/esp4_security/src/security.c
+src_esp4_security_src_security_now_ms  |  now_ms()  |  src/esp4_security/src/security.c
+src_esp4_security_src_security_door_open  |  door_open()  |  src/esp4_security/src/security.c
+src_esp4_security_src_security_motion  |  motion()  |  src/esp4_security/src/security.c
+src_esp4_security_src_security_alarm_str  |  alarm_str()  |  src/esp4_security/src/security.c
+alarm_t  |  alarm_t  |  
+src_esp4_security_src_security_set_siren  |  set_siren()  |  src/esp4_security/src/security.c
+src_esp4_security_src_security_publish_alarm  |  publish_alarm()  |  src/esp4_security/src/security.c
+src_esp4_security_src_security_transition  |  transition()  |  src/esp4_security/src/security.c
+src_esp4_security_src_security_arm  |  arm()  |  src/esp4_security/src/security.c
+src_esp4_security_src_security_on_message  |  on_message()  |  src/esp4_security/src/security.c
+src_esp4_security_src_security_on_connect  |  on_connect()  |  src/esp4_security/src/security.c
+src_esp4_security_src_security_tick_task  |  tick_task()  |  src/esp4_security/src/security.c
+src_esp4_security_src_security_security_start  |  security_start()  |  src/esp4_security/src/security.c
