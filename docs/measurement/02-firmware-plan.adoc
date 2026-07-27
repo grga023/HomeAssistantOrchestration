@@ -7,7 +7,7 @@
 link:index.adoc[← indeks] | link:01-overview.adoc[← 01 Pregled]
 
 Ovaj dokument opisuje *tačno* šta se menja u firmveru da bi `esp2_temperature`
-komunicirao preko MQTTS-a, dok sva 4 borda i dalje builduju i `esp1_lights`
+komunicirao preko MQTTS-a, dok obe ploče i dalje builduju i `esp1_lights`
 ostaje čist plain baseline.
 
 [NOTE]
@@ -30,7 +30,7 @@ Dizajn:
   `ca.crt` u firmware.
 . U `mqtt_wrap.c`, pod `#ifdef MQTT_USE_TLS`, bira se `mqtts://...:8883` URI i
   kači ugrađeni CA. TLS se realno aktivira *šemom* `mqtts://` (ne samo portom).
-. esp1/esp3/esp4 *ne* dobijaju `MQTT_TLS`, pa ne linkuju ni TLS granu ni CA.
+. esp1 *ne* dobija `MQTT_TLS`, pa ne linkuje ni TLS granu ni CA.
 
 [TIP]
 ====
@@ -48,7 +48,7 @@ ne može koristiti direktno u C-u bez ovakvog gejta.
 
 | `platformio.ini`
 | izmena
-| U `[env:esp2_temperature]` *samo*, dopisati `-DMQTT_TLS=1`. Ostala 3 env-a netaknuta.
+| U `[env:esp2_temperature]` *samo*, dopisati `-DMQTT_TLS=1`. `esp1_lights` env netaknut.
 
 | `components/common/CMakeLists.txt`
 | izmena

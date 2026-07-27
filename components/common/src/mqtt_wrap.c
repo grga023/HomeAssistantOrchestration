@@ -1,5 +1,6 @@
 #include "mqtt_wrap.h"
 #include "secrets.h"
+#include "ota.h"
 
 #include <string.h>
 #include <stdio.h>
@@ -24,12 +25,22 @@ static void mqtt_event_handler(void *args, esp_event_base_t base,
         /* Announce availability (retained), then let the board (re)subscribe. */
         esp_mqtt_client_publish(s_client, s_avail_topic, "online", 0, 0, 1);
         if (s_on_conn) s_on_conn();
+        /* OTA: a successful connect proves this image works, so confirm it
+         * (cancels the pending rollback); then advertise the update entity. */
+        ota_confirm_running_image();
+        ota_on_connect();
         break;
     case MQTT_EVENT_DISCONNECTED:
         s_connected = false;
         ESP_LOGW(TAG, "disconnected");
         break;
     case MQTT_EVENT_DATA:
+        /* OTA command topics are handled centrally for every board; anything
+         * else is handed off to the board's own message callback. */
+        if (ota_handle_message(event->topic, event->topic_len,
+                               event->data, event->data_len)) {
+            break;
+        }
         if (s_on_msg) {
             s_on_msg(event->topic, event->topic_len, event->data, event->data_len);
         }
@@ -43,6 +54,7 @@ void mqtt_start(const char *board, mqtt_msg_cb on_msg, mqtt_conn_cb on_conn) {
     s_on_msg = on_msg;
     s_on_conn = on_conn;
     snprintf(s_avail_topic, sizeof(s_avail_topic), "home/%s/status", board);
+    ota_start(board);
 
     esp_mqtt_client_config_t cfg = {
         .broker.address.uri = MQTT_URI,

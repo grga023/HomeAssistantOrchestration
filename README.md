@@ -1,8 +1,9 @@
 # HomeAssistantOrchestration
 
 A demo **Smart Home** built around **Home Assistant** (on a Raspberry Pi) and
-**4x ESP32** controllers talking to it over **MQTT**. Firmware is **pure C on
-ESP-IDF**, built with **PlatformIO**. Special emphasis on **home security**.
+**2x ESP32** controllers talking to it over **MQTT**. Firmware is **pure C on
+ESP-IDF**, built with **PlatformIO**. Supports **OTA firmware updates** from
+GitHub Releases, surfaced as Home Assistant `update` entities.
 
 ```
                  +-------------------------+
@@ -10,44 +11,49 @@ ESP-IDF**, built with **PlatformIO**. Special emphasis on **home security**.
                  |  Home Assistant + MQTT  |
                  +-----------+-------------+
                              | MQTT (Mosquitto)
-     +--------------+--------+--------+--------------+
-     |              |                 |              |
-  ESP1 Lights   ESP2 Temp        ESP3 Garage    ESP4 Security
-  relay board   DHT22+heater     relay+reed     door+PIR+siren
+              +--------------+--------------+
+              |                             |
+          ESP1 Lights                  ESP2 Temp
+          relay board                  DHT22 + heater
 ```
 
 ## Boards
 
 | Board | Env | Role | Hardware | HA entities |
 |-------|-----|------|----------|-------------|
-| ESP1 | `esp1_lights` | Lighting | 2-4 ch relay board | `switch` x N |
-| ESP2 | `esp2_temperature` | Climate | DHT22 + optional heater relay | `sensor` (temp, humidity), `switch` (heater) |
-| ESP3 | `esp3_garage` | Garage door | 1 relay (pulse) + reed switch | `cover` |
-| ESP4 | `esp4_security` | **Security** | door reed + PIR + siren | `alarm_control_panel`, `binary_sensor` x 2 |
+| ESP1 | `esp1_lights` | Lighting | 2-4 ch relay board | `switch` x N, `update` |
+| ESP2 | `esp2_temperature` | Climate | DHT22 + optional heater relay | `sensor` (temp, humidity), `switch` (heater), `update` |
 
 Entities appear in Home Assistant automatically via **MQTT Discovery**. Each
-board reports availability through an MQTT **Last Will** (online/offline).
+board reports availability through an MQTT **Last Will** (online/offline) and its
+running firmware version (`sw_version`) in the HA device block.
+
+> These two boards are also the subjects of the measurement study in
+> `docs/measurement/` (ESP1 = plain MQTT / 1883, ESP2 = MQTTS-TLS / 8883).
 
 ## Stack
 
 - **ESP-IDF** (pure C), **PlatformIO** (`framework = espidf`)
 - **esp-mqtt** for MQTT, **esp_wifi** (station), **cJSON**, native **FreeRTOS**
-- OTA: **not yet implemented** (planned; see Roadmap)
+- **OTA**: `esp_https_ota` over HTTPS (public CA bundle), dual-app partitions +
+  rollback
 
 ## Repository layout
 
 ```
-platformio.ini                4 envs; board selected via cmake_extra_args
+platformio.ini                2 envs; board selected via cmake_extra_args
+partitions.csv                dual-OTA table (ota_0/ota_1/otadata), 4 MB
+sdkconfig.defaults            shared IDF config (4 MB, OTA, rollback, CA bundle)
+version.txt                   firmware version -> esp_app_desc / HA sw_version
 src/
   CMakeLists.txt              picks the active board (-DSMARTHOME_BOARD=...)
   esp1_lights/{include,src}   lights.c        + main.c
   esp2_temperature/{...}      climate.c, dht22.c + main.c
-  esp3_garage/{...}           garage.c        + main.c
-  esp4_security/{...}         security.c      + main.c
 components/common/            shared IDF component
-  include/ + src/             wifi_sta, mqtt_wrap, ha_discovery, app_rtos
+  include/ + src/             wifi_sta, mqtt_wrap, ha_discovery, app_rtos, ota
   include/secrets.example.h   copy -> secrets.h (gitignored)
 docs/                         PlantUML sequence diagrams (per board + boot)
+docs/measurement/             MQTT plain-vs-TLS measurement study (AsciiDoc)
 ```
 
 Board selection: `platformio.ini` passes `-DSMARTHOME_BOARD=<env>` to CMake and
@@ -58,6 +64,7 @@ Board selection: `platformio.ini` passes `-DSMARTHOME_BOARD=<env>` to CMake and
 
 - [PlatformIO](https://platformio.org/) (installs the ESP-IDF toolchain on first build)
 - Raspberry Pi with Home Assistant + **Mosquitto** broker + **MQTT integration**
+- ESP32 modules with **4 MB flash** (standard WROOM-32) — required for dual-OTA
 
 ## Setup
 
@@ -66,16 +73,17 @@ Board selection: `platformio.ini` passes `-DSMARTHOME_BOARD=<env>` to CMake and
    cp components/common/include/secrets.example.h components/common/include/secrets.h
    # edit secrets.h: WiFi SSID/pass, MQTT_URI, MQTT_USER/PASSWORD
    ```
-2. Build a board:
+2. OTA points at `grga023/HomeAssistantOrchestration` releases by default; if
+   you fork, update the repo slug in the `build_flags`
+   `-DOTA_MANIFEST_URL_BASE=...` line of `platformio.ini`.
+3. Build a board:
    ```
    pio run -e esp1_lights
    pio run -e esp2_temperature
-   pio run -e esp3_garage
-   pio run -e esp4_security
    ```
-3. Flash (once boards are connected over USB):
+4. First flash over USB (OTA can't bootstrap itself):
    ```
-   pio run -e esp4_security -t upload
+   pio run -e esp1_lights -t upload
    ```
 
 ## MQTT topics
@@ -87,22 +95,33 @@ Availability (retained, via LWT): `home/<board>/status` -> `online` / `offline`
 | Light N | `home/lights/light<N>/set` | `home/lights/light<N>/state` |
 | Temp/humidity | - | `home/temperature/sensor/state` (JSON) |
 | Heater | `home/temperature/heater/set` | `home/temperature/heater/state` |
-| Garage door | `home/garage/door/set` (OPEN/CLOSE/STOP) | `home/garage/door/state` |
-| Alarm | `home/security/alarm/set` (ARM_HOME/ARM_AWAY/DISARM) | `home/security/alarm/state` |
-| Entry door | - | `home/security/door` |
-| Motion | - | `home/security/motion` |
+| OTA (per board) | `home/<board>/ota/set` (`.bin` URL), `home/<board>/ota/install` (Install) | `home/<board>/ota/state` (JSON: installed/latest version) |
 
-## Security behaviour (ESP4)
+## OTA firmware updates
 
-`alarm_control_panel` state machine:
+Updates are triggered over MQTT and downloaded over **HTTPS from GitHub
+Releases**, verified with the ESP-IDF **public certificate bundle** (no embedded
+cert, no local server). The partition table is dual-app (`ota_0`/`ota_1`) with
+**bootloader rollback**: a freshly-flashed image is only marked valid after it
+successfully reconnects to MQTT, so a broken build automatically reverts on the
+next reboot.
 
-- **DISARMED** - sensors reported, siren off.
-- **ARM_AWAY** - exit delay, then armed; any door/motion -> **PENDING** -> entry
-  delay -> **TRIGGERED** (siren on).
-- **ARM_HOME** - perimeter only: door triggers, interior motion ignored.
-- **DISARM** - clears the alarm at any time.
+Home Assistant shows an `update` entity per board (installed vs latest version +
+an Install button). OTA is wired centrally in `components/common` (mqtt_wrap +
+ota), so it applies to every board with no per-module code.
 
-Delays are configurable in `src/esp4_security/src/main.c`.
+### Release process
+
+1. Bump `version.txt` (e.g. `1.0.1`) and `pio run`.
+2. Create a GitHub Release and upload, per board:
+   - the binary `.pio/build/<env>/firmware.bin` as **`<board>.bin`**
+     (`lights.bin`, `temperature.bin`),
+   - a manifest **`<board>.json`**: `{"version":"1.0.1","url":"https://github.com/grga023/HomeAssistantOrchestration/releases/latest/download/<board>.bin"}`.
+3. On the next MQTT reconnect each board fetches `<base>/<board>.json`, learns the
+   latest version, and HA offers the update. Click **Install** (or publish a URL
+   to `home/<board>/ota/set`) to update.
+
+> `<board>` is the short id used in topics: `lights`, `temperature`.
 
 ## Diagrams
 
@@ -110,16 +129,15 @@ See `docs/*.puml` (PlantUML sequence diagrams) for the boot flow and each board.
 
 ## Roadmap
 
-- [ ] OTA updates (esp_https_ota pull, or custom) - deferred
-- [ ] Per-board `sdkconfig.defaults` (flash size, etc.)
-- [ ] Home Assistant example automations for the security flow
+- [x] OTA updates (esp_https_ota pull over HTTPS, GitHub Releases)
+- [ ] MQTTS/TLS for the MQTT client itself (designed in `docs/measurement/`, not
+  yet wired into `mqtt_wrap.c`)
+- [ ] Per-board `sdkconfig.defaults` overrides if boards diverge
 
 ## Wiring notes
 
 - Relay boards are usually **active-LOW**; the `active_low` args in each
   `main.c` handle inversion. Adjust pin numbers to your wiring.
-- Reed/PIR inputs use internal pull-ups; wire the switch between pin and GND.
 - Share a common GND between the ESP32 and relay/sensor supply.
 
-> WARNING: This is a demo. Do not rely on it as your only line of defense for a
-> real security system.
+> WARNING: This is a demo, not a production-hardened system.

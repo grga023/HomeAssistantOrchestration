@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include "esp_app_desc.h"
 
 static char s_board[32]   = "esp32";
 static char s_display[48] = "ESP32";
@@ -32,14 +33,17 @@ void ha_publish_config(const char *component, const char *object_id,
         n += snprintf(json + n, sizeof(json) - n, "%s,", extra_json);
     }
 
+    /* Device block. sw_version comes from the app descriptor (version.txt),
+     * so Home Assistant shows the running firmware version for every entity. */
     snprintf(json + n, sizeof(json) - n,
         "\"device\":{"
         "\"identifiers\":[\"esp32_%s\"],"
         "\"name\":\"%s\","
         "\"model\":\"ESP32 DevKit\","
-        "\"manufacturer\":\"HomeAssistantOrchestration\""
+        "\"manufacturer\":\"HomeAssistantOrchestration\","
+        "\"sw_version\":\"%s\""
         "}}",
-        s_board, s_display);
+        s_board, s_display, esp_app_get_description()->version);
 
     mqtt_publish(topic, json, true);
 }

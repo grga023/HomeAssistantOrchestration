@@ -75,9 +75,8 @@ Potpuno lokalna mreža, bez oslanjanja na Cloud.
 
 [NOTE]
 ====
-Repozitorijum ima *4 ploče* (esp1–esp4). Za merenja su relevantne samo *esp1*
-(baseline) i *esp2* (MQTTS). esp3 (garaža) i esp4 (sigurnost) ostaju netaknute i
-na plain MQTT-u; nisu deo mernog poređenja, ali nastavljaju da rade.
+Repozitorijum ima *2 ploče* (esp1, esp2) i *obe* su deo mernog poređenja:
+*esp1* (baseline, plain 1883) i *esp2* (MQTTS 8883). Nema drugih čvorova.
 ====
 
 == Zašto baš esp1 vs esp2 (fer poređenje)
@@ -95,8 +94,8 @@ razlika:
 
 [IMPORTANT]
 ====
-Precizno: esp1/esp3/esp4 *ne linkuju* TLS kod niti CA sertifikat, pa je plain
-putanja čista. Ali *linkuju* deljenu MEAS instrumentaciju (merenje heap-a i
+Precizno: esp1 *ne linkuje* TLS kod niti CA sertifikat, pa je plain
+putanja čista. Ali *linkuje* deljenu MEAS instrumentaciju (merenje heap-a i
 vremena). To je namerno i korektno — obe strane poređenja meri isti kod.
 ====
 
@@ -122,6 +121,41 @@ Bitan nalaz iz analize: pošto je mbedTLS *već* ukompajliran u `esp2` build
 hardverski AES/SHA), *ne menjamo build konfiguraciju* da bi MQTTS proradio —
 menjamo samo aplikativni kod (`mqtt_wrap.c`). Detalji u
 link:02-firmware-plan.adoc[02].
+====
+
+== OTA ažuriranje firmvera (preko MQTT-a)
+
+Firmware podržava *OTA (over-the-air) ažuriranje* pokrenuto preko MQTT-a. Nova
+slika se preuzima preko *HTTPS-a sa GitHub Releases* i verifikuje *javnim ESP-IDF
+certifikatskim bundle-om* (`esp_crt_bundle`). Kod je u
+`components/common/src/ota.c` i deljen je za obe ploče.
+
+* *Particije:* šema je prebačena na *dual-OTA* (`ota_0`/`ota_1`/`otadata`) na
+  4 MB flash-u, uz *bootloader rollback*. Nova slika se potvrđuje kao ispravna
+  *tek pošto se ponovo poveže na MQTT* (`ota_confirm_running_image()` poziva
+  `esp_ota_mark_app_valid_cancel_rollback()`); u suprotnom bootloader vraća
+  prethodnu sliku.
+* *MQTT topici* (`<board>` = `esp1_lights` ili `esp2_temperature`):
++
+[cols="2,3",options="header"]
+|===
+| Topic | Namena
+
+| `home/<board>/ota/set`     | direktan URL `.bin` fajla za flash
+| `home/<board>/ota/install` | HA „Install" dugme (koristi URL iz manifesta)
+| `home/<board>/ota/state`   | JSON stanje: `installed_version` / `latest_version`
+|===
+
+* *Home Assistant* prikazuje MQTT `update` entitet (`device_class` „firmware"),
+  pa se novo izdanje instalira direktno sa HA nadzorne table.
+* *„latest_version"* se čita iz per-board manifesta `<board>.json`
+  (`{version, url}`) hostovanog uz GitHub Releases.
+
+[NOTE]
+====
+OTA je *već implementiran i ukompajliran* u firmware — za razliku od TLS sloja iz
+link:02-firmware-plan.adoc[02], koji je i dalje plan. OTA i merni (TLS) deo su
+nezavisni.
 ====
 
 '''

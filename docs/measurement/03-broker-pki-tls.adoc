@@ -146,7 +146,7 @@ Gotova konfiguracija: link:broker/thesis.conf[`broker/thesis.conf`]. Ide u
 password_file /etc/mosquitto/passwd
 allow_anonymous false          # Mosquitto 2.x podrazumevano; oba listenera dele ovu globalnu auth
 
-# --- Listener 1: PLAIN (esp1/esp3/esp4 + Home Assistant na 127.0.0.1) ---
+# --- Listener 1: PLAIN (esp1_lights + Home Assistant na 127.0.0.1) ---
 listener 1883
 
 # --- Listener 2: MQTTS / TLS (esp2_temperature) ---

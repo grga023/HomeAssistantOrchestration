@@ -4,6 +4,7 @@ idf_component_register(
         "src/mqtt_wrap.c"
         "src/ha_discovery.c"
         "src/app_rtos.c"
+        "src/ota.c"
     INCLUDE_DIRS
         "include"
     REQUIRES
@@ -14,4 +15,10 @@ idf_component_register(
         mqtt
         driver
         json
+        esp_https_ota
+        app_update
+        esp_app_format
+        esp_http_client
+        esp-tls
+        mbedtls
 )

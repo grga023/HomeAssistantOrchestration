@@ -1,26 +1,38 @@
 {
   "directed": false,
   "multigraph": false,
-  "graph": {
-    "hyperedges": [
-      {
-        "nodes": [
-          "docs_measurement_fig_handshake",
-          "docs_measurement_fig_heap",
-          "docs_measurement_fig_packet",
-          "docs_measurement_fig_rtt",
-          "measurement_mqtts_tls_overhead"
-        ],
-        "relation": "participate_in",
-        "confidence": "INFERRED",
-        "confidence_score": 0.85,
-        "source_file": "docs/measurement/fig-rtt.png",
-        "source_location": null,
-        "weight": 1.0
-      }
-    ]
-  },
+  "graph": {},
   "nodes": [
+    {
+      "label": "_gph_rebuild.py",
+      "file_type": "code",
+      "source_file": "_gph_rebuild.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "gph_rebuild",
+      "community": 9,
+      "norm_label": "_gph_rebuild.py"
+    },
+    {
+      "label": "main()",
+      "file_type": "code",
+      "source_file": "_gph_rebuild.py",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "gph_rebuild_main",
+      "community": 9,
+      "norm_label": "main()"
+    },
+    {
+      "label": "Temp graphify rebuild helper (Windows-safe). Deleted after use.  Runs the determ",
+      "file_type": "rationale",
+      "source_file": "_gph_rebuild.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "gph_rebuild_rationale_1",
+      "community": 9,
+      "norm_label": "temp graphify rebuild helper (windows-safe). deleted after use.  runs the determ"
+    },
     {
       "label": "app_rtos.h",
       "file_type": "code",
@@ -28,7 +40,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_common_include_app_rtos",
-      "community": 9,
+      "community": 11,
       "norm_label": "app_rtos.h"
     },
     {
@@ -38,7 +50,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_common_include_ha_discovery",
-      "community": 10,
+      "community": 12,
       "norm_label": "ha_discovery.h"
     },
     {
@@ -48,8 +60,18 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_common_include_mqtt_wrap",
-      "community": 11,
+      "community": 13,
       "norm_label": "mqtt_wrap.h"
+    },
+    {
+      "label": "ota.h",
+      "file_type": "code",
+      "source_file": "components/common/include/ota.h",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_common_include_ota",
+      "community": 1,
+      "norm_label": "ota.h"
     },
     {
       "label": "secrets.example.h",
@@ -58,7 +80,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_common_include_secrets_example",
-      "community": 12,
+      "community": 14,
       "norm_label": "secrets.example.h"
     },
     {
@@ -68,7 +90,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_common_include_wifi_sta",
-      "community": 13,
+      "community": 15,
       "norm_label": "wifi_sta.h"
     },
     {
@@ -78,7 +100,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_common_src_app_rtos",
-      "community": 3,
+      "community": 6,
       "norm_label": "app_rtos.c"
     },
     {
@@ -88,7 +110,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "components_common_src_app_rtos_periodic_trampoline",
-      "community": 3,
+      "community": 6,
       "norm_label": "periodic_trampoline()"
     },
     {
@@ -98,7 +120,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "components_common_src_app_rtos_rtos_every_ms",
-      "community": 3,
+      "community": 6,
       "norm_label": "rtos_every_ms()"
     },
     {
@@ -108,7 +130,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "taskhandle_t",
-      "community": 3,
+      "community": 6,
       "norm_label": "taskhandle_t"
     },
     {
@@ -118,7 +140,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "rtos_periodic_fn",
-      "community": 3,
+      "community": 6,
       "norm_label": "rtos_periodic_fn"
     },
     {
@@ -128,7 +150,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "ubasetype_t",
-      "community": 3,
+      "community": 6,
       "norm_label": "ubasetype_t"
     },
     {
@@ -138,7 +160,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "basetype_t",
-      "community": 3,
+      "community": 6,
       "norm_label": "basetype_t"
     },
     {
@@ -155,7 +177,7 @@
       "label": "ha_set_device()",
       "file_type": "code",
       "source_file": "components/common/src/ha_discovery.c",
-      "source_location": "L10",
+      "source_location": "L11",
       "_origin": "ast",
       "id": "components_common_src_ha_discovery_ha_set_device",
       "community": 0,
@@ -165,10 +187,10 @@
       "label": "ha_publish_config()",
       "file_type": "code",
       "source_file": "components/common/src/ha_discovery.c",
-      "source_location": "L15",
+      "source_location": "L16",
       "_origin": "ast",
       "id": "components_common_src_ha_discovery_ha_publish_config",
-      "community": 1,
+      "community": 0,
       "norm_label": "ha_publish_config()"
     },
     {
@@ -178,14 +200,14 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_common_src_mqtt_wrap",
-      "community": 1,
+      "community": 5,
       "norm_label": "mqtt_wrap.c"
     },
     {
       "label": "mqtt_event_handler()",
       "file_type": "code",
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L17",
+      "source_location": "L18",
       "_origin": "ast",
       "id": "components_common_src_mqtt_wrap_mqtt_event_handler",
       "community": 1,
@@ -205,10 +227,10 @@
       "label": "mqtt_start()",
       "file_type": "code",
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L42",
+      "source_location": "L53",
       "_origin": "ast",
       "id": "components_common_src_mqtt_wrap_mqtt_start",
-      "community": 0,
+      "community": 5,
       "norm_label": "mqtt_start()"
     },
     {
@@ -218,7 +240,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "mqtt_msg_cb",
-      "community": 0,
+      "community": 5,
       "norm_label": "mqtt_msg_cb"
     },
     {
@@ -228,48 +250,148 @@
       "source_location": "",
       "_origin": "ast",
       "id": "mqtt_conn_cb",
-      "community": 0,
+      "community": 5,
       "norm_label": "mqtt_conn_cb"
     },
     {
       "label": "mqtt_publish()",
       "file_type": "code",
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L64",
+      "source_location": "L76",
       "_origin": "ast",
       "id": "components_common_src_mqtt_wrap_mqtt_publish",
-      "community": 1,
+      "community": 0,
       "norm_label": "mqtt_publish()"
     },
     {
       "label": "mqtt_subscribe()",
       "file_type": "code",
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L68",
+      "source_location": "L80",
       "_origin": "ast",
       "id": "components_common_src_mqtt_wrap_mqtt_subscribe",
-      "community": 1,
+      "community": 0,
       "norm_label": "mqtt_subscribe()"
     },
     {
       "label": "mqtt_is_connected()",
       "file_type": "code",
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L72",
+      "source_location": "L84",
       "_origin": "ast",
       "id": "components_common_src_mqtt_wrap_mqtt_is_connected",
-      "community": 1,
+      "community": 2,
       "norm_label": "mqtt_is_connected()"
     },
     {
       "label": "mqtt_availability_topic()",
       "file_type": "code",
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L76",
+      "source_location": "L88",
       "_origin": "ast",
       "id": "components_common_src_mqtt_wrap_mqtt_availability_topic",
-      "community": 1,
+      "community": 5,
       "norm_label": "mqtt_availability_topic()"
+    },
+    {
+      "label": "ota.c",
+      "file_type": "code",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_common_src_ota",
+      "community": 1,
+      "norm_label": "ota.c"
+    },
+    {
+      "label": "installed_version()",
+      "file_type": "code",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L36",
+      "_origin": "ast",
+      "id": "components_common_src_ota_installed_version",
+      "community": 1,
+      "norm_label": "installed_version()"
+    },
+    {
+      "label": "publish_state()",
+      "file_type": "code",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L41",
+      "_origin": "ast",
+      "id": "components_common_src_ota_publish_state",
+      "community": 1,
+      "norm_label": "publish_state()"
+    },
+    {
+      "label": "fetch_manifest()",
+      "file_type": "code",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L52",
+      "_origin": "ast",
+      "id": "components_common_src_ota_fetch_manifest",
+      "community": 1,
+      "norm_label": "fetch_manifest()"
+    },
+    {
+      "label": "ota_task()",
+      "file_type": "code",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L115",
+      "_origin": "ast",
+      "id": "components_common_src_ota_ota_task",
+      "community": 1,
+      "norm_label": "ota_task()"
+    },
+    {
+      "label": "start_ota()",
+      "file_type": "code",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L150",
+      "_origin": "ast",
+      "id": "components_common_src_ota_start_ota",
+      "community": 1,
+      "norm_label": "start_ota()"
+    },
+    {
+      "label": "ota_start()",
+      "file_type": "code",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L168",
+      "_origin": "ast",
+      "id": "components_common_src_ota_ota_start",
+      "community": 5,
+      "norm_label": "ota_start()"
+    },
+    {
+      "label": "ota_on_connect()",
+      "file_type": "code",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L175",
+      "_origin": "ast",
+      "id": "components_common_src_ota_ota_on_connect",
+      "community": 1,
+      "norm_label": "ota_on_connect()"
+    },
+    {
+      "label": "ota_handle_message()",
+      "file_type": "code",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L195",
+      "_origin": "ast",
+      "id": "components_common_src_ota_ota_handle_message",
+      "community": 1,
+      "norm_label": "ota_handle_message()"
+    },
+    {
+      "label": "ota_confirm_running_image()",
+      "file_type": "code",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L220",
+      "_origin": "ast",
+      "id": "components_common_src_ota_ota_confirm_running_image",
+      "community": 1,
+      "norm_label": "ota_confirm_running_image()"
     },
     {
       "label": "wifi_sta.c",
@@ -278,7 +400,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_common_src_wifi_sta",
-      "community": 0,
+      "community": 8,
       "norm_label": "wifi_sta.c"
     },
     {
@@ -288,7 +410,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "components_common_src_wifi_sta_on_wifi_event",
-      "community": 0,
+      "community": 8,
       "norm_label": "on_wifi_event()"
     },
     {
@@ -298,7 +420,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "components_common_src_wifi_sta_c_esp_event_base_t",
-      "community": 0,
+      "community": 8,
       "norm_label": "esp_event_base_t"
     },
     {
@@ -308,7 +430,7 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "components_common_src_wifi_sta_wifi_sta_start",
-      "community": 0,
+      "community": 8,
       "norm_label": "wifi_sta_start()"
     },
     {
@@ -318,7 +440,7 @@
       "source_location": "L84",
       "_origin": "ast",
       "id": "components_common_src_wifi_sta_wifi_sta_connected",
-      "community": 0,
+      "community": 8,
       "norm_label": "wifi_sta_connected()"
     },
     {
@@ -332,7 +454,7 @@
       },
       "_origin": "ast",
       "id": "docs_measurement_broker_gen_certs",
-      "community": 8,
+      "community": 10,
       "norm_label": "gen-certs.sh"
     },
     {
@@ -346,7 +468,7 @@
       },
       "_origin": "ast",
       "id": "docs_measurement_broker_gen_certs_sh__entry",
-      "community": 8,
+      "community": 10,
       "norm_label": "gen-certs.sh script"
     },
     {
@@ -356,7 +478,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "docs_measurement_plot_results",
-      "community": 2,
+      "community": 3,
       "norm_label": "plot_results.py"
     },
     {
@@ -366,7 +488,7 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "docs_measurement_plot_results_load_results",
-      "community": 2,
+      "community": 3,
       "norm_label": "load_results()"
     },
     {
@@ -376,7 +498,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "docs_measurement_plot_results_style_axis",
-      "community": 2,
+      "community": 3,
       "norm_label": "_style_axis()"
     },
     {
@@ -386,7 +508,7 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "docs_measurement_plot_results_bar2",
-      "community": 2,
+      "community": 3,
       "norm_label": "bar2()"
     },
     {
@@ -396,7 +518,7 @@
       "source_location": "L88",
       "_origin": "ast",
       "id": "docs_measurement_plot_results_annotate_delta",
-      "community": 2,
+      "community": 3,
       "norm_label": "annotate_delta()"
     },
     {
@@ -406,7 +528,7 @@
       "source_location": "L98",
       "_origin": "ast",
       "id": "docs_measurement_plot_results_fig_heap",
-      "community": 2,
+      "community": 3,
       "norm_label": "fig_heap()"
     },
     {
@@ -416,7 +538,7 @@
       "source_location": "L109",
       "_origin": "ast",
       "id": "docs_measurement_plot_results_fig_handshake",
-      "community": 2,
+      "community": 3,
       "norm_label": "fig_handshake()"
     },
     {
@@ -426,7 +548,7 @@
       "source_location": "L127",
       "_origin": "ast",
       "id": "docs_measurement_plot_results_fig_rtt",
-      "community": 2,
+      "community": 3,
       "norm_label": "fig_rtt()"
     },
     {
@@ -436,7 +558,7 @@
       "source_location": "L148",
       "_origin": "ast",
       "id": "docs_measurement_plot_results_fig_packet",
-      "community": 2,
+      "community": 3,
       "norm_label": "fig_packet()"
     },
     {
@@ -446,7 +568,7 @@
       "source_location": "L159",
       "_origin": "ast",
       "id": "docs_measurement_plot_results_main",
-      "community": 2,
+      "community": 3,
       "norm_label": "main()"
     },
     {
@@ -456,7 +578,7 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "docs_measurement_plot_results_rationale_72",
-      "community": 2,
+      "community": 3,
       "norm_label": "dvo-stubicni magnitude grafikon: x-osa nosi identitet (ne samo boja)."
     },
     {
@@ -466,7 +588,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "docs_measurement_rtt",
-      "community": 6,
+      "community": 4,
       "norm_label": "rtt.py"
     },
     {
@@ -476,7 +598,7 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "docs_measurement_rtt_make_client",
-      "community": 6,
+      "community": 4,
       "norm_label": "make_client()"
     },
     {
@@ -486,7 +608,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "docs_measurement_rtt_rttmeter",
-      "community": 6,
+      "community": 4,
       "norm_label": "rttmeter"
     },
     {
@@ -496,7 +618,7 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "docs_measurement_rtt_rttmeter_init",
-      "community": 6,
+      "community": 4,
       "norm_label": ".__init__()"
     },
     {
@@ -506,7 +628,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "docs_measurement_rtt_rttmeter_on_connect",
-      "community": 6,
+      "community": 4,
       "norm_label": ".on_connect()"
     },
     {
@@ -516,7 +638,7 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "docs_measurement_rtt_rttmeter_on_message",
-      "community": 6,
+      "community": 4,
       "norm_label": ".on_message()"
     },
     {
@@ -526,7 +648,7 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "docs_measurement_rtt_percentile",
-      "community": 6,
+      "community": 4,
       "norm_label": "percentile()"
     },
     {
@@ -536,7 +658,7 @@
       "source_location": "L78",
       "_origin": "ast",
       "id": "docs_measurement_rtt_main",
-      "community": 6,
+      "community": 4,
       "norm_label": "main()"
     },
     {
@@ -546,7 +668,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "docs_measurement_rtt_rationale_38",
-      "community": 6,
+      "community": 4,
       "norm_label": "paho-mqtt 2.x (version2) uz fallback na 1.x."
     },
     {
@@ -556,7 +678,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_esp1_lights_include_lights",
-      "community": 15,
+      "community": 16,
       "norm_label": "lights.h"
     },
     {
@@ -566,7 +688,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_esp1_lights_src_lights",
-      "community": 1,
+      "community": 0,
       "norm_label": "lights.c"
     },
     {
@@ -576,7 +698,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "src_esp1_lights_src_lights_cmd_topic",
-      "community": 1,
+      "community": 0,
       "norm_label": "cmd_topic()"
     },
     {
@@ -586,7 +708,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "src_esp1_lights_src_lights_state_topic",
-      "community": 1,
+      "community": 0,
       "norm_label": "state_topic()"
     },
     {
@@ -596,7 +718,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "src_esp1_lights_src_lights_apply_relay",
-      "community": 1,
+      "community": 0,
       "norm_label": "apply_relay()"
     },
     {
@@ -606,7 +728,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "src_esp1_lights_src_lights_on_message",
-      "community": 1,
+      "community": 0,
       "norm_label": "on_message()"
     },
     {
@@ -616,7 +738,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "src_esp1_lights_src_lights_on_connect",
-      "community": 1,
+      "community": 0,
       "norm_label": "on_connect()"
     },
     {
@@ -656,7 +778,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_esp2_temperature_include_climate",
-      "community": 16,
+      "community": 17,
       "norm_label": "climate.h"
     },
     {
@@ -666,7 +788,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_esp2_temperature_include_dht22",
-      "community": 17,
+      "community": 18,
       "norm_label": "dht22.h"
     },
     {
@@ -676,7 +798,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_esp2_temperature_src_climate",
-      "community": 3,
+      "community": 2,
       "norm_label": "climate.c"
     },
     {
@@ -686,7 +808,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "src_esp2_temperature_src_climate_apply_heater",
-      "community": 3,
+      "community": 2,
       "norm_label": "apply_heater()"
     },
     {
@@ -696,7 +818,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "src_esp2_temperature_src_climate_poll_task",
-      "community": 1,
+      "community": 2,
       "norm_label": "poll_task()"
     },
     {
@@ -706,7 +828,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "src_esp2_temperature_src_climate_on_message",
-      "community": 3,
+      "community": 2,
       "norm_label": "on_message()"
     },
     {
@@ -716,7 +838,7 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "src_esp2_temperature_src_climate_on_connect",
-      "community": 1,
+      "community": 0,
       "norm_label": "on_connect()"
     },
     {
@@ -726,7 +848,7 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "src_esp2_temperature_src_climate_climate_start",
-      "community": 3,
+      "community": 2,
       "norm_label": "climate_start()"
     },
     {
@@ -736,7 +858,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_esp2_temperature_src_dht22",
-      "community": 7,
+      "community": 2,
       "norm_label": "dht22.c"
     },
     {
@@ -746,7 +868,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "src_esp2_temperature_src_dht22_wait_level",
-      "community": 7,
+      "community": 2,
       "norm_label": "wait_level()"
     },
     {
@@ -756,7 +878,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "gpio_num_t",
-      "community": 7,
+      "community": 2,
       "norm_label": "gpio_num_t"
     },
     {
@@ -766,7 +888,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_esp2_temperature_src_dht22_dht22_read",
-      "community": 7,
+      "community": 2,
       "norm_label": "dht22_read()"
     },
     {
@@ -776,7 +898,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "esp_err_t",
-      "community": 7,
+      "community": 2,
       "norm_label": "esp_err_t"
     },
     {
@@ -786,7 +908,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_esp2_temperature_src_main",
-      "community": 3,
+      "community": 2,
       "norm_label": "esp2_temperature/src/main.c"
     },
     {
@@ -796,380 +918,11 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "src_esp2_temperature_src_main_app_main",
-      "community": 3,
+      "community": 2,
       "norm_label": "app_main()"
     },
     {
-      "label": "garage.h",
-      "file_type": "code",
-      "source_file": "src/esp3_garage/include/garage.h",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "src_esp3_garage_include_garage",
-      "community": 18,
-      "norm_label": "garage.h"
-    },
-    {
-      "label": "garage.c",
-      "file_type": "code",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "src_esp3_garage_src_garage",
-      "community": 5,
-      "norm_label": "garage.c"
-    },
-    {
-      "label": "now_ms()",
-      "file_type": "code",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L29",
-      "_origin": "ast",
-      "id": "src_esp3_garage_src_garage_now_ms",
-      "community": 5,
-      "norm_label": "now_ms()"
-    },
-    {
-      "label": "reed_closed()",
-      "file_type": "code",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L30",
-      "_origin": "ast",
-      "id": "src_esp3_garage_src_garage_reed_closed",
-      "community": 5,
-      "norm_label": "reed_closed()"
-    },
-    {
-      "label": "state_str()",
-      "file_type": "code",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L32",
-      "_origin": "ast",
-      "id": "src_esp3_garage_src_garage_state_str",
-      "community": 5,
-      "norm_label": "state_str()"
-    },
-    {
-      "label": "door_state_t",
-      "file_type": "code",
-      "source_file": "",
-      "source_location": "",
-      "_origin": "ast",
-      "id": "door_state_t",
-      "community": 5,
-      "norm_label": "door_state_t"
-    },
-    {
-      "label": "publish_state()",
-      "file_type": "code",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L41",
-      "_origin": "ast",
-      "id": "src_esp3_garage_src_garage_publish_state",
-      "community": 5,
-      "norm_label": "publish_state()"
-    },
-    {
-      "label": "pulse_relay()",
-      "file_type": "code",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L43",
-      "_origin": "ast",
-      "id": "src_esp3_garage_src_garage_pulse_relay",
-      "community": 5,
-      "norm_label": "pulse_relay()"
-    },
-    {
-      "label": "trigger_open()",
-      "file_type": "code",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L49",
-      "_origin": "ast",
-      "id": "src_esp3_garage_src_garage_trigger_open",
-      "community": 5,
-      "norm_label": "trigger_open()"
-    },
-    {
-      "label": "trigger_close()",
-      "file_type": "code",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L57",
-      "_origin": "ast",
-      "id": "src_esp3_garage_src_garage_trigger_close",
-      "community": 5,
-      "norm_label": "trigger_close()"
-    },
-    {
-      "label": "on_message()",
-      "file_type": "code",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L65",
-      "_origin": "ast",
-      "id": "src_esp3_garage_src_garage_on_message",
-      "community": 5,
-      "norm_label": "on_message()"
-    },
-    {
-      "label": "on_connect()",
-      "file_type": "code",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L72",
-      "_origin": "ast",
-      "id": "src_esp3_garage_src_garage_on_connect",
-      "community": 5,
-      "norm_label": "on_connect()"
-    },
-    {
-      "label": "update_task()",
-      "file_type": "code",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L86",
-      "_origin": "ast",
-      "id": "src_esp3_garage_src_garage_update_task",
-      "community": 5,
-      "norm_label": "update_task()"
-    },
-    {
-      "label": "garage_start()",
-      "file_type": "code",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L105",
-      "_origin": "ast",
-      "id": "src_esp3_garage_src_garage_garage_start",
-      "community": 0,
-      "norm_label": "garage_start()"
-    },
-    {
-      "label": "esp3_garage/src/main.c",
-      "file_type": "code",
-      "source_file": "src/esp3_garage/src/main.c",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "src_esp3_garage_src_main",
-      "community": 0,
-      "norm_label": "esp3_garage/src/main.c"
-    },
-    {
-      "label": "app_main()",
-      "file_type": "code",
-      "source_file": "src/esp3_garage/src/main.c",
-      "source_location": "L9",
-      "_origin": "ast",
-      "id": "src_esp3_garage_src_main_app_main",
-      "community": 0,
-      "norm_label": "app_main()"
-    },
-    {
-      "label": "security.h",
-      "file_type": "code",
-      "source_file": "src/esp4_security/include/security.h",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "src_esp4_security_include_security",
-      "community": 19,
-      "norm_label": "security.h"
-    },
-    {
-      "label": "esp4_security/src/main.c",
-      "file_type": "code",
-      "source_file": "src/esp4_security/src/main.c",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "src_esp4_security_src_main",
-      "community": 0,
-      "norm_label": "esp4_security/src/main.c"
-    },
-    {
-      "label": "app_main()",
-      "file_type": "code",
-      "source_file": "src/esp4_security/src/main.c",
-      "source_location": "L10",
-      "_origin": "ast",
-      "id": "src_esp4_security_src_main_app_main",
-      "community": 0,
-      "norm_label": "app_main()"
-    },
-    {
-      "label": "security.c",
-      "file_type": "code",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "src_esp4_security_src_security",
-      "community": 4,
-      "norm_label": "security.c"
-    },
-    {
-      "label": "now_ms()",
-      "file_type": "code",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L34",
-      "_origin": "ast",
-      "id": "src_esp4_security_src_security_now_ms",
-      "community": 4,
-      "norm_label": "now_ms()"
-    },
-    {
-      "label": "door_open()",
-      "file_type": "code",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L35",
-      "_origin": "ast",
-      "id": "src_esp4_security_src_security_door_open",
-      "community": 4,
-      "norm_label": "door_open()"
-    },
-    {
-      "label": "motion()",
-      "file_type": "code",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L36",
-      "_origin": "ast",
-      "id": "src_esp4_security_src_security_motion",
-      "community": 4,
-      "norm_label": "motion()"
-    },
-    {
-      "label": "alarm_str()",
-      "file_type": "code",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L38",
-      "_origin": "ast",
-      "id": "src_esp4_security_src_security_alarm_str",
-      "community": 4,
-      "norm_label": "alarm_str()"
-    },
-    {
-      "label": "alarm_t",
-      "file_type": "code",
-      "source_file": "",
-      "source_location": "",
-      "_origin": "ast",
-      "id": "alarm_t",
-      "community": 4,
-      "norm_label": "alarm_t"
-    },
-    {
-      "label": "set_siren()",
-      "file_type": "code",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L49",
-      "_origin": "ast",
-      "id": "src_esp4_security_src_security_set_siren",
-      "community": 0,
-      "norm_label": "set_siren()"
-    },
-    {
-      "label": "publish_alarm()",
-      "file_type": "code",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L53",
-      "_origin": "ast",
-      "id": "src_esp4_security_src_security_publish_alarm",
-      "community": 4,
-      "norm_label": "publish_alarm()"
-    },
-    {
-      "label": "transition()",
-      "file_type": "code",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L55",
-      "_origin": "ast",
-      "id": "src_esp4_security_src_security_transition",
-      "community": 4,
-      "norm_label": "transition()"
-    },
-    {
-      "label": "arm()",
-      "file_type": "code",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L63",
-      "_origin": "ast",
-      "id": "src_esp4_security_src_security_arm",
-      "community": 4,
-      "norm_label": "arm()"
-    },
-    {
-      "label": "on_message()",
-      "file_type": "code",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L70",
-      "_origin": "ast",
-      "id": "src_esp4_security_src_security_on_message",
-      "community": 4,
-      "norm_label": "on_message()"
-    },
-    {
-      "label": "on_connect()",
-      "file_type": "code",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L77",
-      "_origin": "ast",
-      "id": "src_esp4_security_src_security_on_connect",
-      "community": 1,
-      "norm_label": "on_connect()"
-    },
-    {
-      "label": "tick_task()",
-      "file_type": "code",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L101",
-      "_origin": "ast",
-      "id": "src_esp4_security_src_security_tick_task",
-      "community": 4,
-      "norm_label": "tick_task()"
-    },
-    {
-      "label": "security_start()",
-      "file_type": "code",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L128",
-      "_origin": "ast",
-      "id": "src_esp4_security_src_security_security_start",
-      "community": 0,
-      "norm_label": "security_start()"
-    },
-    {
-      "label": "CLAUDE.md (Repo Guidance)",
-      "file_type": "document",
-      "source_file": "CLAUDE.md",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "id": "claude_md",
-      "community": 0,
-      "norm_label": "claude.md (repo guidance)"
-    },
-    {
-      "label": "HomeAssistantOrchestration Overview",
-      "file_type": "document",
-      "source_file": "README.md",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "id": "readme_overview",
-      "community": 0,
-      "norm_label": "homeassistantorchestration overview"
-    },
-    {
-      "label": "Architecture Docs (PlantUML Diagrams)",
-      "file_type": "document",
-      "source_file": "docs/README.md",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "id": "docs_readme_architecture_docs",
-      "community": 0,
-      "norm_label": "architecture docs (plantuml diagrams)"
-    },
-    {
-      "label": "MQTT Discovery (HA auto-entities)",
+      "label": "OTA firmware update",
       "file_type": "concept",
       "source_file": "README.md",
       "source_location": null,
@@ -1177,12 +930,27 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "rationale": "Triggered over MQTT, downloaded over HTTPS from GitHub Releases, verified with the ESP-IDF public CA bundle (no embedded cert, no local server). Wired centrally in components/common (mqtt_wrap + ota) so every board gets OTA with no per-module code.",
+      "id": "readme_ota_update",
+      "community": 1,
+      "norm_label": "ota firmware update"
+    },
+    {
+      "label": "MQTT Discovery",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "rationale": "Entities appear in Home Assistant automatically via retained homeassistant/<component>/<board>/<object_id>/config messages; device block carries sw_version.",
       "id": "readme_mqtt_discovery",
       "community": 0,
-      "norm_label": "mqtt discovery (ha auto-entities)"
+      "norm_label": "mqtt discovery"
     },
     {
-      "label": "Security Alarm State Machine (alarm_control_panel)",
+      "label": "Last Will availability",
       "file_type": "concept",
       "source_file": "README.md",
       "source_location": null,
@@ -1190,69 +958,97 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "rationale": "Panel state strings (disarmed/armed_home/armed_away/pending/triggered/arming) must stay aligned with Home Assistant's alarm_control_panel values; the machine is driven entirely by a 100 ms tick_task with delays passed from esp4_security main.c.",
-      "id": "readme_security_state_machine",
-      "community": 4,
-      "norm_label": "security alarm state machine (alarm_control_panel)"
+      "rationale": "Each board reports availability via a retained MQTT Last Will on home/<board>/status (online/offline); publishes online on connect.",
+      "id": "readme_last_will_availability",
+      "community": 5,
+      "norm_label": "last will availability"
     },
     {
-      "label": "MQTT Availability / Last Will",
+      "label": "dual-OTA partitions",
       "file_type": "concept",
-      "source_file": "CLAUDE.md",
+      "source_file": "README.md",
       "source_location": null,
       "source_url": null,
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "rationale": "LWT publishes retained 'offline' on home/<board>/status and 'online' on connect so HA can show board availability without an explicit heartbeat.",
-      "id": "claude_md_availability_lwt",
-      "community": 0,
-      "norm_label": "mqtt availability / last will"
+      "rationale": "partitions.csv defines ota_0/ota_1/otadata on 4 MB flash; requires WROOM-32 with 4 MB, first image must be flashed over USB.",
+      "id": "readme_dual_ota_partitions",
+      "community": 1,
+      "norm_label": "dual-ota partitions"
     },
     {
-      "label": "Board Selection Build Mechanism",
+      "label": "bootloader rollback",
       "file_type": "concept",
-      "source_file": "CLAUDE.md",
+      "source_file": "README.md",
       "source_location": null,
       "source_url": null,
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "rationale": "All four boards share one CMake project but glob only ${SMARTHOME_BOARD}/src/*.c so exactly one app_main() compiles; the glob approach is used because ESP-IDF ignores PlatformIO's build_src_filter.",
-      "id": "claude_md_board_selection",
-      "community": 0,
-      "norm_label": "board selection build mechanism"
+      "rationale": "A freshly-flashed image is only marked valid after it successfully reconnects to MQTT, so a broken build automatically reverts on the next reboot.",
+      "id": "readme_rollback",
+      "community": 1,
+      "norm_label": "bootloader rollback"
     },
     {
-      "label": "Per-board *_start() Pattern",
+      "label": "esp_https_ota over HTTPS (CA bundle)",
       "file_type": "concept",
-      "source_file": "CLAUDE.md",
+      "source_file": "README.md",
       "source_location": null,
       "source_url": null,
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "rationale": "Each *_start() follows init GPIO -> wifi_sta_start -> ha_set_device -> mqtt_start -> optional rtos_every_ms; on_connect must be idempotent since it fires on every reconnect.",
-      "id": "claude_md_per_board_start_pattern",
-      "community": 0,
-      "norm_label": "per-board *_start() pattern"
+      "rationale": "Uses esp_https_ota with the public certificate bundle (CONFIG_MBEDTLS_CERTIFICATE_BUNDLE); binaries + per-board <board>.json manifest hosted on GitHub Releases.",
+      "id": "readme_https_transport",
+      "community": 7,
+      "norm_label": "esp_https_ota over https (ca bundle)"
     },
     {
-      "label": "Non-null-terminated MQTT topic/data gotcha",
+      "label": "ESP1 lights board",
       "file_type": "concept",
-      "source_file": "CLAUDE.md",
+      "source_file": "README.md",
       "source_location": null,
       "source_url": null,
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "rationale": "Incoming MQTT topic/data are not null-terminated; callbacks get explicit topic_len/data_len and must use strncmp+length checks, never strcmp/strstr on the raw pointer.",
-      "id": "claude_md_non_null_terminated_topics",
+      "rationale": "Relay light-switch board (env esp1_lights); in the measurement study is the plain-MQTT peer (1883).",
+      "id": "readme_esp1_lights",
       "community": 0,
-      "norm_label": "non-null-terminated mqtt topic/data gotcha"
+      "norm_label": "esp1 lights board"
     },
     {
-      "label": "Figure: Connection / TLS Handshake Time",
+      "label": "ESP2 temperature board",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "rationale": "DHT22 sensor + heater relay board (env esp2_temperature); in the measurement study is the MQTTS-TLS peer (8883).",
+      "id": "readme_esp2_temperature",
+      "community": 2,
+      "norm_label": "esp2 temperature board"
+    },
+    {
+      "label": "plain-MQTT vs TLS measurement study",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "rationale": "Compares ESP1 plain MQTT (1883) vs ESP2 MQTTS-TLS (8883) on handshake time, retained heap, on-wire packet size, and end-to-end RTT.",
+      "id": "readme_measurement_study",
+      "community": 7,
+      "norm_label": "plain-mqtt vs tls measurement study"
+    },
+    {
+      "label": "Fig: connection time / TLS handshake",
       "file_type": "image",
       "source_file": "docs/measurement/fig-handshake.png",
       "source_location": null,
@@ -1261,11 +1057,11 @@
       "author": null,
       "contributor": null,
       "id": "docs_measurement_fig_handshake",
-      "community": 2,
-      "norm_label": "figure: connection / tls handshake time"
+      "community": 7,
+      "norm_label": "fig: connection time / tls handshake"
     },
     {
-      "label": "Figure: Retained Heap After Connection",
+      "label": "Fig: retained heap after connection",
       "file_type": "image",
       "source_file": "docs/measurement/fig-heap.png",
       "source_location": null,
@@ -1274,11 +1070,11 @@
       "author": null,
       "contributor": null,
       "id": "docs_measurement_fig_heap",
-      "community": 2,
-      "norm_label": "figure: retained heap after connection"
+      "community": 7,
+      "norm_label": "fig: retained heap after connection"
     },
     {
-      "label": "Figure: On-wire Message Size per PUBLISH",
+      "label": "Fig: on-wire message size per PUBLISH",
       "file_type": "image",
       "source_file": "docs/measurement/fig-packet.png",
       "source_location": null,
@@ -1287,11 +1083,11 @@
       "author": null,
       "contributor": null,
       "id": "docs_measurement_fig_packet",
-      "community": 2,
-      "norm_label": "figure: on-wire message size per publish"
+      "community": 7,
+      "norm_label": "fig: on-wire message size per publish"
     },
     {
-      "label": "Figure: End-to-end Command RTT",
+      "label": "Fig: end-to-end command RTT",
       "file_type": "image",
       "source_file": "docs/measurement/fig-rtt.png",
       "source_location": null,
@@ -1300,25 +1096,82 @@
       "author": null,
       "contributor": null,
       "id": "docs_measurement_fig_rtt",
-      "community": 2,
-      "norm_label": "figure: end-to-end command rtt"
+      "community": 4,
+      "norm_label": "fig: end-to-end command rtt"
     },
     {
-      "label": "MQTTS/TLS Overhead vs Plain MQTT",
-      "file_type": "concept",
-      "source_file": "docs/measurement/fig-rtt.png",
+      "label": "README.md",
+      "file_type": "document",
+      "source_file": "README.md",
       "source_location": null,
       "source_url": null,
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "rationale": "TLS (MQTTS on 8883) adds a large one-time connect cost (handshake ~480 ms vs 60 ms, +32 KB heap ~x9, +26 B per PUBLISH x1.6) but end-to-end command RTT stays well under the 200 ms hypothesis boundary (45 vs 28 ms), so the security trade-off is acceptable.",
-      "id": "measurement_mqtts_tls_overhead",
-      "community": 14,
-      "norm_label": "mqtts/tls overhead vs plain mqtt"
+      "id": "readme_document",
+      "community": 1,
+      "norm_label": "readme.md"
+    },
+    {
+      "label": "CLAUDE.md",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "claude_document",
+      "community": 5,
+      "norm_label": "claude.md"
+    },
+    {
+      "label": "docs/README.md (architecture diagrams)",
+      "file_type": "document",
+      "source_file": "docs/README.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "docs_readme_document",
+      "community": 7,
+      "norm_label": "docs/readme.md (architecture diagrams)"
     }
   ],
   "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "_gph_rebuild.py",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "gph_rebuild",
+      "target": "gph_rebuild_main",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "_gph_rebuild.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "gph_rebuild_rationale_1",
+      "target": "gph_rebuild",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_ota_update",
+      "target": "components_common_include_ota"
+    },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
@@ -1402,34 +1255,10 @@
       "target": "components_common_src_app_rtos_rtos_every_ms"
     },
     {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L127",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_garage_garage_start",
-      "target": "components_common_src_app_rtos_rtos_every_ms"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L154",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security_security_start",
-      "target": "components_common_src_app_rtos_rtos_every_ms"
-    },
-    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/ha_discovery.c",
-      "source_location": "L15",
+      "source_location": "L16",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_ha_discovery",
@@ -1440,7 +1269,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/ha_discovery.c",
-      "source_location": "L10",
+      "source_location": "L11",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_ha_discovery",
@@ -1449,8 +1278,18 @@
     },
     {
       "relation": "references",
-      "confidence": "INFERRED",
-      "confidence_score": 0.85,
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_mqtt_discovery",
+      "target": "components_common_src_ha_discovery"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "README.md",
       "source_location": null,
       "weight": 1.0,
@@ -1486,32 +1325,8 @@
       "context": "call",
       "confidence": "INFERRED",
       "confidence_score": 0.8,
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L124",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_garage_garage_start",
-      "target": "components_common_src_ha_discovery_ha_set_device"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L150",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security_security_start",
-      "target": "components_common_src_ha_discovery_ha_set_device"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
       "source_file": "components/common/src/ha_discovery.c",
-      "source_location": "L29",
+      "source_location": "L30",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_ha_discovery_ha_publish_config",
@@ -1523,16 +1338,28 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "components/common/src/ha_discovery.c",
-      "source_location": "L44",
+      "source_location": "L48",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_ha_discovery_ha_publish_config",
       "target": "components_common_src_mqtt_wrap_mqtt_publish"
     },
     {
-      "relation": "references",
+      "relation": "calls",
+      "context": "call",
       "confidence": "INFERRED",
-      "confidence_score": 0.85,
+      "confidence_score": 0.8,
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L189",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_ota_ota_on_connect",
+      "target": "components_common_src_ha_discovery_ha_publish_config"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "README.md",
       "source_location": null,
       "weight": 1.0,
@@ -1564,34 +1391,10 @@
       "target": "components_common_src_ha_discovery_ha_publish_config"
     },
     {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L82",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_garage_on_connect",
-      "target": "components_common_src_ha_discovery_ha_publish_config"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L86",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security_on_connect",
-      "target": "components_common_src_ha_discovery_ha_publish_config"
-    },
-    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L76",
+      "source_location": "L88",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_mqtt_wrap",
@@ -1602,7 +1405,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L17",
+      "source_location": "L18",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_mqtt_wrap",
@@ -1613,7 +1416,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L72",
+      "source_location": "L84",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_mqtt_wrap",
@@ -1624,7 +1427,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L64",
+      "source_location": "L76",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_mqtt_wrap",
@@ -1635,7 +1438,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L42",
+      "source_location": "L53",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_mqtt_wrap",
@@ -1646,7 +1449,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L68",
+      "source_location": "L80",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_mqtt_wrap",
@@ -1656,8 +1459,28 @@
     {
       "relation": "references",
       "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_last_will_availability",
+      "target": "components_common_src_mqtt_wrap"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_ota_update",
+      "target": "components_common_src_mqtt_wrap"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L17",
+      "source_location": "L18",
       "weight": 1.0,
       "context": "parameter_type",
       "_origin": "ast",
@@ -1666,20 +1489,58 @@
       "confidence_score": 1.0
     },
     {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "CLAUDE.md",
-      "source_location": null,
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "components/common/src/mqtt_wrap.c",
+      "source_location": "L30",
       "weight": 1.0,
-      "source": "claude_md_availability_lwt",
-      "target": "components_common_src_mqtt_wrap_mqtt_start"
+      "_origin": "ast",
+      "source": "components_common_src_mqtt_wrap_mqtt_event_handler",
+      "target": "components_common_src_ota_ota_confirm_running_image"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "components/common/src/mqtt_wrap.c",
+      "source_location": "L40",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_mqtt_wrap_mqtt_event_handler",
+      "target": "components_common_src_ota_ota_handle_message"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "components/common/src/mqtt_wrap.c",
+      "source_location": "L31",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_mqtt_wrap_mqtt_event_handler",
+      "target": "components_common_src_ota_ota_on_connect"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "components/common/src/mqtt_wrap.c",
+      "source_location": "L57",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_mqtt_wrap_mqtt_start",
+      "target": "components_common_src_ota_ota_start"
     },
     {
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L42",
+      "source_location": "L53",
       "weight": 1.0,
       "context": "parameter_type",
       "_origin": "ast",
@@ -1691,13 +1552,23 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L42",
+      "source_location": "L53",
       "weight": 1.0,
       "context": "parameter_type",
       "_origin": "ast",
       "source": "components_common_src_mqtt_wrap_mqtt_start",
       "target": "mqtt_msg_cb",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_last_will_availability",
+      "target": "components_common_src_mqtt_wrap_mqtt_start"
     },
     {
       "relation": "calls",
@@ -1728,24 +1599,24 @@
       "context": "call",
       "confidence": "INFERRED",
       "confidence_score": 0.8,
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L125",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L141",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "src_esp3_garage_src_garage_garage_start",
-      "target": "components_common_src_mqtt_wrap_mqtt_start"
+      "source": "components_common_src_ota_ota_task",
+      "target": "components_common_src_mqtt_wrap_mqtt_publish"
     },
     {
       "relation": "calls",
       "context": "call",
       "confidence": "INFERRED",
       "confidence_score": 0.8,
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L151",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L48",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "src_esp4_security_src_security_security_start",
-      "target": "components_common_src_mqtt_wrap_mqtt_start"
+      "source": "components_common_src_ota_publish_state",
+      "target": "components_common_src_mqtt_wrap_mqtt_publish"
     },
     {
       "relation": "calls",
@@ -1812,36 +1683,12 @@
       "context": "call",
       "confidence": "INFERRED",
       "confidence_score": 0.8,
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L41",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L176",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "src_esp3_garage_src_garage_publish_state",
-      "target": "components_common_src_mqtt_wrap_mqtt_publish"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L53",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security_publish_alarm",
-      "target": "components_common_src_mqtt_wrap_mqtt_publish"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L105",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security_tick_task",
-      "target": "components_common_src_mqtt_wrap_mqtt_publish"
+      "source": "components_common_src_ota_ota_on_connect",
+      "target": "components_common_src_mqtt_wrap_mqtt_subscribe"
     },
     {
       "relation": "calls",
@@ -1872,30 +1719,6 @@
       "context": "call",
       "confidence": "INFERRED",
       "confidence_score": 0.8,
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L73",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_garage_on_connect",
-      "target": "components_common_src_mqtt_wrap_mqtt_subscribe"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L78",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security_on_connect",
-      "target": "components_common_src_mqtt_wrap_mqtt_subscribe"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
       "source_file": "src/esp2_temperature/src/climate.c",
       "source_location": "L35",
       "weight": 1.0,
@@ -1905,13 +1728,284 @@
     },
     {
       "relation": "references",
-      "confidence": "INFERRED",
-      "confidence_score": 0.85,
-      "source_file": "CLAUDE.md",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
       "source_location": null,
       "weight": 1.0,
-      "source": "claude_md_availability_lwt",
+      "source": "readme_last_will_availability",
       "target": "components_common_src_mqtt_wrap_mqtt_availability_topic"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L52",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_ota",
+      "target": "components_common_src_ota_fetch_manifest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L36",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_ota",
+      "target": "components_common_src_ota_installed_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L220",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_ota",
+      "target": "components_common_src_ota_ota_confirm_running_image",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L195",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_ota",
+      "target": "components_common_src_ota_ota_handle_message",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L175",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_ota",
+      "target": "components_common_src_ota_ota_on_connect",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L168",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_ota",
+      "target": "components_common_src_ota_ota_start",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L115",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_ota",
+      "target": "components_common_src_ota_ota_task",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L41",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_ota",
+      "target": "components_common_src_ota_publish_state",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L150",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_ota",
+      "target": "components_common_src_ota_start_ota",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_dual_ota_partitions",
+      "target": "components_common_src_ota"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_https_transport",
+      "target": "components_common_src_ota"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_ota_update",
+      "target": "components_common_src_ota"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L110",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_ota_fetch_manifest",
+      "target": "components_common_src_ota_installed_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L138",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_ota_ota_task",
+      "target": "components_common_src_ota_installed_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L42",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_ota_publish_state",
+      "target": "components_common_src_ota_installed_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L192",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_ota_ota_on_connect",
+      "target": "components_common_src_ota_publish_state",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L191",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_ota_ota_on_connect",
+      "target": "components_common_src_ota_fetch_manifest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_ota_update",
+      "target": "components_common_src_ota_fetch_manifest"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L203",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_ota_ota_handle_message",
+      "target": "components_common_src_ota_start_ota",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_https_transport",
+      "target": "components_common_src_ota_start_ota"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_ota_update",
+      "target": "components_common_src_ota_ota_start"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_ota_update",
+      "target": "components_common_src_ota_ota_on_connect"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_ota_update",
+      "target": "components_common_src_ota_ota_handle_message"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_ota_update",
+      "target": "components_common_src_ota_ota_confirm_running_image"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_rollback",
+      "target": "components_common_src_ota_ota_confirm_running_image"
     },
     {
       "relation": "contains",
@@ -1980,30 +2074,6 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_esp2_temperature_src_climate_climate_start",
-      "target": "components_common_src_wifi_sta_wifi_sta_start"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L123",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_garage_garage_start",
-      "target": "components_common_src_wifi_sta_wifi_sta_start"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L149",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security_security_start",
       "target": "components_common_src_wifi_sta_wifi_sta_start"
     },
     {
@@ -2312,6 +2382,16 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "docs/measurement/fig-rtt.png",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "docs_measurement_fig_rtt",
+      "target": "docs_measurement_rtt"
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/measurement/rtt.py",
@@ -2434,6 +2514,16 @@
       "source": "docs_measurement_rtt_main",
       "target": "docs_measurement_rtt_percentile",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_esp1_lights",
+      "target": "src_esp1_lights_src_lights"
     },
     {
       "relation": "contains",
@@ -2574,26 +2664,6 @@
       "confidence_score": 1.0
     },
     {
-      "relation": "references",
-      "confidence": "INFERRED",
-      "confidence_score": 0.85,
-      "source_file": "CLAUDE.md",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "claude_md_non_null_terminated_topics",
-      "target": "src_esp1_lights_src_lights_on_message"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "CLAUDE.md",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "claude_md_per_board_start_pattern",
-      "target": "src_esp1_lights_src_lights_lights_start"
-    },
-    {
       "relation": "calls",
       "context": "call",
       "confidence": "INFERRED",
@@ -2606,6 +2676,16 @@
       "target": "src_esp1_lights_src_lights_lights_start"
     },
     {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_esp1_lights",
+      "target": "src_esp1_lights_src_main"
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/esp1_lights/src/main.c",
@@ -2615,6 +2695,16 @@
       "source": "src_esp1_lights_src_main",
       "target": "src_esp1_lights_src_main_app_main",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_esp2_temperature",
+      "target": "src_esp2_temperature_src_climate"
     },
     {
       "relation": "contains",
@@ -2708,26 +2798,6 @@
       "target": "src_esp2_temperature_src_dht22_dht22_read"
     },
     {
-      "relation": "references",
-      "confidence": "INFERRED",
-      "confidence_score": 0.85,
-      "source_file": "CLAUDE.md",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "claude_md_non_null_terminated_topics",
-      "target": "src_esp2_temperature_src_climate_on_message"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "CLAUDE.md",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "claude_md_per_board_start_pattern",
-      "target": "src_esp2_temperature_src_climate_climate_start"
-    },
-    {
       "relation": "calls",
       "context": "call",
       "confidence": "INFERRED",
@@ -2738,6 +2808,16 @@
       "_origin": "ast",
       "source": "src_esp2_temperature_src_main_app_main",
       "target": "src_esp2_temperature_src_climate_climate_start"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_esp2_temperature",
+      "target": "src_esp2_temperature_src_dht22"
     },
     {
       "relation": "contains",
@@ -2810,6 +2890,16 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_esp2_temperature",
+      "target": "src_esp2_temperature_src_main"
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/esp2_temperature/src/main.c",
@@ -2821,383 +2911,14 @@
       "confidence_score": 1.0
     },
     {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L105",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_garage",
-      "target": "src_esp3_garage_src_garage_garage_start",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L29",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_garage",
-      "target": "src_esp3_garage_src_garage_now_ms",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L72",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_garage",
-      "target": "src_esp3_garage_src_garage_on_connect",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L65",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_garage",
-      "target": "src_esp3_garage_src_garage_on_message",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L41",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_garage",
-      "target": "src_esp3_garage_src_garage_publish_state",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L43",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_garage",
-      "target": "src_esp3_garage_src_garage_pulse_relay",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L30",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_garage",
-      "target": "src_esp3_garage_src_garage_reed_closed",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L32",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_garage",
-      "target": "src_esp3_garage_src_garage_state_str",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L57",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_garage",
-      "target": "src_esp3_garage_src_garage_trigger_close",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L49",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_garage",
-      "target": "src_esp3_garage_src_garage_trigger_open",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L86",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_garage",
-      "target": "src_esp3_garage_src_garage_update_task",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L61",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_garage_trigger_close",
-      "target": "src_esp3_garage_src_garage_now_ms",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L53",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_garage_trigger_open",
-      "target": "src_esp3_garage_src_garage_now_ms",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L90",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_garage_update_task",
-      "target": "src_esp3_garage_src_garage_now_ms",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L121",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_garage_garage_start",
-      "target": "src_esp3_garage_src_garage_reed_closed",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L90",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_garage_update_task",
-      "target": "src_esp3_garage_src_garage_reed_closed",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L41",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_garage_publish_state",
-      "target": "src_esp3_garage_src_garage_state_str",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L32",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_garage_state_str",
-      "target": "door_state_t",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L83",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_garage_on_connect",
-      "target": "src_esp3_garage_src_garage_publish_state",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L62",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_garage_trigger_close",
-      "target": "src_esp3_garage_src_garage_publish_state",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L54",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_garage_trigger_open",
-      "target": "src_esp3_garage_src_garage_publish_state",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L91",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_garage_update_task",
-      "target": "src_esp3_garage_src_garage_publish_state",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L69",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_garage_on_message",
-      "target": "src_esp3_garage_src_garage_pulse_relay",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L59",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_garage_trigger_close",
-      "target": "src_esp3_garage_src_garage_pulse_relay",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L51",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_garage_trigger_open",
-      "target": "src_esp3_garage_src_garage_pulse_relay",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L67",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_garage_on_message",
-      "target": "src_esp3_garage_src_garage_trigger_open",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp3_garage/src/garage.c",
-      "source_location": "L68",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_garage_on_message",
-      "target": "src_esp3_garage_src_garage_trigger_close",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "references",
-      "confidence": "INFERRED",
-      "confidence_score": 0.85,
-      "source_file": "CLAUDE.md",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "claude_md_non_null_terminated_topics",
-      "target": "src_esp3_garage_src_garage_on_message"
-    },
-    {
       "relation": "references",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "CLAUDE.md",
       "source_location": null,
       "weight": 1.0,
-      "source": "claude_md_per_board_start_pattern",
-      "target": "src_esp3_garage_src_garage_garage_start"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "src/esp3_garage/src/main.c",
-      "source_location": "L10",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_main_app_main",
-      "target": "src_esp3_garage_src_garage_garage_start"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp3_garage/src/main.c",
-      "source_location": "L9",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp3_garage_src_main",
-      "target": "src_esp3_garage_src_main_app_main",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp4_security/src/main.c",
-      "source_location": "L10",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_main",
-      "target": "src_esp4_security_src_main_app_main",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "src/esp4_security/src/main.c",
-      "source_location": "L11",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_main_app_main",
-      "target": "src_esp4_security_src_security_security_start"
+      "source": "claude_document",
+      "target": "readme_ota_update"
     },
     {
       "relation": "references",
@@ -3206,444 +2927,48 @@
       "source_file": "README.md",
       "source_location": null,
       "weight": 1.0,
-      "source": "readme_security_state_machine",
-      "target": "src_esp4_security_src_security"
+      "source": "readme_document",
+      "target": "readme_ota_update"
     },
     {
-      "relation": "contains",
+      "relation": "conceptually_related_to",
       "confidence": "EXTRACTED",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L38",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
       "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security",
-      "target": "src_esp4_security_src_security_alarm_str",
-      "confidence_score": 1.0
+      "source": "readme_dual_ota_partitions",
+      "target": "readme_ota_update"
     },
     {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L63",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security",
-      "target": "src_esp4_security_src_security_arm",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L35",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security",
-      "target": "src_esp4_security_src_security_door_open",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L36",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security",
-      "target": "src_esp4_security_src_security_motion",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L34",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security",
-      "target": "src_esp4_security_src_security_now_ms",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L77",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security",
-      "target": "src_esp4_security_src_security_on_connect",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L70",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security",
-      "target": "src_esp4_security_src_security_on_message",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L53",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security",
-      "target": "src_esp4_security_src_security_publish_alarm",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L128",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security",
-      "target": "src_esp4_security_src_security_security_start",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L49",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security",
-      "target": "src_esp4_security_src_security_set_siren",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L101",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security",
-      "target": "src_esp4_security_src_security_tick_task",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L55",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security",
-      "target": "src_esp4_security_src_security_transition",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L108",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security_tick_task",
-      "target": "src_esp4_security_src_security_now_ms",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L57",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security_transition",
-      "target": "src_esp4_security_src_security_now_ms",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L103",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security_tick_task",
-      "target": "src_esp4_security_src_security_door_open",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L103",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security_tick_task",
-      "target": "src_esp4_security_src_security_motion",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L38",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security_alarm_str",
-      "target": "alarm_t",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L53",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security_publish_alarm",
-      "target": "src_esp4_security_src_security_alarm_str",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L60",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security_transition",
-      "target": "src_esp4_security_src_security_alarm_str",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L63",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security_arm",
-      "target": "alarm_t",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L55",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security_transition",
-      "target": "alarm_t",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L147",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security_security_start",
-      "target": "src_esp4_security_src_security_set_siren",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L58",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security_transition",
-      "target": "src_esp4_security_src_security_set_siren",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L98",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security_on_connect",
-      "target": "src_esp4_security_src_security_publish_alarm",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L59",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security_transition",
-      "target": "src_esp4_security_src_security_publish_alarm",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "references",
+      "relation": "conceptually_related_to",
       "confidence": "INFERRED",
       "confidence_score": 0.85,
       "source_file": "README.md",
       "source_location": null,
       "weight": 1.0,
-      "source": "readme_security_state_machine",
-      "target": "src_esp4_security_src_security_transition"
+      "source": "readme_esp1_lights",
+      "target": "readme_ota_update"
     },
     {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L66",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security_arm",
-      "target": "src_esp4_security_src_security_transition",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L72",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security_on_message",
-      "target": "src_esp4_security_src_security_transition",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L111",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security_tick_task",
-      "target": "src_esp4_security_src_security_transition",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp4_security/src/security.c",
-      "source_location": "L73",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp4_security_src_security_on_message",
-      "target": "src_esp4_security_src_security_arm",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "references",
-      "confidence": "INFERRED",
-      "confidence_score": 0.85,
-      "source_file": "CLAUDE.md",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "claude_md_non_null_terminated_topics",
-      "target": "src_esp4_security_src_security_on_message"
-    },
-    {
-      "relation": "references",
+      "relation": "conceptually_related_to",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "CLAUDE.md",
+      "source_file": "README.md",
       "source_location": null,
       "weight": 1.0,
-      "source": "readme_security_state_machine",
-      "target": "src_esp4_security_src_security_tick_task"
+      "source": "readme_https_transport",
+      "target": "readme_ota_update"
     },
     {
-      "relation": "references",
+      "relation": "conceptually_related_to",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "CLAUDE.md",
+      "source_file": "README.md",
       "source_location": null,
       "weight": 1.0,
-      "source": "claude_md_per_board_start_pattern",
-      "target": "src_esp4_security_src_security_security_start"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "CLAUDE.md",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "claude_md",
-      "target": "claude_md_availability_lwt"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "CLAUDE.md",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "claude_md",
-      "target": "claude_md_board_selection"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "CLAUDE.md",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "claude_md",
-      "target": "claude_md_non_null_terminated_topics"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "CLAUDE.md",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "claude_md",
-      "target": "claude_md_per_board_start_pattern"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "CLAUDE.md",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "claude_md",
-      "target": "docs_readme_architecture_docs"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "CLAUDE.md",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "claude_md",
-      "target": "readme_overview"
+      "source": "readme_rollback",
+      "target": "readme_ota_update"
     },
     {
       "relation": "references",
@@ -3652,56 +2977,180 @@
       "source_file": "README.md",
       "source_location": null,
       "weight": 1.0,
-      "source": "readme_overview",
-      "target": "docs_readme_architecture_docs"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "README.md",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "readme_overview",
+      "source": "readme_document",
       "target": "readme_mqtt_discovery"
     },
     {
       "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "claude_document",
+      "target": "readme_last_will_availability"
+    },
+    {
+      "relation": "references",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
       "source_location": null,
       "weight": 1.0,
-      "source": "readme_overview",
-      "target": "readme_security_state_machine"
+      "source": "readme_document",
+      "target": "readme_last_will_availability"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_document",
+      "target": "readme_dual_ota_partitions"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_rollback",
+      "target": "readme_dual_ota_partitions"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_document",
+      "target": "readme_rollback"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "docs/measurement/fig-handshake.png",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "docs_measurement_fig_handshake",
+      "target": "readme_https_transport"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "docs/measurement/fig-heap.png",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "docs_measurement_fig_heap",
+      "target": "readme_https_transport"
     },
     {
       "relation": "conceptually_related_to",
       "confidence": "INFERRED",
       "confidence_score": 0.75,
-      "source_file": "CLAUDE.md",
+      "source_file": "docs/measurement/fig-packet.png",
       "source_location": null,
       "weight": 1.0,
-      "source": "claude_md_board_selection",
-      "target": "claude_md_per_board_start_pattern"
-    }
-  ],
-  "hyperedges": [
+      "source": "docs_measurement_fig_packet",
+      "target": "readme_https_transport"
+    },
     {
-      "nodes": [
-        "docs_measurement_fig_handshake",
-        "docs_measurement_fig_heap",
-        "docs_measurement_fig_packet",
-        "docs_measurement_fig_rtt",
-        "measurement_mqtts_tls_overhead"
-      ],
-      "relation": "participate_in",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_document",
+      "target": "readme_https_transport"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_measurement_study",
+      "target": "readme_esp1_lights"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_measurement_study",
+      "target": "readme_esp2_temperature"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "docs/README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "docs_readme_document",
+      "target": "readme_measurement_study"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_document",
+      "target": "readme_measurement_study"
+    },
+    {
+      "relation": "references",
       "confidence": "INFERRED",
       "confidence_score": 0.85,
-      "source_file": "docs/measurement/fig-rtt.png",
+      "source_file": "README.md",
       "source_location": null,
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "readme_measurement_study",
+      "target": "docs_measurement_fig_handshake"
+    },
+    {
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_measurement_study",
+      "target": "docs_measurement_fig_heap"
+    },
+    {
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_measurement_study",
+      "target": "docs_measurement_fig_packet"
+    },
+    {
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_measurement_study",
+      "target": "docs_measurement_fig_rtt"
     }
   ],
-  "built_at_commit": "43b6658b3a03297921f26f9b40d3fb9a62ca88c0"
+  "hyperedges": [],
+  "built_at_commit": "2be31289eb526950c75323e6d560cc4020ef0b16"
 }

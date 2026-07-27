@@ -89,7 +89,7 @@ link:02-firmware-plan.adoc[02].
 
 == Korak 7 — platformio.ini
 
-U `[env:esp2_temperature]` dopiši `-DMQTT_TLS=1`. Ostala 3 env-a netaknuta.
+U `[env:esp2_temperature]` dopiši `-DMQTT_TLS=1`. `esp1_lights` env netaknut.
 
 == Korak 8 — mqtt_wrap.c
 
@@ -114,8 +114,6 @@ pio run -e esp2_temperature
 
 # potvrdi da baseline i dalje builduje bez TLS/CA:
 pio run -e esp1_lights
-pio run -e esp3_garage
-pio run -e esp4_security
 ----
 
 == Korak 11 — Flash i sanity
@@ -182,7 +180,7 @@ Kad IP-SAN/DNS-SAN cert potvrđeno prolazi: prebaci
 * [ ] CMake `esp_timer` + `if(MQTT_TLS)` blok
 * [ ] `platformio.ini` esp2 `-DMQTT_TLS=1`
 * [ ] `mqtt_wrap.c` izmene
-* [ ] `fullclean` + build sva 4 env-a prolaze
+* [ ] `fullclean` + build oba env-a (esp1, esp2) prolaze
 * [ ] esp2 boot log: `mqtts://` + TLS connect ✓
 * [ ] `esp1_meas.csv` + `esp2_meas.csv`
 * [ ] `mqtt_thesis.pcap`

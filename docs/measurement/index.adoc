@@ -15,10 +15,15 @@ opterećenja u odnosu na plain MQTT.
 
 [IMPORTANT]
 ====
-Ovo je *plan i metodologija* — u trenutku pisanja firmware još nije menjan
-(nema Raspberry Pi-ja ni ESP pločica pri ruci). Sve komande, konfiguracije i
-skripte su spremne da se izvrše kad hardver bude dostupan. Redosled izvršavanja
-je u <<_runbook>>.
+Ovo je *plan i metodologija* za merni (TLS) deo — u trenutku pisanja firmware
+*još nije menjan za merenja* (nema Raspberry Pi-ja ni ESP pločica pri ruci). MQTT
+klijent u `mqtt_wrap.c` je i dalje *plain* `mqtt://` (1883); TLS je opisan kao
+dizajn/plan u link:02-firmware-plan.adoc[02] i još nije uključen u kod. Sve komande,
+konfiguracije i skripte su spremne da se izvrše kad hardver bude dostupan. Redosled
+izvršavanja je u <<_runbook>>.
+
+(OTA sloj je zaseban i *već je implementiran* u firmveru — vidi
+link:01-overview.adoc[01].)
 ====
 
 == Redosled čitanja
@@ -97,7 +102,8 @@ je u <<_runbook>>.
 
 | Dokumentacija + metodologija + šablon rezultata | ✅ napisano
 | RPi skripte (gen-certs, mosquitto conf, rtt.py, plot_results.py) | ✅ napisano
-| Firmware izmene (mqtt_wrap.c, CMake, secrets, platformio.ini) | ⏳ planirano (čeka hardver / dozvolu)
+| OTA (MQTT → HTTPS/GitHub Releases, `esp_crt_bundle`, dual-OTA + rollback) | ✅ implementirano
+| TLS izmene firmvera (mqtt_wrap.c, CMake, secrets, platformio.ini) | ⏳ planirano (čeka hardver / dozvolu)
 | `components/common/certs/ca.crt` | ⏳ generiše se skriptom `gen-certs.sh`
 | Prikupljanje podataka (heap/handshake/pcap/RTT) | ⏳ čeka Raspberry Pi + 2× ESP32
 |===

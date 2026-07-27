@@ -12,8 +12,6 @@ sdkconfig
 sdkconfig.old
 sdkconfig.esp1_lights
 sdkconfig.esp2_temperature
-sdkconfig.esp3_garage
-sdkconfig.esp4_security
 build/
 
 # Secrets (never commit real credentials)

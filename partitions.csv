@@ -1,0 +1,8 @@
+# Dual-OTA partition table for 4 MB flash (enables over-the-air updates).
+# Two ~1.7 MB app slots (ota_0/ota_1) + otadata select the active image.
+# Name,     Type, SubType, Offset,   Size
+nvs,        data, nvs,     0x9000,   0x4000
+otadata,    data, ota,     0xd000,   0x2000
+phy_init,   data, phy,     0xf000,   0x1000
+ota_0,      app,  ota_0,   0x10000,  0x1B0000
+ota_1,      app,  ota_1,   0x1C0000, 0x1B0000
