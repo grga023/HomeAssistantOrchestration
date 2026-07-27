@@ -1,0 +1,73 @@
+name: Deploy docs to GitHub Pages
+
+# Renders the AsciiDoc under docs/ to HTML with Asciidoctor and publishes it.
+# GitHub Pages' default Jekyll build does NOT render .adoc, so we build here.
+#
+# One-time setup: repo Settings -> Pages -> Build and deployment ->
+#   Source: "GitHub Actions"  (replaces the "/docs folder" source).
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "docs/**"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+      - name: Install Asciidoctor
+        run: gem install asciidoctor rouge
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Generate result figures from results.csv (best-effort)
+        working-directory: docs/measurement
+        run: |
+          python -m pip install --quiet matplotlib || true
+          python plot_results.py || true
+
+      - name: Render AsciiDoc -> HTML
+        run: |
+          mkdir -p _site/measurement
+          asciidoctor -a source-highlighter=rouge -a toc=left \
+            -D _site/measurement docs/measurement/*.adoc
+          # bring generated figures alongside the HTML (referenced relatively)
+          cp docs/measurement/fig-*.png _site/measurement/ 2>/dev/null || true
+          # source cross-links point to *.adoc; rewrite them to *.html
+          sed -i -E 's/(href="[^"]*)\.adoc"/\1.html"/g; s/(href="[^"]*)\.adoc#/\1.html#/g' \
+            _site/measurement/*.html
+          # root -> the docs index
+          printf '<!doctype html><meta http-equiv="refresh" content="0; url=./measurement/index.html">\n' \
+            > _site/index.html
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
