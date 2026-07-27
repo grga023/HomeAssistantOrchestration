@@ -1,0 +1,103 @@
+= MQTTS overhead — dokumentacija za merenja
+:toc: left
+:toclevels: 3
+:sectnums:
+:icons: font
+:experimental:
+
+Prateća dokumentacija za praktični deo master rada:
+*„Analiza implementacije enkriptiranog MQTT protokola (MQTTS) u okviru Smart Home
+sustava"*.
+
+Ovaj skup dokumenata opisuje kako se u postojeći firmware (pure C, ESP-IDF)
+dodaje TLS sloj na jedan čvor i kako se mere tri (odnosno četiri) tražena
+opterećenja u odnosu na plain MQTT.
+
+[IMPORTANT]
+====
+Ovo je *plan i metodologija* — u trenutku pisanja firmware još nije menjan
+(nema Raspberry Pi-ja ni ESP pločica pri ruci). Sve komande, konfiguracije i
+skripte su spremne da se izvrše kad hardver bude dostupan. Redosled izvršavanja
+je u <<_runbook>>.
+====
+
+== Redosled čitanja
+
+[cols="1,3,1",options="header"]
+|===
+| Dokument | Sadržaj | Za koga
+
+| link:01-overview.adoc[01 — Pregled i arhitektura]
+| Cilj i hipoteza rada, topologija sistema, uloge čvorova (esp1 = plain baseline,
+  esp2 = MQTTS), softverski alati.
+| Uvod / poglavlje „Arhitektura"
+
+| link:02-firmware-plan.adoc[02 — Plan izmena firmvera]
+| Kako se TLS uključuje jednom kod-putanjom, šta se tačno menja u kom fajlu, i
+  mapiranje Arduino → ESP-IDF termina iz teksta rada.
+| Poglavlje „Implementacija"
+
+| link:03-broker-pki-tls.adoc[03 — Broker, PKI i TLS]
+| Kako TLS provera radi (poverenje vs. ime), OpenSSL generisanje CA + sertifikata,
+  Mosquitto sa dva portа (1883/8883), veza sa Home Assistant-om.
+| Poglavlje „Kriptografska priprema" i „Konfiguracija brokera"
+
+| link:04-methodology.adoc[04 — Metodologija merenja i očekivani rezultati]
+| Četiri merenja (heap, handshake, mreža, command-RTT), tačni ESP-IDF API-ji,
+  format loga, i brojevi koje očekujemo da dobijemo.
+| Poglavlje „Metodologija" i „Rezultati"
+
+| link:05-runbook.adoc[05 — Runbook (korak po korak)]
+| Redosled izvršavanja od nule kad hardver bude dostupan: PKI → broker → firmware
+  → flash → snimanje → analiza.
+| Praktično izvođenje
+
+| link:06-results-template.adoc[06 — Šablon rezultata]
+| Prazne tabele za izmerene brojeve + gotovi grafikoni (plain vs TLS) i mesta za
+  Wireshark snimke.
+| Poglavlje „Rezultati"
+|===
+
+== Skripte i artefakti (spremne za izvršavanje)
+
+[cols="2,3",options="header"]
+|===
+| Fajl | Namena
+
+| link:broker/gen-certs.sh[`broker/gen-certs.sh`]
+| Generiše lokalni CA + server sertifikat (sa DNS/IP SAN) na Raspberry Pi-ju.
+
+| link:broker/thesis.conf[`broker/thesis.conf`]
+| Mosquitto drop-in konfiguracija: dva listenera (1883 plain, 8883 TLS).
+
+| link:rtt.py[`rtt.py`]
+| Python (paho-mqtt) skripta za merenje end-to-end command RTT (4. merenje).
+
+| link:results.csv[`results.csv`] + link:plot_results.py[`plot_results.py`]
+| Šablon za izmerene brojeve + matplotlib skripta koja pravi grafikone (`fig-*.png`).
+|===
+
+== Ključne odluke (dogovoreno)
+
+* Ostajemo na *ESP-IDF (pure C)* — tekst rada je pisan Arduino terminima, pa dajemo
+  mapiranje (vidi link:02-firmware-plan.adoc[02]).
+* *esp1_lights* = plain MQTT, port 1883 → *baseline (referentna tačka)*.
+* *esp2_temperature* = MQTTS, port 8883 → *predmet analize opterećenja*.
+* TLS provera: *oba pristupa* — podaci se prikupljaju sa `skip_cert_common_name_check=true`
+  (garantovano radi), a zatim jedan potvrdni „full verification" run sa DNS-SAN
+  sertifikatom (`homeassistant.local`). Objašnjeno u link:03-broker-pki-tls.adoc[03].
+* Uključena su *sva 4 merenja* (3 tražena + command-RTT koji direktno testira
+  hipotezu „< 200 ms").
+
+== Status implementacije
+
+[cols="3,1",options="header"]
+|===
+| Stavka | Status
+
+| Dokumentacija + metodologija + šablon rezultata | ✅ napisano
+| RPi skripte (gen-certs, mosquitto conf, rtt.py, plot_results.py) | ✅ napisano
+| Firmware izmene (mqtt_wrap.c, CMake, secrets, platformio.ini) | ⏳ planirano (čeka hardver / dozvolu)
+| `components/common/certs/ca.crt` | ⏳ generiše se skriptom `gen-certs.sh`
+| Prikupljanje podataka (heap/handshake/pcap/RTT) | ⏳ čeka Raspberry Pi + 2× ESP32
+|===

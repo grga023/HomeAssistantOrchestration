@@ -19,7 +19,19 @@ build/
 # Secrets (never commit real credentials)
 components/common/include/secrets.h
 
+# Measurement artifacts (generated / secret — never commit)
+docs/measurement/fig-*.png
+docs/measurement/*_meas.csv
+docs/measurement/*.pcap
+docs/measurement/broker/*.key
+docs/measurement/broker/*.crt
+docs/measurement/broker/*.csr
+docs/measurement/broker/*.srl
+
 # OS / editor
 .DS_Store
 Thumbs.db
 *.swp
+
+# Tooling output (graphify)
+graphify-out/

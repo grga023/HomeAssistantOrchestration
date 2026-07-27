@@ -1,0 +1,129 @@
+= 01 — Pregled i arhitektura
+:toc: left
+:toclevels: 3
+:sectnums:
+:icons: font
+
+link:index.adoc[← nazad na indeks]
+
+== Cilj i hipoteza rada
+
+Praktično dokazati da implementacija sigurnosnog sloja (TLS/SSL) preko MQTT
+protokola na mikrokontroleru s ograničenim resursima (ESP32) unosi *merljiva
+opterećenja*:
+
+* veća potrošnja radne memorije (RAM/Heap),
+* povećana mrežna latencija i veličina paketa,
+* znatno duže vreme uspostavljanja konekcije (TLS handshake).
+
+*Hipoteza:* uprkos tim opterećenjima, degradacija performansi ostaje unutar
+prihvatljivih granica (odziv *< 200 ms*) za normalno funkcionisanje Smart Home
+sistema — sigurnost se drastično povećava bez narušavanja korisničkog iskustva.
+
+[TIP]
+====
+Ključna konceptualna tačka rada: *jednokratni* trošak (TLS handshake, koji se
+dešava jednom pri povezivanju, ~250–800 ms) treba jasno razdvojiti od *odziva po
+komandi u ustaljenom stanju* (~desetine ms). Hipoteza „< 200 ms" se odnosi na
+odziv po komandi, a NE na handshake. Zato uvodimo 4. merenje (command-RTT) koje
+direktno testira tu tvrdnju. Vidi link:04-methodology.adoc[04 — Metodologija].
+====
+
+== Arhitektura sistema
+
+Potpuno lokalna mreža, bez oslanjanja na Cloud.
+
+[source]
+----
+                    +---------------------------------+
+                    |  Raspberry Pi 4B (Hub)          |
+                    |  - Mosquitto broker             |
+                    |    * :1883  plain               |
+                    |    * :8883  TLS (MQTTS)         |
+                    |  - Home Assistant  (na :1883)   |
+                    +----------------+----------------+
+                                     |
+              +----------------------+----------------------+
+              |                                             |
+     plain MQTT :1883                              MQTTS :8883 (TLS 1.2)
+              |                                             |
+   +----------v-----------+                     +-----------v----------+
+   | ESP32 #1 (esp1)      |                     | ESP32 #2 (esp2)      |
+   | „Svetla" / releji    |                     | „Termostat" / DHT22  |
+   | PLAIN  = BASELINE    |                     | MQTTS = PREDMET      |
+   |                      |                     |        ANALIZE       |
+   +----------------------+                     +----------------------+
+----
+
+=== Uloge čvorova
+
+[cols="1,1,1,3",options="header"]
+|===
+| Čvor | PlatformIO env | Kanal | Uloga u radu
+
+| ESP32 #1
+| `esp1_lights`
+| plain MQTT, `:1883`
+| *Referentna tačka (baseline).* Nezaštićena komunikacija — služi za poređenje.
+
+| ESP32 #2
+| `esp2_temperature`
+| MQTTS, `:8883` (TLS)
+| *Glavni predmet analize opterećenja.* Isti hardver/uloga kao demo termostat,
+  ali sav saobraćaj ide kroz enkriptovani kanal.
+|===
+
+[NOTE]
+====
+Repozitorijum ima *4 ploče* (esp1–esp4). Za merenja su relevantne samo *esp1*
+(baseline) i *esp2* (MQTTS). esp3 (garaža) i esp4 (sigurnost) ostaju netaknute i
+na plain MQTT-u; nisu deo mernog poređenja, ali nastavljaju da rade.
+====
+
+== Zašto baš esp1 vs esp2 (fer poređenje)
+
+Da bi poređenje bilo pošteno, oba čvora se mere *identičnim kodom*. TLS je jedina
+razlika:
+
+* Merni kod („MEAS" instrumentacija) živi u *deljenoj* komponenti
+  (`components/common/src/mqtt_wrap.c`) i kompajlira se u *oba* firmvera na isti
+  način.
+* Jedina razlika između esp1 i esp2 je TLS blok (mqtts:// URI + verifikacija
+  sertifikata), koji se uključuje compile-time gejtom samo za esp2.
+* Zbog toga se razlika u izmerenim brojevima može pripisati *isključivo* TLS-u
+  (metoda „unakrsnog oduzimanja" — vidi link:04-methodology.adoc[04]).
+
+[IMPORTANT]
+====
+Precizno: esp1/esp3/esp4 *ne linkuju* TLS kod niti CA sertifikat, pa je plain
+putanja čista. Ali *linkuju* deljenu MEAS instrumentaciju (merenje heap-a i
+vremena). To je namerno i korektno — obe strane poređenja meri isti kod.
+====
+
+== Softverski alati (razvojno okruženje)
+
+[cols="1,3",options="header"]
+|===
+| Alat | Uloga
+
+| *ESP-IDF* (framework=espidf) | Firmware, pure C. TLS/mbedTLS je *već ukompajliran* u build.
+| *PlatformIO* (u VS Code) | Build/flash/monitor; bira ploču preko `-DSMARTHOME_BOARD`.
+| *Eclipse Mosquitto* (2.x) | MQTT broker na RPi, dva listenera (1883/8883).
+| *Home Assistant* | Smart-home platforma; povezuje se na broker preko plain 1883 (loopback).
+| *OpenSSL* | Generisanje lokalnog CA i server sertifikata (na RPi/dev mašini).
+| *tcpdump* (RPi) + *Wireshark* (PC) | Snimanje i analiza mrežnog saobraćaja (dokaz enkripcije + overhead).
+| *paho-mqtt* (Python) | Skripta `rtt.py` za merenje command-RTT (4. merenje).
+|===
+
+[TIP]
+====
+Bitan nalaz iz analize: pošto je mbedTLS *već* ukompajliran u `esp2` build
+(`sdkconfig.esp2_temperature` sadrži `CONFIG_MBEDTLS_TLS_ENABLED=y`, TLS 1.2,
+hardverski AES/SHA), *ne menjamo build konfiguraciju* da bi MQTTS proradio —
+menjamo samo aplikativni kod (`mqtt_wrap.c`). Detalji u
+link:02-firmware-plan.adoc[02].
+====
+
+'''
+
+Sledeće: link:02-firmware-plan.adoc[02 — Plan izmena firmvera →]

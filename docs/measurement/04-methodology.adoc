@@ -1,0 +1,307 @@
+= 04 — Metodologija merenja i očekivani rezultati
+:toc: left
+:toclevels: 3
+:sectnums:
+:icons: font
+
+link:index.adoc[← indeks] | link:03-broker-pki-tls.adoc[← 03 Broker/PKI/TLS]
+
+Srž mernog dela rada. Četiri merenja, tačni ESP-IDF API-ji, format izlaza, i
+brojevi koje očekujemo.
+
+== Princip: fer poređenje kroz „unakrsno oduzimanje"
+
+Oba čvora meri *isti* kod. TLS trošak se izoluje oduzimanjem baseline-a:
+
+[source]
+----
+TLS_trošak(metrika) = metrika(esp2, MQTTS 8883) − metrika(esp1, plain 1883)
+----
+
+Isti broker, ista LAN, isti MQTT CONNECT — jedina razlika je TLS. Zato razlika =
+TLS overhead.
+
+== Format izlaza: jedan „MEAS" CSV red
+
+Svi brojevi sa uređaja izlaze kroz *jedan* `ESP_LOGI` tag `"MEAS"`, kao CSV red:
+
+[source]
+----
+MEAS: <board>,<metric>,<phase>,<a>,<b>,<c>
+----
+
+Isti format (bajt-identičan kod) na esp1 i esp2 → kolone se poklapaju za
+screenshot i uvoz u tabelu.
+
+Snimanje sa serijskog porta:
+
+[source,bash]
+----
+pio device monitor -e esp2_temperature | grep MEAS | tee esp2_meas.csv
+pio device monitor -e esp1_lights      | grep MEAS | tee esp1_meas.csv
+----
+
+Opciono utišaj šum:
+
+[source,c]
+----
+esp_log_level_set("*",    ESP_LOG_WARN);
+esp_log_level_set("MEAS", ESP_LOG_INFO);
+----
+
+== Instrumentacija u mqtt_wrap.c
+
+Statici i helperi (dodaju se blizu vrha fajla):
+
+[source,c]
+----
+static const char *MEAS = "MEAS";
+static char     s_board[24];
+static int64_t  s_t_start_us, s_t_before_us;
+static uint32_t s_heap_pre_start;
+static bool     s_lowwater_armed = false;
+
+static void meas_heap(const char *phase) {
+    ESP_LOGI(MEAS, "%s,heap,%s,%" PRIu32 ",%u,%u",
+        s_board, phase,
+        esp_get_free_heap_size(),                                        /* a: ukupni free (=ESP.getFreeHeap) */
+        (unsigned)heap_caps_get_free_size(MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT), /* b: interni DRAM */
+        (unsigned)heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL)); /* c: najveći blok (fragmentacija) */
+}
+
+static void meas_time(const char *phase, int64_t dt_us) {
+    ESP_LOGI(MEAS, "%s,time,%s,%lld,%lld,", s_board, phase, dt_us, dt_us/1000);
+}
+
+static void meas_tlscfg(void) {
+#ifdef MQTT_USE_TLS
+  #ifdef CONFIG_MBEDTLS_DYNAMIC_BUFFER
+    int dynbuf = 1;
+  #else
+    int dynbuf = 0;   /* makro je NEDEFINISAN kad je off — mora #ifdef, ne vrednost */
+  #endif
+    ESP_LOGI(MEAS, "%s,tlscfg,in_out_dyn,%d,%d,%d",
+        s_board, CONFIG_MBEDTLS_SSL_IN_CONTENT_LEN,
+        CONFIG_MBEDTLS_SSL_OUT_CONTENT_LEN, dynbuf);
+#else
+    ESP_LOGI(MEAS, "%s,tlscfg,plain,0,0,0", s_board);
+#endif
+}
+
+static void lowwater_cb(void *arg) {   /* 5 s posle konekcije */
+    ESP_LOGI(MEAS, "%s,heap,low_water_5s,%" PRIu32 ",,", s_board,
+             esp_get_minimum_free_heap_size());
+}
+----
+
+U `mqtt_start()`:
+
+[source,c]
+----
+    strlcpy(s_board, board, sizeof s_board);
+    /* ... postojeće građenje s_avail_topic ... */
+    meas_tlscfg();
+    meas_heap("entry");            /* post-WiFi baseline, ista polazna tačka na oba čvora */
+
+    /* ... cfg + (TLS attach pod #ifdef) + esp_mqtt_client_init + register ... */
+
+    s_heap_pre_start = esp_get_free_heap_size();
+    meas_heap("pre_start");        /* neposredno pre start-a */
+    s_t_start_us = esp_timer_get_time();
+    esp_mqtt_client_start(s_client);   /* NEBLOKIRAJUĆE — ne meriti oko ovoga */
+----
+
+U event handler-u:
+
+[source,c]
+----
+case MQTT_EVENT_BEFORE_CONNECT:
+    s_t_before_us = esp_timer_get_time();
+    meas_time("start_to_before", s_t_before_us - s_t_start_us);
+    break;
+
+case MQTT_EVENT_CONNECTED: {
+    s_connected = true;
+    int64_t now = esp_timer_get_time();
+    meas_time("connect_span",  now - s_t_before_us);   /* TCP + TLS handshake + CONNECT/CONNACK */
+    meas_time("connect_total", now - s_t_start_us);
+    meas_heap("connected");
+    ESP_LOGI(MEAS, "%s,heapdelta,retained,%d,,",
+             s_board, (int)s_heap_pre_start - (int)esp_get_free_heap_size());
+    if (!s_lowwater_armed) {        /* jednokratno — CONNECTED se ponavlja na svaki reconnect */
+        const esp_timer_create_args_t a = { .callback = lowwater_cb, .name = "lw" };
+        esp_timer_handle_t h; esp_timer_create(&a, &h);
+        esp_timer_start_once(h, 5 * 1000 * 1000);
+        s_lowwater_armed = true;
+    }
+    /* ... postojeći availability publish + s_on_conn() OSTAJU ... */
+} break;
+----
+
+[NOTE]
+`MQTT_EVENT_DATA` se *ne* menja — command-RTT (4. merenje) meri se sa hosta na
+postojećim set/state topicima.
+
+== METRIKA 1 — Heap (memorijski overhead)
+
+Uzorak na 4 fiksne faze; ista polazna tačka na oba čvora (posle WiFi-ja):
+
+[cols="1,3",options="header"]
+|===
+| Faza | Kada
+| `entry` | vrh `mqtt_start()` (post-WiFi, pre-MQTT baseline)
+| `pre_start` | neposredno pre `esp_mqtt_client_start()`
+| `connected` | u `MQTT_EVENT_CONNECTED`
+| `low_water_5s` | 5 s posle konekcije (`esp_get_minimum_free_heap_size()`)
+|===
+
+*Zadržani (retained) TLS trošak* = `(pre_start − connected)_esp2 − (pre_start − connected)_esp1`.
+
+[WARNING]
+.Low-water je globalni — pažljivo
+====
+`esp_get_minimum_free_heap_size()` je *kumulativni minimum od boot-a*. Pošto
+`mqtt_start` ide posle `wifi_sta_start` (koji blokira do 20 s za WiFi), *WiFi
+tranzijent je obično dublji od TLS handshake tranzijenta*. Zato:
+
+* *Glavni broj (headline)* je *retained delta* — pouzdan.
+* *Low-water* prijavi *samo kao gornju granicu*, uz napomenu da je kumulativan.
+  Ne predstavljaj ga kao „TLS handshake pik".
+* Ako baš želiš tačan handshake pik: dodaj task koji brzo poluje
+  `esp_get_free_heap_size()` samo u prozoru BEFORE_CONNECT → CONNECTED.
+====
+
+Kolona `c` (`heap_caps_get_largest_free_block`) je *cross-check fragmentacije* —
+TLS handshake pada zbog fragmentacije, ne zbog ukupnog free-a.
+
+== METRIKA 2 — Vreme konekcije / TLS handshake
+
+`esp_mqtt_client_start()` je *neblokirajuće* → NE meriti oko njega. Umesto toga,
+timestamp-uj na esp-mqtt tasku:
+
+* `connect_span` = `CONNECTED − BEFORE_CONNECT` = TCP + TLS handshake + CONNECT/CONNACK
+  (vreme konekcije koje uređaj vidi).
+* `connect_total` = `CONNECTED − (pre start)`.
+
+esp-mqtt *nema* „TLS-done" event, pa se TLS izoluje unakrsnim oduzimanjem:
+
+[source]
+----
+TLS_handshake_trošak = connect_span(esp2:8883) − connect_span(esp1:1883)
+----
+
+Finija podela (TCP vs TLS vs CONNACK) dolazi iz METRIKE 3 (pcap): timestamp-ovi
+unutar jednog TCP toka su interno konzistentni.
+
+*Ponovljeni uzorci* (za mean/p95/max) su besplatni: BEFORE_CONNECT/CONNECTED se
+ponavljaju na svaki reconnect → „drmaj" WiFi ili restartuj broker N≥30 puta.
+
+[WARNING]
+Nikad ne oduzimaj `esp_timer` sa uređaja od RPi/pcap timestamp-a (nesinhronizovani
+satovi). Delte sa uređaja drži na satu uređaja; delte iz pcap-a unutar jednog toka.
+
+== METRIKA 3 — Mrežni overhead (tcpdump/Wireshark)
+
+Snimanje *na RPi-ju* (broker host — ne na WiFi klijentu, inače hvataš samo
+L2-enkriptovane frejmove):
+
+[source,bash]
+----
+sudo tcpdump -i any -n -s 0 -w mqtt_thesis.pcap 'tcp port 1883 or tcp port 8883'
+# power-cycle obe ploče da uhvatiš pun connect + publish, pa Ctrl-C
+----
+
+`-s 0` = pun payload (bez ovoga se seče i „čitljiv payload" pada).
+
+Wireshark display filteri:
+
+[cols="2,3",options="header"]
+|===
+| Filter | Šta pokazuje
+| `tcp.port==1883 && mqtt` | čitljivi topici/payload-i; *Follow TCP Stream* → cleartext + kredencijali (slajd „nezaštićeni baseline")
+| `tcp.port==8883 && tls` | handshake pa *opaque* Application Data (payload nečitljiv)
+| `tls.handshake.type==1` | ClientHello — početak handshake-a
+| Statistics → Conversations (TCP) | bajtovi/paketi po konekciji: 1883 vs 8883
+|===
+
+Dokumentuj: (a) *veličina paketa* — 8883 veći zbog TLS zaglavlja/enkripcije; (b)
+*dokaz sigurnosti* — 1883 „Svetlo: ON" čitljivo, 8883 nasumični bajtovi.
+
+== METRIKA 4 — End-to-end command RTT (test hipoteze „< 200 ms")
+
+Bez izmene firmvera — koristi *postojeće* set/state topice. Skripta:
+link:rtt.py[`rtt.py`] (paho-mqtt).
+
+Ideja: skripta na RPi-ju objavi komandu na `.../set` i meri koliko traje da
+stigne `.../state` echo — sve na *jednom* satu (`perf_counter`).
+
+[source,bash]
+----
+# esp1 (plain): lights/light1/set -> lights/light1/state
+python3 rtt.py --host 192.168.1.10 --port 1883 \
+    --set home/lights/light1/set --state home/lights/light1/state -n 100
+
+# esp2 (TLS deonica ka uređaju): heater/set -> heater/state
+python3 rtt.py --host 192.168.1.10 --port 1883 \
+    --set home/temperature/heater/set --state home/temperature/heater/state -n 100
+----
+
+[IMPORTANT]
+.Ispravke (iz adversarijalne provere) ugrađene u rtt.py
+====
+* State topici su *retained* → na SUBSCRIBE odmah stigne poslednja poruka
+  (lažni ~0 ms RTT). `rtt.py` *odbacuje* prvu retained poruku.
+* Payload-i se ponavljaju (ON,ON,...) → skripta *alternira ON/OFF* svake iteracije
+  da svaka komanda proizvede razlučiv, sveže-tajmovan echo.
+* QoS 0 u oba smera; jedan `perf_counter` sat.
+====
+
+Skripta ide na broker preko 1883 (reprezentativna HA putanja — RPi→broker deonica
+je ista za oba runa, pa delta izoluje broker↔uređaj vezu). Opcioni drugi esp2 run
+sa `--cafile ca.crt --port 8883` uključuje i punu TLS deonicu.
+
+Prijavi `n / mean / p95 / max` (i `RTT/2` kao jednosmerno). *Ovo* je merenje koje
+direktno testira „< 200 ms" — handshake (METRIKA 2) je jednokratni trošak, ne
+odziv po komandi.
+
+== Očekivani rezultati
+
+Za tihu lokalnu LAN, WROOM-32 (bez PSRAM), TLS 1.2 ECDHE-RSA-AES128-GCM, RSA-2048
+server cert, mbedTLS IN=16384/OUT=4096, `DYNAMIC_BUFFER` off.
+
+[cols="1,2,2,2",options="header"]
+|===
+| Metrika | esp1 (plain) | esp2 (MQTTS) | TLS trošak (esp2−esp1)
+
+| *Heap retained* | ~2–6 KB | ~30–40 KB (branjivo 30–45) | *~28–40 KB* ✓
+| *Handshake pik (low-water)* | — | ~10–15 KB dublji od steady (pik ~40–50 KB) | (gornja granica)
+| *connect_span* | ~20–120 ms | ~250–800 ms | *~200–700 ms* (jednokratno!)
+| *Command RTT (mean)* | ~15–50 ms | ~20–70 ms | *~5–25 ms*
+| *Per-PUBLISH na žici* | ~40 B | ~65–75 B | *+21–29 B* (5B TLS rec. + 16B AES-GCM tag)
+|===
+
+[cols="1,4",options="header"]
+|===
+| Zaključak | Obrazloženje
+
+| ✓ Hipoteza (memorija)
+| TLS ~30–40 KB retained — potvrđuje očekivanje rada.
+
+| ✓ Hipoteza (< 200 ms)
+| Command RTT p95 duboko ispod 200 ms na oba čvora → sigurnost bez narušavanja UX-a.
+
+| ⚠ Ključna distinkcija
+| Handshake ~250–800 ms je *jednokratni* trošak pri povezivanju — NE obara „< 200 ms
+  odziv". Ovo eksplicitno navesti u radu.
+
+| ✗ Kada bi hipoteza pala
+| Ako p95 command-RTT pređe 200 ms → WiFi zagušenje, preopterećen broker, ili
+  ponovljeni handshake po komandi (session se ne održava). Istraži pre zaključka.
+
+| ✓ Dokaz enkripcije
+| 1883 payload čitljiv (Follow TCP Stream), 8883 opaque Application Data.
+|===
+
+'''
+
+Sledeće: link:05-runbook.adoc[05 — Runbook (korak po korak) →]

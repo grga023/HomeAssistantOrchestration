@@ -1,0 +1,128 @@
+= 06 — Šablon rezultata (tabele + grafikoni)
+:toc: left
+:toclevels: 3
+:sectnums:
+:icons: font
+
+link:index.adoc[← indeks] | link:05-runbook.adoc[← 05 Runbook]
+
+Prazni šabloni koje popuniš *izmerenim* brojevima, plus gotovi grafikoni.
+
+[NOTE]
+====
+Brojevi u tabelama i na graficima su trenutno *placeholder* (očekivane vrednosti iz
+link:04-methodology.adoc[04]) — samo da vidiš izgled. Zameni ih svojim merenjima.
+====
+
+== Kako se generišu grafikoni
+
+. Popuni `results.csv` izmerenim brojevima (kolone `plain`, `tls`):
++
+[source,csv]
+----
+metric,unit,plain,tls
+heap_retained,KB,4,36
+handshake_mean,ms,60,480
+handshake_p95,ms,95,650
+rtt_mean,ms,28,45
+rtt_p95,ms,60,90
+msg_wire_size,B,42,68
+----
+. Pokreni:
++
+[source,bash]
+----
+pip install matplotlib
+python3 plot_results.py            # čita results.csv, pravi fig-*.png
+----
+. Dobijaš `fig-heap.png`, `fig-handshake.png`, `fig-rtt.png`, `fig-packet.png`
+  (colorblind-safe: plava = plain, narandžasta = TLS; 200 dpi za rad).
+
+== Tabela 1 — Heap (memorijski overhead)
+
+Iz `esp1_meas.csv` / `esp2_meas.csv`, faza `entry`/`pre_start`/`connected`
+(kolona `a` = `esp_get_free_heap_size`).
+
+[cols="3,2,2,2",options="header"]
+|===
+| Faza / veličina | Plain (esp1) | MQTTS (esp2) | Napomena
+
+| `entry` (post-WiFi baseline) [KB]     | __ | __ |
+| `pre_start` (pre konekcije) [KB]      | __ | __ |
+| `connected` (posle konekcije) [KB]    | __ | __ |
+| *Zadržani (retained) = pre−connected* [KB] | __ | __ | glavni broj
+| `low_water_5s` (min od boot-a) [KB]   | __ | __ | gornja granica (kumulativno)
+| *TLS heap trošak = retained(esp2)−retained(esp1)* [KB] | 2+| =__ | očekivano ~28–40
+|===
+
+image::fig-heap.png[Zadržani heap: plain vs TLS,width=520]
+
+== Tabela 2 — Vreme konekcije / TLS handshake
+
+Iz MEAS reda `connect_span` (≥30 uzoraka po čvoru; drmaj WiFi/broker).
+
+[cols="3,2,2,2",options="header"]
+|===
+| Statistika | Plain (esp1) | MQTTS (esp2) | TLS trošak (esp2−esp1)
+
+| n (uzoraka)   | __ | __ |
+| mean [ms]     | __ | __ | =__
+| median [ms]   | __ | __ |
+| p95 [ms]      | __ | __ |
+| max [ms]      | __ | __ |
+|===
+
+image::fig-handshake.png[Vreme handshake-a: plain vs TLS,width=520]
+
+[TIP]
+Handshake je *jednokratni* trošak pri povezivanju — ne odziv po komandi. Ne meša
+se sa hipotezom „< 200 ms".
+
+== Tabela 3 — End-to-end command RTT (test „< 200 ms")
+
+Iz `rtt.py` (n≥100 po čvoru).
+
+[cols="3,2,2,2",options="header"]
+|===
+| Statistika | Plain (esp1) | MQTTS (esp2) | TLS trošak (esp2−esp1)
+
+| n / drops     | __ | __ |
+| mean [ms]     | __ | __ | =__
+| p95 [ms]      | __ | __ |
+| max [ms]      | __ | __ |
+| < 200 ms?     | ✓/✗ | ✓/✗ |
+|===
+
+image::fig-rtt.png[Command RTT sa granicom 200 ms,width=520]
+
+== Tabela 4 — Mrežni overhead (Wireshark)
+
+Iz `mqtt_thesis.pcap` → Statistics → Conversations (TCP).
+
+[cols="3,2,2,2",options="header"]
+|===
+| Veličina | Plain (1883) | MQTTS (8883) | Overhead
+
+| Handshake (paketi / bajtovi) | — / — | __ / __ | (TLS jednokratno)
+| PUBLISH poruka na žici [B]   | __ | __ | +__ B
+| Payload čitljiv?             | DA (cleartext) | NE (opaque) |
+|===
+
+image::fig-packet.png[Veličina poruke na žici: plain vs TLS,width=520]
+
+=== Wireshark snimci (dokaz enkripcije)
+
+Ubaci screenshot-ove:
+
+* `_[slika]_` — `tcp.port==1883 && mqtt`, *Follow TCP Stream*: čitljiv topic +
+  payload (npr. „ON") + kredencijali → slajd „nezaštićeni baseline".
+* `_[slika]_` — `tcp.port==8883 && tls`: TLS handshake + *opaque* Application Data
+  → payload nečitljiv.
+
+== Zaključak (checklist prema hipotezi)
+
+* [ ] Memorijski overhead izmeren (~30–40 KB) → *TLS unosi merljivo opterećenje* ✓
+* [ ] Handshake izmeren (~250–800 ms) → jednokratni trošak, dokumentovan kao takav
+* [ ] Command RTT p95 < 200 ms na oba čvora → *degradacija unutar granica* ✓
+* [ ] Wireshark: 1883 čitljiv, 8883 opaque → *dokaz sigurnosti* ✓
+* [ ] Zaključak: sigurnost drastično povećana bez narušavanja UX-a → *hipoteza potvrđena*

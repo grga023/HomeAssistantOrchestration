@@ -1,0 +1,320 @@
+= 02 — Plan izmena firmvera
+:toc: left
+:toclevels: 3
+:sectnums:
+:icons: font
+
+link:index.adoc[← indeks] | link:01-overview.adoc[← 01 Pregled]
+
+Ovaj dokument opisuje *tačno* šta se menja u firmveru da bi `esp2_temperature`
+komunicirao preko MQTTS-a, dok sva 4 borda i dalje builduju i `esp1_lights`
+ostaje čist plain baseline.
+
+[NOTE]
+====
+Izmene *još nisu primenjene* — ovo je plan. Kad kreneš (ili mi kažeš da krenem),
+radi se po redosledu iz link:05-runbook.adoc[05 — Runbook].
+====
+
+== Princip: jedna kod-putanja, TLS pali `mqtts://` šema
+
+Ceo MQTT je centralizovan u `components/common/src/mqtt_wrap.c` (funkcija
+`mqtt_start`). To je *jedino* mesto gde se konfiguriše konekcija, za sve ploče.
+
+Dizajn:
+
+. TLS se pali *compile-time gejtom* `-DMQTT_TLS=1`, koji se dodaje *samo*
+  `[env:esp2_temperature]` — kroz isti `board_build.cmake_extra_args` kanal koji
+  već nosi `-DSMARTHOME_BOARD=...`.
+. Kad je `MQTT_TLS` postavljen, CMake definiše C makro `MQTT_USE_TLS` i *ugrađuje*
+  `ca.crt` u firmware.
+. U `mqtt_wrap.c`, pod `#ifdef MQTT_USE_TLS`, bira se `mqtts://...:8883` URI i
+  kači ugrađeni CA. TLS se realno aktivira *šemom* `mqtts://` (ne samo portom).
+. esp1/esp3/esp4 *ne* dobijaju `MQTT_TLS`, pa ne linkuju ni TLS granu ni CA.
+
+[TIP]
+====
+Zašto compile gejt a ne runtime provera imena ploče? Jer je najčistije: plain
+ploče uopšte ne nose TLS kod ni sertifikat u binarnom fajlu, pa je baseline
+dokazano „čist". `SMARTHOME_BOARD` je CMake promenljiva (nije C makro), pa se
+ne može koristiti direktno u C-u bez ovakvog gejta.
+====
+
+== Pregled izmena po fajlovima
+
+[cols="2,1,4",options="header"]
+|===
+| Fajl | Tip | Šta se menja
+
+| `platformio.ini`
+| izmena
+| U `[env:esp2_temperature]` *samo*, dopisati `-DMQTT_TLS=1`. Ostala 3 env-a netaknuta.
+
+| `components/common/CMakeLists.txt`
+| izmena
+| Dodati `esp_timer` u `REQUIRES`; posle `idf_component_register(...)` dodati
+  `if(MQTT_TLS)` blok koji definiše `MQTT_USE_TLS` i ugrađuje `certs/ca.crt`.
+
+| `components/common/certs/ca.crt`
+| nov
+| Javni CA sertifikat (generiše `gen-certs.sh`). Commit-uje se (javni je);
+  NIKAD `ca.key`/`server.key`.
+
+| `components/common/include/secrets.example.h`
+| izmena
+| Dodati `#define MQTT_URI_TLS "mqtts://<RPi-IP>:8883"`.
+
+| `components/common/include/secrets.h`
+| izmena
+| Isto, sa pravim IP-jem. (Gitignored — mora se dodati ručno.)
+
+| `components/common/src/mqtt_wrap.c`
+| izmena
+| URI swap + kačenje CA (pod `#ifdef`) + MEAS instrumentacija (heap + vreme).
+  Javni API i pozivi iz board `*_start()` NETAKNUTI.
+|===
+
+Opciono (preporučeno za reproduktivnost):
+
+[cols="2,1,4",options="header"]
+|===
+| `sdkconfig.defaults` | nov | „Zaključava" mbedTLS parametre (IN=16384/OUT=4096,
+  `DYNAMIC_BUFFER` off) koji određuju heap broj, da bi bio reproduktivan.
+|===
+
+== Detalji izmena
+
+=== platformio.ini
+
+Trenutno (linije 25–26):
+
+[source,ini]
+----
+[env:esp2_temperature]
+board_build.cmake_extra_args = -DSMARTHOME_BOARD=esp2_temperature
+----
+
+Posle:
+
+[source,ini]
+----
+[env:esp2_temperature]
+board_build.cmake_extra_args = -DSMARTHOME_BOARD=esp2_temperature -DMQTT_TLS=1
+----
+
+=== components/common/CMakeLists.txt
+
+Dve izmene. (1) `esp_timer` u `REQUIRES` (merni kod ga koristi;
+deljena komponenta ga trenutno ne zahteva). (2) posle `idf_component_register(...)`:
+
+[source,cmake]
+----
+idf_component_register(
+    SRCS
+        "src/wifi_sta.c"
+        "src/mqtt_wrap.c"
+        "src/ha_discovery.c"
+        "src/app_rtos.c"
+    INCLUDE_DIRS
+        "include"
+    REQUIRES
+        nvs_flash esp_wifi esp_event esp_netif mqtt driver json esp_timer   # <-- +esp_timer
+)
+
+# TLS samo za esp2 (kad platformio.ini prosledi -DMQTT_TLS=1).
+# ${COMPONENT_LIB} postoji tek POSLE register() — zato je blok ovde.
+if(MQTT_TLS)
+    target_compile_definitions(${COMPONENT_LIB} PRIVATE MQTT_USE_TLS=1)
+    target_add_binary_data(${COMPONENT_LIB} "certs/ca.crt" TEXT)  # -> _binary_ca_crt_start/_end
+endif()
+----
+
+[IMPORTANT]
+====
+* `target_add_binary_data(... TEXT)` je uslovna varijanta `EMBED_TXTFILES` —
+  dodaje `NUL` na kraj, pa PEM radi kao C string (`certificate_len` ostaje 0).
+* Simbol se izvodi iz *osnovnog imena* fajla: `certs/ca.crt` → `_binary_ca_crt_start`
+  (NE `_binary_certs_ca_crt_start`). Ne preimenuj fajl ili puca linkovanje.
+* Fajl `certs/ca.crt` *mora postojati* u trenutku konfiguracije builda — inače
+  CMake puca (ali samo za esp2, jer je embed unutar `if(MQTT_TLS)`).
+====
+
+=== secrets(.example).h
+
+[source,c]
+----
+#define MQTT_URI      "mqtt://192.168.1.10:1883"    /* esp1: plain baseline */
+#define MQTT_URI_TLS  "mqtts://192.168.1.10:8883"   /* esp2: MQTTS (TLS) */
+#define MQTT_USER     "mqttuser"
+#define MQTT_PASSWORD "mqttpass"
+----
+
+IP mora biti isti kao u SAN-u server sertifikata (vidi link:03-broker-pki-tls.adoc[03]).
+
+=== components/common/src/mqtt_wrap.c
+
+Sve izmene su u *jednoj deljenoj kod-putanji*; javni API (`mqtt_start`,
+`mqtt_publish`, `mqtt_subscribe`, `mqtt_is_connected`, `mqtt_availability_topic`) i
+pozivi iz svih `*_start()` funkcija ostaju *netaknuti*.
+
+*1) Dodatni include-ovi + gejt + extern (posle postojećih include-ova):*
+
+[source,c]
+----
+#include "esp_timer.h"
+#include "esp_system.h"
+#include "esp_heap_caps.h"
+#include <inttypes.h>
+#include "sdkconfig.h"
+
+#if defined(MQTT_USE_TLS) && !defined(MQTT_URI_TLS)
+#  error "esp2 TLS build zahteva MQTT_URI_TLS u secrets.h"
+#endif
+
+#ifdef MQTT_USE_TLS
+extern const uint8_t ca_crt_start[] asm("_binary_ca_crt_start");
+#endif
+----
+
+TIP: `#error` znači da ako neko zaboravi `MQTT_URI_TLS` u `secrets.h`, build za
+esp2 *glasno* pukne umesto da tiho radi plain (što bi obesmislilo merenja).
+
+*2) URI swap unutar `mqtt_start()` (zameniti `.broker.address.uri = MQTT_URI,`):*
+
+[source,c]
+----
+    esp_mqtt_client_config_t cfg = {
+#ifdef MQTT_USE_TLS
+        .broker.address.uri = MQTT_URI_TLS,
+#else
+        .broker.address.uri = MQTT_URI,
+#endif
+        .credentials.username = MQTT_USER,
+        .credentials.authentication.password = MQTT_PASSWORD,
+        .session.last_will.topic = s_avail_topic,
+        .session.last_will.msg = "offline",
+        .session.last_will.msg_len = 7,
+        .session.last_will.qos = 0,
+        .session.last_will.retain = 1,
+    };
+----
+
+*3) Kačenje CA odmah posle inicijalizacije `cfg` (pre `esp_mqtt_client_init`):*
+
+[source,c]
+----
+#ifdef MQTT_USE_TLS
+    cfg.broker.verification.certificate = (const char *)ca_crt_start; /* NUL-terminated PEM */
+    /* skip=true: lanac/potpis se I DALJE verifikuju protiv našeg CA;
+       preskače se samo poklapanje imena/IP. Prebaci na false za „full
+       verification" run (DNS-SAN homeassistant.local). Vidi 03. */
+    cfg.broker.verification.skip_cert_common_name_check = true;
+#endif
+----
+
+*4) MEAS instrumentacija* (statici, helperi, i dodaci u event handler) —
+opisano u detalje u link:04-methodology.adoc[04 — Metodologija], jer je to srž
+mernog dela. Suština:
+
+* uzorak heap-a na 4 tačke (`entry`, `pre_start`, `connected`, `low_water_5s`);
+* vreme handshake-a preko `esp_timer_get_time()` između `MQTT_EVENT_BEFORE_CONNECT`
+  i `MQTT_EVENT_CONNECTED` (NE oko `esp_mqtt_client_start()` — on je neblokirajući!);
+* sve se loguje pod jednim tagom `ESP_LOGI("MEAS", ...)` u CSV formatu.
+
+== Mapiranje Arduino → ESP-IDF (za tekst rada)
+
+Tekst rada je pisan Arduino API-jima. Ova tabela ide u poglavlje „Implementacija"
+kao dokaz ekvivalencije.
+
+[cols="2,2,2",options="header"]
+|===
+| Tekst rada (Arduino) | ESP-IDF ekvivalent (ovaj repo) | Napomena
+
+| `WiFiClientSecure.setCACert(ca)`
+| `cfg.broker.verification.certificate = ca_crt_start`
+| CA ugrađen preko CMake `EMBED_TXTFILES`; privatni CA, ne javni bundle
+
+| `client.setServer(host, 8883)`
+| `.broker.address.uri = "mqtts://<IP>:8883"`
+| šema `mqtts` (ne samo port) pali TLS
+
+| `PubSubClient.connect(...)`
+| `esp_mqtt_client_init()` + `esp_mqtt_client_start()`
+| *asinhrono* — konekcija se završava kasnije na esp-mqtt tasku
+
+| `while(!client.connected())`
+| event `MQTT_EVENT_CONNECTED`
+| event-driven, ne blokirajuća petlja
+
+| `client.publish() / .subscribe()`
+| `mqtt_publish() / mqtt_subscribe()`
+| postojeći wrapper, nepromenjen
+
+| `callback(topic,payload,len)`
+| `mqtt_msg_cb` preko `MQTT_EVENT_DATA`
+| topic/data NISU NUL-terminirani → koristi dužine
+
+| `t=millis(); ...; millis()-t`
+| `esp_timer_get_time()` (µs) u BEFORE_CONNECT/CONNECTED
+| wrapovanje neblokirajućeg `start()` ne bi merilo ništa
+
+| `millis()`
+| `esp_timer_get_time() / 1000`
+| int64 mikrosekunde od boot-a
+
+| `ESP.getFreeHeap()`
+| `esp_get_free_heap_size()`
+| uint32, ukupni slobodan heap
+
+| (interni heap)
+| `heap_caps_get_free_size(MALLOC_CAP_INTERNAL\|MALLOC_CAP_8BIT)`
+| WROOM-32 nema PSRAM → ≈ getFreeHeap; oba za strogost
+
+| `ESP.getMinFreeHeap()`
+| `esp_get_minimum_free_heap_size()`
+| životni minimum = tranzijentni pik (vidi upozorenje u 04)
+
+| `Serial.printf(...)`
+| `ESP_LOGI("MEAS", ...)`
+| jedan grep-abilan tag, isti format na oba čvora
+|===
+
+[IMPORTANT]
+.Za tekst rada — naglasiti
+====
+* Za razliku od Arduino blokirajućeg `client.connect()`, esp-mqtt je *event-driven*;
+  handshake se meri kao razlika između `MQTT_EVENT_BEFORE_CONNECT` i
+  `MQTT_EVENT_CONNECTED`.
+* Navesti eksplicitno *TLS 1.2* (ne generičko „TLS/SSL") — build ima samo
+  `CONFIG_MBEDTLS_SSL_PROTO_TLS1_2`.
+====
+
+== Ispravke iz adversarijalne provere (ugrađene u plan)
+
+[cols="1,3",options="header"]
+|===
+| Rizik | Kako je rešeno
+
+| `esp_get_minimum_free_heap_size()` je *globalni* (od boot-a) → hvata i WiFi
+  tranzijent, ne samo TLS.
+| Glavni broj je *retained delta* (`pre_start` − `connected`). Low-water se
+  prijavljuje samo kao *gornja granica*, uz jasnu napomenu. Vidi 04.
+
+| `CONFIG_MBEDTLS_DYNAMIC_BUFFER` je *nedefinisan* kad je off → direktno
+  referenciranje = compile error.
+| U `meas_tlscfg()` se čita kroz `#ifdef ... #else ... #endif`, ne kao vrednost.
+
+| Strict provera (`skip=false`) sa IP-SAN je verzija-zavisna u mbedTLS.
+| Default je `skip=true` (radi svuda); „full verification" run koristi *DNS-SAN*
+  (`homeassistant.local`), što je pouzdano. Vidi 03.
+
+| Stale CMakeCache posle dodavanja `-DMQTT_TLS=1`.
+| U runbook-u: `pio run -e esp2_temperature -t fullclean` pre prvog builda.
+
+| `${COMPONENT_LIB}` nedefinisan pre `register()`.
+| `if(MQTT_TLS)` blok je striktno *posle* `idf_component_register(...)`.
+|===
+
+'''
+
+Sledeće: link:03-broker-pki-tls.adoc[03 — Broker, PKI i TLS →]

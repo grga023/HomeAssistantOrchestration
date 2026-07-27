@@ -1,0 +1,189 @@
+= 05 — Runbook (korak po korak)
+:toc: left
+:toclevels: 3
+:sectnums:
+:icons: font
+
+link:index.adoc[← indeks] | link:04-methodology.adoc[← 04 Metodologija]
+
+Redosled izvršavanja od nule, kad hardver bude dostupan (Raspberry Pi + 2× ESP32).
+Dok nemaš hardver, ovo služi kao checklist za planiranje.
+
+[IMPORTANT]
+====
+Firmware izmene iz link:02-firmware-plan.adoc[02] *još nisu primenjene*. Koraci
+5–8 uključuju te izmene — uradi ih (ili mi reci da ih uradim) pre builda esp2.
+====
+
+== Preduslovi
+
+* Raspberry Pi sa Mosquitto 2.x + Home Assistant.
+* 2× ESP32 (WROOM-32 / `esp32dev`), USB kablovi.
+* PlatformIO (VS Code) na dev mašini.
+* Poznat *IP RPi-ja* (ovde placeholder `192.168.1.10` — zameni svuda).
+
+== Korak 1 — PKI (sertifikati)
+
+Na RPi-ju (ili dev mašini sa `openssl`):
+
+[source,bash]
+----
+cd docs/measurement/broker
+./gen-certs.sh 192.168.1.10        # <- tvoj RPi IP
+----
+
+Skripta pravi `ca.key`, `ca.crt`, `server.key`, `server.crt` (sa DNS+IP SAN) i
+sama proverava SAN i lanac. Detalji: link:03-broker-pki-tls.adoc[03].
+
+== Korak 2 — Broker
+
+[source,bash]
+----
+sudo mkdir -p /etc/mosquitto/certs
+sudo cp ca.crt server.crt server.key /etc/mosquitto/certs/
+sudo chown root:mosquitto /etc/mosquitto/certs/server.key
+sudo chmod 640 /etc/mosquitto/certs/server.key
+sudo chmod 644 /etc/mosquitto/certs/ca.crt /etc/mosquitto/certs/server.crt
+
+sudo cp thesis.conf /etc/mosquitto/conf.d/thesis.conf
+sudo mosquitto_passwd -c /etc/mosquitto/passwd mqttuser    # poklopi sa secrets.h
+
+sudo systemctl restart mosquitto
+sudo ss -tlnp | grep -E ':1883|:8883'   # OBA porta moraju da slušaju
+----
+
+== Korak 3 — Provera brokera sa hosta (pre flešovanja!)
+
+[source,bash]
+----
+mosquitto_pub -h 192.168.1.10 -p 8883 --cafile ca.crt -u mqttuser -P mqttpass -t test/x -m hi
+----
+
+Ako padne — popravi cert/SAN/permisije *sada*, ne na uređaju.
+
+== Korak 4 — CA u firmware
+
+[source,bash]
+----
+cp docs/measurement/broker/ca.crt components/common/certs/ca.crt
+----
+
+Kopiraj *samo* `ca.crt`. NIKAD `server.key`/`ca.key`.
+
+== Korak 5 — secrets.h
+
+Dodaj u `components/common/include/secrets.h` (i u `secrets.example.h`):
+
+[source,c]
+----
+#define MQTT_URI_TLS "mqtts://192.168.1.10:8883"
+----
+
+Zadrži `MQTT_URI` (plain 1883) kao baseline.
+
+== Korak 6 — CMake
+
+U `components/common/CMakeLists.txt`: dodaj `esp_timer` u `REQUIRES` i posle
+`idf_component_register(...)` dodaj `if(MQTT_TLS)` blok (define + embed). Vidi
+link:02-firmware-plan.adoc[02].
+
+== Korak 7 — platformio.ini
+
+U `[env:esp2_temperature]` dopiši `-DMQTT_TLS=1`. Ostala 3 env-a netaknuta.
+
+== Korak 8 — mqtt_wrap.c
+
+Primeni izmene: include-ovi + `#error` gejt + `extern ca_crt_start`; MEAS statici
+i helperi; `entry`/`pre_start` heap + `tlscfg` u `mqtt_start`; `#ifdef` URI swap;
+TLS attach posle `cfg`; BEFORE_CONNECT case; proširen CONNECTED (timing/heap/low-water).
+NE diraj javni API, board `.c` fajlove, ni `MQTT_EVENT_DATA`. Kod: link:04-methodology.adoc[04].
+
+== Korak 9 — (opciono) sdkconfig.defaults
+
+Zaključaj mbedTLS parametre radi reproduktivnosti (vidi link:02-firmware-plan.adoc[02]).
+Ako tvoja PlatformIO verzija ne čita `sdkconfig.defaults` automatski, dodaj u
+`[env]`: `board_build.sdkconfig_defaults = sdkconfig.defaults`.
+
+== Korak 10 — Build
+
+[source,bash]
+----
+# fullclean je OBAVEZAN prvi put posle dodavanja -DMQTT_TLS=1 (stale CMakeCache)
+pio run -e esp2_temperature -t fullclean
+pio run -e esp2_temperature
+
+# potvrdi da baseline i dalje builduje bez TLS/CA:
+pio run -e esp1_lights
+pio run -e esp3_garage
+pio run -e esp4_security
+----
+
+== Korak 11 — Flash i sanity
+
+[source,bash]
+----
+pio run -e esp1_lights      -t upload
+pio run -e esp2_temperature -t upload
+----
+
+[WARNING]
+Na boot-u, serijski log esp2 *mora* pokazati `mqtts://` URI i uspešan TLS connect.
+Ako ne — STANI, brojevi su nevažeći (verovatno esp2 tiho radi plain ili cert ne prolazi).
+
+== Korak 12 — Prikupljanje device metrika (1, 2)
+
+[source,bash]
+----
+pio device monitor -e esp2_temperature | grep MEAS | tee esp2_meas.csv
+pio device monitor -e esp1_lights      | grep MEAS | tee esp1_meas.csv
+----
+
+Za statistiku handshake-a/heap-a: iznudi ≥30 reconnect-a (drmaj WiFi ili
+`sudo systemctl restart mosquitto`). BEFORE_CONNECT/CONNECTED se ponavljaju.
+
+== Korak 13 — Mrežni snimak (3)
+
+[source,bash]
+----
+sudo tcpdump -i any -n -s 0 -w mqtt_thesis.pcap 'tcp port 1883 or tcp port 8883'
+# power-cycle obe ploče, pa Ctrl-C; scp .pcap na PC za Wireshark
+----
+
+== Korak 14 — Command RTT (4)
+
+[source,bash]
+----
+python3 docs/measurement/rtt.py --host 192.168.1.10 --port 1883 \
+    --set home/lights/light1/set --state home/lights/light1/state -n 100
+python3 docs/measurement/rtt.py --host 192.168.1.10 --port 1883 \
+    --set home/temperature/heater/set --state home/temperature/heater/state -n 100
+----
+
+== Korak 15 — Analiza
+
+* Wireshark: filteri iz link:04-methodology.adoc[04]; izračunaj TLS_handshake_trošak i
+  TLS_heap_trošak unakrsnim oduzimanjem.
+* Uporedi sa očekivanim brojevima (04). Napiši rezultate.
+
+== Korak 16 — (opciono) „full verification" run
+
+Kad IP-SAN/DNS-SAN cert potvrđeno prolazi: prebaci
+`skip_cert_common_name_check` na `false` (za DNS: poveži se na
+`mqtts://homeassistant.local:8883`, uz `hosts`/mDNS unos), rebuild esp2, i citiraj
+„full verification" run u radu.
+
+== Checklist (kratko)
+
+* [ ] `gen-certs.sh` → ca/server cert (SAN OK)
+* [ ] Mosquitto: 1883 + 8883 slušaju
+* [ ] host `mosquitto_pub` na 8883 prolazi
+* [ ] `ca.crt` u `components/common/certs/`
+* [ ] `MQTT_URI_TLS` u `secrets.h`
+* [ ] CMake `esp_timer` + `if(MQTT_TLS)` blok
+* [ ] `platformio.ini` esp2 `-DMQTT_TLS=1`
+* [ ] `mqtt_wrap.c` izmene
+* [ ] `fullclean` + build sva 4 env-a prolaze
+* [ ] esp2 boot log: `mqtts://` + TLS connect ✓
+* [ ] `esp1_meas.csv` + `esp2_meas.csv`
+* [ ] `mqtt_thesis.pcap`
+* [ ] RTT rezultati (esp1, esp2)

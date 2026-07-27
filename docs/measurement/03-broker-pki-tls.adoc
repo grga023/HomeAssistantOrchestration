@@ -1,0 +1,231 @@
+= 03 — Broker, PKI i TLS
+:toc: left
+:toclevels: 3
+:sectnums:
+:icons: font
+
+link:index.adoc[← indeks] | link:02-firmware-plan.adoc[← 02 Firmware]
+
+Ovaj dokument pokriva stranu Raspberry Pi-ja: kako TLS provera *radi*, kako se
+generišu sertifikati (OpenSSL), i kako se Mosquitto podešava sa dva porta.
+
+== Kako TLS provera sertifikata radi (koncept)
+
+Kad se ESP32 poveže preko MQTTS-a, pita se: *„Da li stvarno pričam sa SVOJIM
+brokerom, a ne sa nekim ko se lažno predstavlja?"* Odgovor kroz *dve odvojene
+provere*:
+
+Provera 1 — POVERENJE (potpis/lanac)::
+„Da li je brokerov sertifikat potpisan od CA kome verujem?"
++
+ESP32 ima ugrađen `ca.crt`. Broker pokazuje `server.crt` potpisan tim CA-om. Ako
+napadač pokuša MITM sa lažnim sertifikatom, ne može da ga potpiše — jer `ca.key`
+nikad ne napušta RPi. *Ova provera je UVEK uključena.*
+
+Provera 2 — IDENTITET (poklapanje imena)::
+„Da li se adresa koju sam pozvao poklapa sa imenom U sertifikatu?"
++
+Npr. povezao sam se na `192.168.1.10` — da li sertifikat kaže da važi baš za
+`192.168.1.10`?
+
+.Analogija: provera ID-a na vratima
+[TIP]
+====
+* *Provera 1* = „Da li je ovaj lični dokument izdala prava država?" → hvata falsifikate.
+* *Provera 2* = „Da li se ime na dokumentu poklapa sa mojim spiskom gostiju?" → hvata pravi dokument u pogrešnim rukama.
+====
+
+=== U čemu je kvaka (CN vs SAN, IP vs DNS)
+
+Sertifikat čuva ime na dva mesta:
+
+* *CN* (Common Name) — staro polje, npr. `CN=192.168.1.10`.
+* *SAN* (Subject Alternative Name) — moderno polje, npr. `IP:192.168.1.10` ili
+  `DNS:homeassistant.local`.
+
+Moderni TLS (mbedTLS na ESP32) gleda *SAN*. Ako se povezuješ preko *IP adrese*, IP
+mora biti u SAN-u — ali *poklapanje IP-a u SAN-u je bagovito/verzija-zavisno* u
+mbedTLS-u (radi tek od ~IDF v5.2 / mbedTLS 3.x). *Poklapanje DNS imena* radi uvek.
+
+=== Tri opcije
+
+[cols="2,1,1,3",options="header"]
+|===
+| Opcija | Provera 1 | Provera 2 | Kada
+
+| `skip_cert_common_name_check=true`
+| ✅ uvek
+| ⏭️ preskočena
+| Radi svuda, bez muke. Enkripcija i Wireshark dokaz identični.
+
+| strict + IP-SAN (`skip=false`)
+| ✅
+| ✅ (IP)
+| Rizik: IP-SAN verzija-zavisan; može da pukne mid-merenje.
+
+| strict + DNS-SAN (`skip=false`)
+| ✅
+| ✅ (DNS)
+| Pouzdano; zahteva DNS/hosts unos (`homeassistant.local`).
+|===
+
+[IMPORTANT]
+.Naša odluka: OBA
+====
+* *Prikupljanje podataka* radimo sa `skip_cert_common_name_check=true` —
+  garantovano radi na svakoj IDF verziji; brojevi (heap/handshake/RTT) su
+  potpuno isti kao kod pune verifikacije.
+* Zatim jedan *potvrdni „full verification" run* sa `skip=false` i *DNS-SAN*
+  (`homeassistant.local`) — pokazuje da OBE provere prolaze. Najjači narativ za
+  rad, bez rizika za same podatke.
+
+`skip=true` *ne ruši* sigurnosnu priču: lanac se i dalje verifikuje protiv tvog
+CA (MITM bez tvog CA ključa je blokiran), a payload na 8883 je i dalje nečitljiv.
+Preskače se *samo* unakrsna provera imena.
+====
+
+== PKI: generisanje CA i server sertifikata (OpenSSL)
+
+Sve komande su spakovane u link:broker/gen-certs.sh[`broker/gen-certs.sh`].
+Ovde je objašnjenje šta koji korak radi. Pokreni na RPi-ju (ili bilo kojoj mašini
+sa `openssl`). *Zameni `192.168.1.10` stvarnim IP-jem RPi-ja.*
+
+[source,bash]
+----
+# 1) Lokalni CA (RSA-2048, SHA256, 10 god). CN je labela, ne proverava se protiv IP-a.
+openssl genrsa -out ca.key 2048
+openssl req -x509 -new -nodes -key ca.key -sha256 -days 3650 \
+  -subj "/CN=HomeLab-CA" -out ca.crt
+
+# 2) Server ključ (NEENKRIPTOVAN — bez -des3, inače Mosquitto visi čekajući lozinku)
+openssl genrsa -out server.key 2048
+openssl req -new -key server.key -subj "/CN=homeassistant.local" -out server.csr
+
+# 3) SAN ekstenzija — I DNS I IP (za oba pristupa: skip=true po IP-u, strict po DNS-u)
+cat > san.ext <<'EOF'
+subjectAltName = DNS:homeassistant.local, IP:192.168.1.10
+basicConstraints = CA:FALSE
+keyUsage = digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth
+EOF
+
+# 4) Potpiši server.crt CA-om, UBACUJUĆI SAN preko -extfile
+#    (SAN dat samo preko -addext na CSR-u se GUBI ako ne dodaš i -copy_extensions=copy)
+openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial \
+  -out server.crt -days 825 -sha256 -extfile san.ext
+
+# 5) PROVERI da je SAN stvarno u sertifikatu i da lanac valja
+openssl x509 -in server.crt -noout -text | grep -A1 "Subject Alternative Name"
+#   očekuj:  DNS:homeassistant.local, IP Address:192.168.1.10
+openssl verify -CAfile ca.crt server.crt         # -> server.crt: OK
+----
+
+[WARNING]
+.Česte greške (iz analize)
+====
+* *SAN je obavezan* za IP broker — mbedTLS poredi adresu sa SAN-om, ne sa CN-om.
+  Sertifikat sa IP-jem samo u CN-u ne prolazi (`mbedtls -0x2700`).
+* SAN dodat *samo* preko `-addext` na CSR se *gubi* pri potpisivanju osim ako
+  koristiš `-extfile` (preporučeno) ili `-copy_extensions=copy`.
+* `server.key` mora biti *neenkriptovan* (`genrsa` bez `-des3`) ili Mosquitto visi.
+* ESP32 nema RTC/NTP na boot-u. *Ali* — u ovom build-u je `CONFIG_MBEDTLS_HAVE_TIME_DATE`
+  isključen, pa sat na „1970" *ne* obara `notBefore/notAfter`. SNTP nije potreban
+  (dodaj ga samo ako namerno uključiš proveru datuma za stroži narativ).
+* U firmware ide *samo* `ca.crt`. NIKAD `server.key` ni `ca.key`.
+====
+
+== Mosquitto: dva listenera (1883 plain + 8883 TLS)
+
+Gotova konfiguracija: link:broker/thesis.conf[`broker/thesis.conf`]. Ide u
+`/etc/mosquitto/conf.d/thesis.conf` (stock `mosquitto.conf` već ima
+`include_dir /etc/mosquitto/conf.d`).
+
+[source,ini]
+----
+# /etc/mosquitto/conf.d/thesis.conf
+password_file /etc/mosquitto/passwd
+allow_anonymous false          # Mosquitto 2.x podrazumevano; oba listenera dele ovu globalnu auth
+
+# --- Listener 1: PLAIN (esp1/esp3/esp4 + Home Assistant na 127.0.0.1) ---
+listener 1883
+
+# --- Listener 2: MQTTS / TLS (esp2_temperature) ---
+listener 8883
+cafile   /etc/mosquitto/certs/ca.crt
+certfile /etc/mosquitto/certs/server.crt
+keyfile  /etc/mosquitto/certs/server.key
+tls_version tlsv1.2            # poklapa se sa ESP32 mbedTLS
+require_certificate false      # server-only TLS: ESP32 verifikuje broker; nema klijentskog sertifikata
+----
+
+[WARNING]
+.NE postavljaj `per_listener_settings`
+====
+Ako ga uključiš, `password_file`/`allow_anonymous` postaju *po-listeneru*, pa
+globalna auth tiho prestane da važi i konekcije padaju. Za deljenu auth na oba
+porta — ostavi ga isključenim (u 2.1 je i zastareo). TLS opcije
+(`cafile/certfile/keyfile/require_certificate`) su uvek po-listeneru, bez obzira.
+====
+
+=== Postavljanje i pokretanje
+
+[source,bash]
+----
+sudo mkdir -p /etc/mosquitto/certs
+sudo cp ca.crt server.crt server.key /etc/mosquitto/certs/
+sudo chown root:mosquitto /etc/mosquitto/certs/server.key
+sudo chmod 640 /etc/mosquitto/certs/server.key
+sudo chmod 644 /etc/mosquitto/certs/ca.crt /etc/mosquitto/certs/server.crt
+
+# MQTT korisnik (mora da se poklapa sa secrets.h MQTT_USER/MQTT_PASSWORD)
+sudo mosquitto_passwd -c /etc/mosquitto/passwd mqttuser   # traži lozinku
+
+sudo systemctl restart mosquitto
+sudo ss -tlnp | grep -E ':1883|:8883'   # oba porta moraju da slušaju
+journalctl -u mosquitto -e               # proveri cert/permission greške
+----
+
+=== Provera sa hosta PRE flešovanja ESP-a
+
+[source,bash]
+----
+mosquitto_sub -h 192.168.1.10 -p 8883 --cafile ca.crt -u mqttuser -P mqttpass -t 'test/#' -v
+mosquitto_pub -h 192.168.1.10 -p 8883 --cafile ca.crt -u mqttuser -P mqttpass -t 'test/x' -m hi
+----
+
+Ako ovo prođe, TLS na brokeru radi — greške tražiš na hostu, ne na uređaju.
+
+== Home Assistant
+
+HA i Mosquitto su na istom RPi-ju. HA se povezuje na broker preko *plain 1883*
+(loopback `127.0.0.1`) sa istim `mqttuser/mqttpass` — TLS nije potreban za lokalni
+loopback.
+
+[source]
+----
+Settings → Devices & Services → MQTT → Configure
+  Broker:   127.0.0.1
+  Port:     1883
+  Username: mqttuser
+  Password: mqttpass
+----
+
+[TIP]
+.Zašto ovo radi za rad
+====
+Poruku koju esp2 objavi *enkriptovano* preko 8883, broker *dekriptuje* i isporuči
+je HA-u na 1883 *nepromenjenu* (i obrnuto). TLS postoji samo na deonici
+ESP32 ↔ broker; deonica broker ↔ HA je lokalni plaintext. Zato jedan broker + jedan
+HA opslužuju i esp1 (1883) i esp2 (8883) — a poređenje je pošteno.
+====
+
+[source]
+----
+   esp1  --plain 1883-->  \
+                            [ Mosquitto ]  --plain 1883-->  Home Assistant
+   esp2  --TLS  8883-->  /   (dekriptuje)
+----
+
+'''
+
+Sledeće: link:04-methodology.adoc[04 — Metodologija merenja →]
