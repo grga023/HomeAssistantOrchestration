@@ -1,0 +1,316 @@
+{
+  "communities": {
+    "0": [
+      "components_common_src_ha_discovery",
+      "components_common_src_ha_discovery_ha_publish_config",
+      "components_common_src_ha_discovery_ha_set_device",
+      "components_common_src_mqtt_wrap_mqtt_publish",
+      "components_common_src_mqtt_wrap_mqtt_subscribe",
+      "readme_esp1_lights",
+      "readme_mqtt_discovery",
+      "src_esp1_lights_src_lights",
+      "src_esp1_lights_src_lights_apply_relay",
+      "src_esp1_lights_src_lights_cmd_topic",
+      "src_esp1_lights_src_lights_lights_start",
+      "src_esp1_lights_src_lights_on_connect",
+      "src_esp1_lights_src_lights_on_message",
+      "src_esp1_lights_src_lights_state_topic",
+      "src_esp1_lights_src_main",
+      "src_esp1_lights_src_main_app_main",
+      "src_esp2_temperature_src_climate_on_connect"
+    ],
+    "1": [
+      "components_common_include_ota",
+      "components_common_src_mqtt_wrap_c_esp_event_base_t",
+      "components_common_src_mqtt_wrap_mqtt_event_handler",
+      "components_common_src_ota",
+      "components_common_src_ota_fetch_manifest",
+      "components_common_src_ota_installed_version",
+      "components_common_src_ota_ota_confirm_running_image",
+      "components_common_src_ota_ota_handle_message",
+      "components_common_src_ota_ota_on_connect",
+      "components_common_src_ota_ota_task",
+      "components_common_src_ota_publish_state",
+      "components_common_src_ota_start_ota",
+      "readme_document",
+      "readme_dual_ota_partitions",
+      "readme_ota_update",
+      "readme_rollback"
+    ],
+    "2": [
+      "components_common_src_mqtt_wrap_mqtt_is_connected",
+      "esp_err_t",
+      "gpio_num_t",
+      "readme_esp2_temperature",
+      "src_esp2_temperature_src_climate",
+      "src_esp2_temperature_src_climate_apply_heater",
+      "src_esp2_temperature_src_climate_climate_start",
+      "src_esp2_temperature_src_climate_on_message",
+      "src_esp2_temperature_src_climate_poll_task",
+      "src_esp2_temperature_src_dht22",
+      "src_esp2_temperature_src_dht22_dht22_read",
+      "src_esp2_temperature_src_dht22_wait_level",
+      "src_esp2_temperature_src_main",
+      "src_esp2_temperature_src_main_app_main"
+    ],
+    "3": [
+      "docs_measurement_plot_results",
+      "docs_measurement_plot_results_annotate_delta",
+      "docs_measurement_plot_results_bar2",
+      "docs_measurement_plot_results_fig_handshake",
+      "docs_measurement_plot_results_fig_heap",
+      "docs_measurement_plot_results_fig_packet",
+      "docs_measurement_plot_results_fig_rtt",
+      "docs_measurement_plot_results_load_results",
+      "docs_measurement_plot_results_main",
+      "docs_measurement_plot_results_rationale_72",
+      "docs_measurement_plot_results_style_axis"
+    ],
+    "4": [
+      "docs_measurement_fig_rtt",
+      "docs_measurement_rtt",
+      "docs_measurement_rtt_main",
+      "docs_measurement_rtt_make_client",
+      "docs_measurement_rtt_percentile",
+      "docs_measurement_rtt_rationale_38",
+      "docs_measurement_rtt_rttmeter",
+      "docs_measurement_rtt_rttmeter_init",
+      "docs_measurement_rtt_rttmeter_on_connect",
+      "docs_measurement_rtt_rttmeter_on_message"
+    ],
+    "5": [
+      "claude_document",
+      "components_common_src_mqtt_wrap",
+      "components_common_src_mqtt_wrap_mqtt_availability_topic",
+      "components_common_src_mqtt_wrap_mqtt_start",
+      "components_common_src_ota_ota_start",
+      "mqtt_conn_cb",
+      "mqtt_msg_cb",
+      "readme_last_will_availability"
+    ],
+    "6": [
+      "basetype_t",
+      "components_common_src_app_rtos",
+      "components_common_src_app_rtos_periodic_trampoline",
+      "components_common_src_app_rtos_rtos_every_ms",
+      "rtos_periodic_fn",
+      "taskhandle_t",
+      "ubasetype_t"
+    ],
+    "7": [
+      "docs_measurement_fig_handshake",
+      "docs_measurement_fig_heap",
+      "docs_measurement_fig_packet",
+      "docs_readme_document",
+      "readme_https_transport",
+      "readme_measurement_study"
+    ],
+    "8": [
+      "components_common_src_wifi_sta",
+      "components_common_src_wifi_sta_c_esp_event_base_t",
+      "components_common_src_wifi_sta_on_wifi_event",
+      "components_common_src_wifi_sta_wifi_sta_connected",
+      "components_common_src_wifi_sta_wifi_sta_start"
+    ],
+    "9": [
+      "gph_rebuild",
+      "gph_rebuild_main",
+      "gph_rebuild_rationale_1"
+    ],
+    "10": [
+      "docs_measurement_broker_gen_certs",
+      "docs_measurement_broker_gen_certs_sh__entry"
+    ],
+    "11": [
+      "components_common_include_app_rtos"
+    ],
+    "12": [
+      "components_common_include_ha_discovery"
+    ],
+    "13": [
+      "components_common_include_mqtt_wrap"
+    ],
+    "14": [
+      "components_common_include_secrets_example"
+    ],
+    "15": [
+      "components_common_include_wifi_sta"
+    ],
+    "16": [
+      "src_esp1_lights_include_lights"
+    ],
+    "17": [
+      "src_esp2_temperature_include_climate"
+    ],
+    "18": [
+      "src_esp2_temperature_include_dht22"
+    ]
+  },
+  "cohesion": {
+    "0": 0.22058823529411764,
+    "1": 0.26666666666666666,
+    "2": 0.2087912087912088,
+    "3": 0.4,
+    "4": 0.26666666666666666,
+    "5": 0.32142857142857145,
+    "6": 0.2857142857142857,
+    "7": 0.4666666666666667,
+    "8": 0.4,
+    "9": 0.6666666666666666,
+    "10": 1.0,
+    "11": 1.0,
+    "12": 1.0,
+    "13": 1.0,
+    "14": 1.0,
+    "15": 1.0,
+    "16": 1.0,
+    "17": 1.0,
+    "18": 1.0
+  },
+  "gods": [
+    {
+      "id": "readme_ota_update",
+      "label": "OTA firmware update",
+      "degree": 14
+    },
+    {
+      "id": "components_common_src_mqtt_wrap_mqtt_publish",
+      "label": "mqtt_publish()",
+      "degree": 9
+    },
+    {
+      "id": "readme_measurement_study",
+      "label": "plain-MQTT vs TLS measurement study",
+      "degree": 8
+    },
+    {
+      "id": "components_common_src_ha_discovery_ha_publish_config",
+      "label": "ha_publish_config()",
+      "degree": 7
+    },
+    {
+      "id": "components_common_src_mqtt_wrap_mqtt_start",
+      "label": "mqtt_start()",
+      "degree": 7
+    },
+    {
+      "id": "components_common_src_ota_ota_on_connect",
+      "label": "ota_on_connect()",
+      "degree": 7
+    },
+    {
+      "id": "docs_measurement_plot_results_bar2",
+      "label": "bar2()",
+      "degree": 7
+    },
+    {
+      "id": "src_esp2_temperature_src_climate_climate_start",
+      "label": "climate_start()",
+      "degree": 7
+    },
+    {
+      "id": "readme_https_transport",
+      "label": "esp_https_ota over HTTPS (CA bundle)",
+      "degree": 7
+    },
+    {
+      "id": "components_common_src_app_rtos_rtos_every_ms",
+      "label": "rtos_every_ms()",
+      "degree": 6
+    }
+  ],
+  "surprises": [
+    {
+      "source": "esp_https_ota over HTTPS (CA bundle)",
+      "target": "start_ota()",
+      "source_files": [
+        "README.md",
+        "components/common/src/ota.c"
+      ],
+      "confidence": "INFERRED",
+      "relation": "references",
+      "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "plain-MQTT vs TLS measurement study",
+      "target": "Fig: end-to-end command RTT",
+      "source_files": [
+        "README.md",
+        "docs/measurement/fig-rtt.png"
+      ],
+      "confidence": "INFERRED",
+      "relation": "references",
+      "why": "inferred connection - not explicitly stated in source; crosses file types (doc ↔ image); connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "Last Will availability",
+      "target": "mqtt_start()",
+      "source_files": [
+        "README.md",
+        "components/common/src/mqtt_wrap.c"
+      ],
+      "confidence": "INFERRED",
+      "relation": "references",
+      "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories"
+    },
+    {
+      "source": "OTA firmware update",
+      "target": "fetch_manifest()",
+      "source_files": [
+        "README.md",
+        "components/common/src/ota.c"
+      ],
+      "confidence": "INFERRED",
+      "relation": "references",
+      "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories"
+    },
+    {
+      "source": "OTA firmware update",
+      "target": "ota_start()",
+      "source_files": [
+        "README.md",
+        "components/common/src/ota.c"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `plain-MQTT vs TLS measurement study` connect `Community 7` to `Community 0`, `Community 1`, `Community 2`, `Community 4`?",
+      "why": "High betweenness centrality (0.272) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `climate_start()` connect `Community 2` to `Community 0`, `Community 8`, `Community 5`, `Community 6`?",
+      "why": "High betweenness centrality (0.167) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `Fig: end-to-end command RTT` connect `Community 4` to `Community 3`, `Community 7`?",
+      "why": "High betweenness centrality (0.160) - this node is a cross-community bridge."
+    },
+    {
+      "type": "verify_inferred",
+      "question": "Are the 3 inferred relationships involving `OTA firmware update` (e.g. with `ESP1 lights board` and `ota.h`) actually correct?",
+      "why": "`OTA firmware update` has 3 INFERRED edges - model-reasoned connections that need verification."
+    },
+    {
+      "type": "verify_inferred",
+      "question": "Are the 8 inferred relationships involving `mqtt_publish()` (e.g. with `ha_publish_config()` and `ota_task()`) actually correct?",
+      "why": "`mqtt_publish()` has 8 INFERRED edges - model-reasoned connections that need verification."
+    },
+    {
+      "type": "verify_inferred",
+      "question": "Are the 5 inferred relationships involving `plain-MQTT vs TLS measurement study` (e.g. with `docs/README.md (architecture diagrams)` and `Fig: connection time / TLS handshake`) actually correct?",
+      "why": "`plain-MQTT vs TLS measurement study` has 5 INFERRED edges - model-reasoned connections that need verification."
+    },
+    {
+      "type": "verify_inferred",
+      "question": "Are the 5 inferred relationships involving `ha_publish_config()` (e.g. with `mqtt_availability_topic()` and `mqtt_publish()`) actually correct?",
+      "why": "`ha_publish_config()` has 5 INFERRED edges - model-reasoned connections that need verification."
+    }
+  ]
+}

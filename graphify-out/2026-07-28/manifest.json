@@ -30,8 +30,8 @@
     "semantic_hash": ""
   },
   "components/common/include/secrets.example.h": {
-    "mtime": 1785259151.1456602,
-    "ast_hash": "33cd95ff772ebdedd516a359985dd4cb",
+    "mtime": 1784143908.1501105,
+    "ast_hash": "e9c0c7e91504a70cc67a41106f26a394",
     "semantic_hash": ""
   },
   "components/common/include/wifi_sta.h": {
@@ -40,28 +40,28 @@
     "semantic_hash": ""
   },
   "components/common/src/app_rtos.c": {
-    "mtime": 1785259226.210694,
-    "ast_hash": "13746f5b9ed286ebdc3c7bc517e8852e",
+    "mtime": 1784143992.9754996,
+    "ast_hash": "283ff02e2e69177cd054376e2b0d8ce2",
     "semantic_hash": ""
   },
   "components/common/src/ha_discovery.c": {
-    "mtime": 1785259155.480599,
-    "ast_hash": "aa5055411aa50ca4ff08fd51f9642eeb",
+    "mtime": 1785182138.9896667,
+    "ast_hash": "d7a1bcdeaf186b5791e10e136f5ad61e",
     "semantic_hash": ""
   },
   "components/common/src/mqtt_wrap.c": {
-    "mtime": 1785259241.3314965,
-    "ast_hash": "9a41f45a72f33281a53030ef309371a8",
+    "mtime": 1785182132.2973464,
+    "ast_hash": "d9c8d9e757f4a087e4a0bbf808b5ae1d",
     "semantic_hash": ""
   },
   "components/common/src/ota.c": {
-    "mtime": 1785259247.652502,
-    "ast_hash": "e8305413881948b9c2465bb9c337cbf9",
+    "mtime": 1785181516.8548062,
+    "ast_hash": "c9e4e6dda568b464d3e117dabd345d56",
     "semantic_hash": ""
   },
   "components/common/src/wifi_sta.c": {
-    "mtime": 1785259227.2836168,
-    "ast_hash": "29a0697f21df4789d09648672cc5dbe9",
+    "mtime": 1784143932.9861608,
+    "ast_hash": "911b411fb6960e699a7b679c4f597a57",
     "semantic_hash": ""
   },
   "docs/measurement/broker/gen-certs.sh": {
@@ -105,8 +105,8 @@
     "semantic_hash": ""
   },
   "src/esp2_temperature/src/climate.c": {
-    "mtime": 1785259202.5455837,
-    "ast_hash": "5117957c516bbb00d92f91726c2a5126",
+    "mtime": 1784144444.3644345,
+    "ast_hash": "2c6c7b5bbe3a9b10080cf8896528ea7f",
     "semantic_hash": ""
   },
   "src/esp2_temperature/src/dht22.c": {
@@ -125,8 +125,8 @@
     "semantic_hash": ""
   },
   "CLAUDE.md": {
-    "mtime": 1785260700.3069818,
-    "ast_hash": "ae06efb86215ab0973b302b6542d5f53",
+    "mtime": 1785191859.6180334,
+    "ast_hash": "57fc4b678a2e54615ddcafe989d7e734",
     "semantic_hash": ""
   },
   "CMakeLists.txt": {
@@ -135,13 +135,13 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1785261238.403453,
-    "ast_hash": "e4cfd0fb24e9542eac4a494b7e0843e6",
+    "mtime": 1785191828.854605,
+    "ast_hash": "f10f8e5a255bfa77299716c121cbd58f",
     "semantic_hash": ""
   },
   "components/common/CMakeLists.txt": {
-    "mtime": 1785260479.4889088,
-    "ast_hash": "47b7af7d6a52468401c347896f970fbd",
+    "mtime": 1785182128.68758,
+    "ast_hash": "213f2c957af29b0372dd64f99154f06b",
     "semantic_hash": ""
   },
   "docs/README.md": {
@@ -162,51 +162,6 @@
   "version.txt": {
     "mtime": 1785182126.65415,
     "ast_hash": "c9e47dbb0e1927076ed7b2e1ec157be7",
-    "semantic_hash": ""
-  },
-  ".claude/agents/README.md": {
-    "mtime": 1785260672.5016868,
-    "ast_hash": "3303f146912e1738849d64c85943077c",
-    "semantic_hash": ""
-  },
-  ".claude/agents/build-qa.md": {
-    "mtime": 1785260629.426799,
-    "ast_hash": "cc241b74650a72e65432440f13705cad",
-    "semantic_hash": ""
-  },
-  ".claude/agents/firmware-dev.md": {
-    "mtime": 1785260522.591666,
-    "ast_hash": "8a808db1ba91e991c85f4aae1c021ebd",
-    "semantic_hash": ""
-  },
-  ".claude/agents/integration-tester.md": {
-    "mtime": 1785260582.6382952,
-    "ast_hash": "45f9ba0605c4ec3dcd8b298aab701169",
-    "semantic_hash": ""
-  },
-  ".claude/agents/mqtt-ha-dev.md": {
-    "mtime": 1785260534.1606994,
-    "ast_hash": "7b91775622fbbd5730e7a057fbcf7c5b",
-    "semantic_hash": ""
-  },
-  ".claude/agents/ota-build-dev.md": {
-    "mtime": 1785260546.8863285,
-    "ast_hash": "57ae43789e1a462e425afb5011808b48",
-    "semantic_hash": ""
-  },
-  ".claude/agents/qa-reviewer.md": {
-    "mtime": 1785260609.7077813,
-    "ast_hash": "fe4e5bff4cac2bd4411c6f2408162df3",
-    "semantic_hash": ""
-  },
-  ".claude/agents/unit-tester.md": {
-    "mtime": 1785260567.7341113,
-    "ast_hash": "81bb2fe15156acd5f62d951bda7b2c6b",
-    "semantic_hash": ""
-  },
-  "components/common/certs/README.md": {
-    "mtime": 1785259204.865717,
-    "ast_hash": "7c5b247c31644a50f33af8a2d3b4a8e3",
     "semantic_hash": ""
   }
 }

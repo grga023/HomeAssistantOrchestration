@@ -1,0 +1,22 @@
+{
+  "0": "mqtt_publish",
+  "1": "OTA firmware update",
+  "2": "climate_start",
+  "3": "plot_results.py",
+  "4": "rtt.py",
+  "5": "mqtt_wrap.c",
+  "6": "rtos_every_ms",
+  "7": "HomeAssistantOrchestration — Dokumentacija implementacije",
+  "8": "wifi_sta.c",
+  "9": "7. Implementacija OTA ažuriranja (glavni doprinos)",
+  "10": "gen-certs.sh",
+  "11": "app_rtos.h",
+  "12": "ha_discovery.h",
+  "13": "mqtt_wrap.h",
+  "14": "secrets.example.h",
+  "15": "wifi_sta.h",
+  "16": "lights.h",
+  "17": "climate.h",
+  "18": "dht22.h",
+  "19": "esp_event_base_t"
+}

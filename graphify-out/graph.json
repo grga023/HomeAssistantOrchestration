@@ -4,15 +4,565 @@
   "graph": {},
   "nodes": [
     {
-      "label": "ota.h",
-      "file_type": "code",
-      "source_file": "components/common/include/ota.h",
+      "label": "agents/README.md",
+      "file_type": "document",
+      "source_file": ".claude/agents/README.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "components_common_include_ota",
-      "community": 1,
-      "community_name": "OTA firmware update",
-      "norm_label": "ota.h"
+      "id": "claude_agents_readme",
+      "community": 19,
+      "community_name": "Embedded agent team \u2014 HomeAssistantOrchestration",
+      "norm_label": "agents/readme.md"
+    },
+    {
+      "label": "Embedded agent team \u2014 HomeAssistantOrchestration",
+      "file_type": "document",
+      "source_file": ".claude/agents/README.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "claude_agents_readme_embedded_agent_team_homeassistantorchestration",
+      "community": 19,
+      "community_name": "Embedded agent team \u2014 HomeAssistantOrchestration",
+      "norm_label": "embedded agent team \u2014 homeassistantorchestration"
+    },
+    {
+      "label": "Roster",
+      "file_type": "document",
+      "source_file": ".claude/agents/README.md",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "claude_agents_readme_roster",
+      "community": 19,
+      "community_name": "Embedded agent team \u2014 HomeAssistantOrchestration",
+      "norm_label": "roster"
+    },
+    {
+      "label": "How to run the team",
+      "file_type": "document",
+      "source_file": ".claude/agents/README.md",
+      "source_location": "L23",
+      "_origin": "ast",
+      "id": "claude_agents_readme_how_to_run_the_team",
+      "community": 19,
+      "community_name": "Embedded agent team \u2014 HomeAssistantOrchestration",
+      "norm_label": "how to run the team"
+    },
+    {
+      "label": "Invocation examples (things to say to the lead)",
+      "file_type": "document",
+      "source_file": ".claude/agents/README.md",
+      "source_location": "L38",
+      "_origin": "ast",
+      "id": "claude_agents_readme_invocation_examples_things_to_say_to_the_lead",
+      "community": 19,
+      "community_name": "Embedded agent team \u2014 HomeAssistantOrchestration",
+      "norm_label": "invocation examples (things to say to the lead)"
+    },
+    {
+      "label": "Notes",
+      "file_type": "document",
+      "source_file": ".claude/agents/README.md",
+      "source_location": "L48",
+      "_origin": "ast",
+      "id": "claude_agents_readme_notes",
+      "community": 19,
+      "community_name": "Embedded agent team \u2014 HomeAssistantOrchestration",
+      "norm_label": "notes"
+    },
+    {
+      "label": "build-qa.md",
+      "file_type": "document",
+      "source_file": ".claude/agents/build-qa.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "claude_agents_build_qa",
+      "community": 24,
+      "community_name": "build-qa.md",
+      "norm_label": "build-qa.md"
+    },
+    {
+      "label": "Environments",
+      "file_type": "document",
+      "source_file": ".claude/agents/build-qa.md",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "claude_agents_build_qa_environments",
+      "community": 24,
+      "community_name": "build-qa.md",
+      "norm_label": "environments"
+    },
+    {
+      "label": "Procedure",
+      "file_type": "document",
+      "source_file": ".claude/agents/build-qa.md",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "claude_agents_build_qa_procedure",
+      "community": 24,
+      "community_name": "build-qa.md",
+      "norm_label": "procedure"
+    },
+    {
+      "label": "Output",
+      "file_type": "document",
+      "source_file": ".claude/agents/build-qa.md",
+      "source_location": "L38",
+      "_origin": "ast",
+      "id": "claude_agents_build_qa_output",
+      "community": 24,
+      "community_name": "build-qa.md",
+      "norm_label": "output"
+    },
+    {
+      "label": "firmware-dev.md",
+      "file_type": "document",
+      "source_file": ".claude/agents/firmware-dev.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "claude_agents_firmware_dev",
+      "community": 21,
+      "community_name": "firmware-dev.md",
+      "norm_label": "firmware-dev.md"
+    },
+    {
+      "label": "What you own",
+      "file_type": "document",
+      "source_file": ".claude/agents/firmware-dev.md",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "claude_agents_firmware_dev_what_you_own",
+      "community": 21,
+      "community_name": "firmware-dev.md",
+      "norm_label": "what you own"
+    },
+    {
+      "label": "Non-negotiable rules for this codebase",
+      "file_type": "document",
+      "source_file": ".claude/agents/firmware-dev.md",
+      "source_location": "L21",
+      "_origin": "ast",
+      "id": "claude_agents_firmware_dev_non_negotiable_rules_for_this_codebase",
+      "community": 21,
+      "community_name": "firmware-dev.md",
+      "norm_label": "non-negotiable rules for this codebase"
+    },
+    {
+      "label": "Adding a new HA entity (do all three in the board module)",
+      "file_type": "document",
+      "source_file": ".claude/agents/firmware-dev.md",
+      "source_location": "L37",
+      "_origin": "ast",
+      "id": "claude_agents_firmware_dev_adding_a_new_ha_entity_do_all_three_in_the_board_module",
+      "community": 21,
+      "community_name": "firmware-dev.md",
+      "norm_label": "adding a new ha entity (do all three in the board module)"
+    },
+    {
+      "label": "How you work",
+      "file_type": "document",
+      "source_file": ".claude/agents/firmware-dev.md",
+      "source_location": "L42",
+      "_origin": "ast",
+      "id": "claude_agents_firmware_dev_how_you_work",
+      "community": 21,
+      "community_name": "firmware-dev.md",
+      "norm_label": "how you work"
+    },
+    {
+      "label": "integration-tester.md",
+      "file_type": "document",
+      "source_file": ".claude/agents/integration-tester.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "claude_agents_integration_tester",
+      "community": 25,
+      "community_name": "integration-tester.md",
+      "norm_label": "integration-tester.md"
+    },
+    {
+      "label": "Scope",
+      "file_type": "document",
+      "source_file": ".claude/agents/integration-tester.md",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "claude_agents_integration_tester_scope",
+      "community": 25,
+      "community_name": "integration-tester.md",
+      "norm_label": "scope"
+    },
+    {
+      "label": "What to verify",
+      "file_type": "document",
+      "source_file": ".claude/agents/integration-tester.md",
+      "source_location": "L21",
+      "_origin": "ast",
+      "id": "claude_agents_integration_tester_what_to_verify",
+      "community": 25,
+      "community_name": "integration-tester.md",
+      "norm_label": "what to verify"
+    },
+    {
+      "label": "How you work",
+      "file_type": "document",
+      "source_file": ".claude/agents/integration-tester.md",
+      "source_location": "L36",
+      "_origin": "ast",
+      "id": "claude_agents_integration_tester_how_you_work",
+      "community": 25,
+      "community_name": "integration-tester.md",
+      "norm_label": "how you work"
+    },
+    {
+      "label": "mqtt-ha-dev.md",
+      "file_type": "document",
+      "source_file": ".claude/agents/mqtt-ha-dev.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "claude_agents_mqtt_ha_dev",
+      "community": 9,
+      "community_name": "mqtt-ha-dev.md",
+      "norm_label": "mqtt-ha-dev.md"
+    },
+    {
+      "label": "What you own",
+      "file_type": "document",
+      "source_file": ".claude/agents/mqtt-ha-dev.md",
+      "source_location": "L14",
+      "_origin": "ast",
+      "id": "claude_agents_mqtt_ha_dev_what_you_own",
+      "community": 9,
+      "community_name": "mqtt-ha-dev.md",
+      "norm_label": "what you own"
+    },
+    {
+      "label": "Contracts you must preserve",
+      "file_type": "document",
+      "source_file": ".claude/agents/mqtt-ha-dev.md",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "claude_agents_mqtt_ha_dev_contracts_you_must_preserve",
+      "community": 9,
+      "community_name": "mqtt-ha-dev.md",
+      "norm_label": "contracts you must preserve"
+    },
+    {
+      "label": "Topic conventions (keep consistent)",
+      "file_type": "document",
+      "source_file": ".claude/agents/mqtt-ha-dev.md",
+      "source_location": "L34",
+      "_origin": "ast",
+      "id": "claude_agents_mqtt_ha_dev_topic_conventions_keep_consistent",
+      "community": 9,
+      "community_name": "mqtt-ha-dev.md",
+      "norm_label": "topic conventions (keep consistent)"
+    },
+    {
+      "label": "Rules",
+      "file_type": "document",
+      "source_file": ".claude/agents/mqtt-ha-dev.md",
+      "source_location": "L40",
+      "_origin": "ast",
+      "id": "claude_agents_mqtt_ha_dev_rules",
+      "community": 9,
+      "community_name": "mqtt-ha-dev.md",
+      "norm_label": "rules"
+    },
+    {
+      "label": "How you work",
+      "file_type": "document",
+      "source_file": ".claude/agents/mqtt-ha-dev.md",
+      "source_location": "L47",
+      "_origin": "ast",
+      "id": "claude_agents_mqtt_ha_dev_how_you_work",
+      "community": 9,
+      "community_name": "mqtt-ha-dev.md",
+      "norm_label": "how you work"
+    },
+    {
+      "label": "ota-build-dev.md",
+      "file_type": "document",
+      "source_file": ".claude/agents/ota-build-dev.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "claude_agents_ota_build_dev",
+      "community": 22,
+      "community_name": "ota-build-dev.md",
+      "norm_label": "ota-build-dev.md"
+    },
+    {
+      "label": "What you own",
+      "file_type": "document",
+      "source_file": ".claude/agents/ota-build-dev.md",
+      "source_location": "L14",
+      "_origin": "ast",
+      "id": "claude_agents_ota_build_dev_what_you_own",
+      "community": 22,
+      "community_name": "ota-build-dev.md",
+      "norm_label": "what you own"
+    },
+    {
+      "label": "Build-system model (important, non-obvious)",
+      "file_type": "document",
+      "source_file": ".claude/agents/ota-build-dev.md",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "claude_agents_ota_build_dev_build_system_model_important_non_obvious",
+      "community": 22,
+      "community_name": "ota-build-dev.md",
+      "norm_label": "build-system model (important, non-obvious)"
+    },
+    {
+      "label": "OTA model",
+      "file_type": "document",
+      "source_file": ".claude/agents/ota-build-dev.md",
+      "source_location": "L34",
+      "_origin": "ast",
+      "id": "claude_agents_ota_build_dev_ota_model",
+      "community": 22,
+      "community_name": "ota-build-dev.md",
+      "norm_label": "ota model"
+    },
+    {
+      "label": "Rules",
+      "file_type": "document",
+      "source_file": ".claude/agents/ota-build-dev.md",
+      "source_location": "L46",
+      "_origin": "ast",
+      "id": "claude_agents_ota_build_dev_rules",
+      "community": 22,
+      "community_name": "ota-build-dev.md",
+      "norm_label": "rules"
+    },
+    {
+      "label": "qa-reviewer.md",
+      "file_type": "document",
+      "source_file": ".claude/agents/qa-reviewer.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "claude_agents_qa_reviewer",
+      "community": 26,
+      "community_name": "qa-reviewer.md",
+      "norm_label": "qa-reviewer.md"
+    },
+    {
+      "label": "Project-specific checklist (highest signal)",
+      "file_type": "document",
+      "source_file": ".claude/agents/qa-reviewer.md",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "claude_agents_qa_reviewer_project_specific_checklist_highest_signal",
+      "community": 26,
+      "community_name": "qa-reviewer.md",
+      "norm_label": "project-specific checklist (highest signal)"
+    },
+    {
+      "label": "General embedded-C review",
+      "file_type": "document",
+      "source_file": ".claude/agents/qa-reviewer.md",
+      "source_location": "L34",
+      "_origin": "ast",
+      "id": "claude_agents_qa_reviewer_general_embedded_c_review",
+      "community": 26,
+      "community_name": "qa-reviewer.md",
+      "norm_label": "general embedded-c review"
+    },
+    {
+      "label": "Output",
+      "file_type": "document",
+      "source_file": ".claude/agents/qa-reviewer.md",
+      "source_location": "L39",
+      "_origin": "ast",
+      "id": "claude_agents_qa_reviewer_output",
+      "community": 26,
+      "community_name": "qa-reviewer.md",
+      "norm_label": "output"
+    },
+    {
+      "label": "unit-tester.md",
+      "file_type": "document",
+      "source_file": ".claude/agents/unit-tester.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "claude_agents_unit_tester",
+      "community": 27,
+      "community_name": "unit-tester.md",
+      "norm_label": "unit-tester.md"
+    },
+    {
+      "label": "Current state",
+      "file_type": "document",
+      "source_file": ".claude/agents/unit-tester.md",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "claude_agents_unit_tester_current_state",
+      "community": 27,
+      "community_name": "unit-tester.md",
+      "norm_label": "current state"
+    },
+    {
+      "label": "What to test (highest value first)",
+      "file_type": "document",
+      "source_file": ".claude/agents/unit-tester.md",
+      "source_location": "L21",
+      "_origin": "ast",
+      "id": "claude_agents_unit_tester_what_to_test_highest_value_first",
+      "community": 27,
+      "community_name": "unit-tester.md",
+      "norm_label": "what to test (highest value first)"
+    },
+    {
+      "label": "How you work",
+      "file_type": "document",
+      "source_file": ".claude/agents/unit-tester.md",
+      "source_location": "L31",
+      "_origin": "ast",
+      "id": "claude_agents_unit_tester_how_you_work",
+      "community": 27,
+      "community_name": "unit-tester.md",
+      "norm_label": "how you work"
+    },
+    {
+      "label": "certs/README.md",
+      "file_type": "document",
+      "source_file": "components/common/certs/README.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_common_certs_readme",
+      "community": 23,
+      "community_name": "certs/ \u2014 privatni CA za verifikaciju Mosquitto brokera",
+      "norm_label": "certs/readme.md"
+    },
+    {
+      "label": "certs/ \u2014 privatni CA za verifikaciju Mosquitto brokera",
+      "file_type": "document",
+      "source_file": "components/common/certs/README.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_common_certs_readme_certs_privatni_ca_za_verifikaciju_mosquitto_brokera",
+      "community": 23,
+      "community_name": "certs/ \u2014 privatni CA za verifikaciju Mosquitto brokera",
+      "norm_label": "certs/ \u2014 privatni ca za verifikaciju mosquitto brokera"
+    },
+    {
+      "label": "`ca.crt`",
+      "file_type": "document",
+      "source_file": "components/common/certs/README.md",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "components_common_certs_readme_ca_crt",
+      "community": 23,
+      "community_name": "certs/ \u2014 privatni CA za verifikaciju Mosquitto brokera",
+      "norm_label": "`ca.crt`"
+    },
+    {
+      "label": "\u0160ta se commit-uje",
+      "file_type": "document",
+      "source_file": "components/common/certs/README.md",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "components_common_certs_readme_\u0161ta_se_commit_uje",
+      "community": 23,
+      "community_name": "certs/ \u2014 privatni CA za verifikaciju Mosquitto brokera",
+      "norm_label": "sta se commit-uje"
+    },
+    {
+      "label": "Za\u0161to ime mora ostati `ca.crt`",
+      "file_type": "document",
+      "source_file": "components/common/certs/README.md",
+      "source_location": "L21",
+      "_origin": "ast",
+      "id": "components_common_certs_readme_za\u0161to_ime_mora_ostati_ca_crt",
+      "community": 23,
+      "community_name": "certs/ \u2014 privatni CA za verifikaciju Mosquitto brokera",
+      "norm_label": "zasto ime mora ostati `ca.crt`"
+    },
+    {
+      "label": "secrets.example.h",
+      "file_type": "code",
+      "source_file": "components/common/include/secrets.example.h",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_common_include_secrets_example",
+      "community": 14,
+      "community_name": "secrets.example.h",
+      "norm_label": "secrets.example.h"
+    },
+    {
+      "label": "app_rtos.c",
+      "file_type": "code",
+      "source_file": "components/common/src/app_rtos.c",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_common_src_app_rtos",
+      "community": 6,
+      "community_name": "rtos_every_ms",
+      "norm_label": "app_rtos.c"
+    },
+    {
+      "label": "periodic_trampoline()",
+      "file_type": "code",
+      "source_file": "components/common/src/app_rtos.c",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "components_common_src_app_rtos_periodic_trampoline",
+      "community": 6,
+      "community_name": "rtos_every_ms",
+      "norm_label": "periodic_trampoline()"
+    },
+    {
+      "label": "rtos_every_ms()",
+      "file_type": "code",
+      "source_file": "components/common/src/app_rtos.c",
+      "source_location": "L25",
+      "_origin": "ast",
+      "id": "components_common_src_app_rtos_rtos_every_ms",
+      "community": 6,
+      "community_name": "rtos_every_ms",
+      "norm_label": "rtos_every_ms()"
+    },
+    {
+      "label": "TaskHandle_t",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "taskhandle_t",
+      "community": 6,
+      "community_name": "rtos_every_ms",
+      "norm_label": "taskhandle_t"
+    },
+    {
+      "label": "rtos_periodic_fn",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "rtos_periodic_fn",
+      "community": 6,
+      "community_name": "rtos_every_ms",
+      "norm_label": "rtos_periodic_fn"
+    },
+    {
+      "label": "UBaseType_t",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "ubasetype_t",
+      "community": 6,
+      "community_name": "rtos_every_ms",
+      "norm_label": "ubasetype_t"
+    },
+    {
+      "label": "BaseType_t",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "basetype_t",
+      "community": 6,
+      "community_name": "rtos_every_ms",
+      "norm_label": "basetype_t"
     },
     {
       "label": "ha_discovery.c",
@@ -22,7 +572,7 @@
       "_origin": "ast",
       "id": "components_common_src_ha_discovery",
       "community": 0,
-      "community_name": "mqtt_publish",
+      "community_name": "ha_publish_config",
       "norm_label": "ha_discovery.c"
     },
     {
@@ -33,7 +583,7 @@
       "_origin": "ast",
       "id": "components_common_src_ha_discovery_ha_set_device",
       "community": 0,
-      "community_name": "mqtt_publish",
+      "community_name": "ha_publish_config",
       "norm_label": "ha_set_device()"
     },
     {
@@ -44,7 +594,7 @@
       "_origin": "ast",
       "id": "components_common_src_ha_discovery_ha_publish_config",
       "community": 0,
-      "community_name": "mqtt_publish",
+      "community_name": "ha_publish_config",
       "norm_label": "ha_publish_config()"
     },
     {
@@ -59,14 +609,58 @@
       "norm_label": "mqtt_wrap.c"
     },
     {
+      "label": "meas_heap()",
+      "file_type": "code",
+      "source_file": "components/common/src/mqtt_wrap.c",
+      "source_location": "L40",
+      "_origin": "ast",
+      "id": "components_common_src_mqtt_wrap_meas_heap",
+      "community": 5,
+      "community_name": "mqtt_wrap.c",
+      "norm_label": "meas_heap()"
+    },
+    {
+      "label": "meas_time()",
+      "file_type": "code",
+      "source_file": "components/common/src/mqtt_wrap.c",
+      "source_location": "L48",
+      "_origin": "ast",
+      "id": "components_common_src_mqtt_wrap_meas_time",
+      "community": 5,
+      "community_name": "mqtt_wrap.c",
+      "norm_label": "meas_time()"
+    },
+    {
+      "label": "meas_tlscfg()",
+      "file_type": "code",
+      "source_file": "components/common/src/mqtt_wrap.c",
+      "source_location": "L52",
+      "_origin": "ast",
+      "id": "components_common_src_mqtt_wrap_meas_tlscfg",
+      "community": 5,
+      "community_name": "mqtt_wrap.c",
+      "norm_label": "meas_tlscfg()"
+    },
+    {
+      "label": "lowwater_cb()",
+      "file_type": "code",
+      "source_file": "components/common/src/mqtt_wrap.c",
+      "source_location": "L67",
+      "_origin": "ast",
+      "id": "components_common_src_mqtt_wrap_lowwater_cb",
+      "community": 5,
+      "community_name": "mqtt_wrap.c",
+      "norm_label": "lowwater_cb()"
+    },
+    {
       "label": "mqtt_event_handler()",
       "file_type": "code",
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L18",
+      "source_location": "L72",
       "_origin": "ast",
       "id": "components_common_src_mqtt_wrap_mqtt_event_handler",
-      "community": 1,
-      "community_name": "OTA firmware update",
+      "community": 5,
+      "community_name": "mqtt_wrap.c",
       "norm_label": "mqtt_event_handler()"
     },
     {
@@ -75,16 +669,16 @@
       "source_file": "",
       "source_location": "",
       "_origin": "ast",
-      "id": "esp_event_base_t",
-      "community": 1,
-      "community_name": "OTA firmware update",
+      "id": "components_common_src_mqtt_wrap_c_esp_event_base_t",
+      "community": 5,
+      "community_name": "mqtt_wrap.c",
       "norm_label": "esp_event_base_t"
     },
     {
       "label": "mqtt_start()",
       "file_type": "code",
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L53",
+      "source_location": "L125",
       "_origin": "ast",
       "id": "components_common_src_mqtt_wrap_mqtt_start",
       "community": 5,
@@ -117,29 +711,29 @@
       "label": "mqtt_publish()",
       "file_type": "code",
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L76",
+      "source_location": "L169",
       "_origin": "ast",
       "id": "components_common_src_mqtt_wrap_mqtt_publish",
-      "community": 0,
-      "community_name": "mqtt_publish",
+      "community": 1,
+      "community_name": "ota.c",
       "norm_label": "mqtt_publish()"
     },
     {
       "label": "mqtt_subscribe()",
       "file_type": "code",
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L80",
+      "source_location": "L173",
       "_origin": "ast",
       "id": "components_common_src_mqtt_wrap_mqtt_subscribe",
       "community": 0,
-      "community_name": "mqtt_publish",
+      "community_name": "ha_publish_config",
       "norm_label": "mqtt_subscribe()"
     },
     {
       "label": "mqtt_is_connected()",
       "file_type": "code",
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L84",
+      "source_location": "L178",
       "_origin": "ast",
       "id": "components_common_src_mqtt_wrap_mqtt_is_connected",
       "community": 2,
@@ -150,7 +744,7 @@
       "label": "mqtt_availability_topic()",
       "file_type": "code",
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L88",
+      "source_location": "L182",
       "_origin": "ast",
       "id": "components_common_src_mqtt_wrap_mqtt_availability_topic",
       "community": 5,
@@ -165,7 +759,7 @@
       "_origin": "ast",
       "id": "components_common_src_ota",
       "community": 1,
-      "community_name": "OTA firmware update",
+      "community_name": "ota.c",
       "norm_label": "ota.c"
     },
     {
@@ -176,7 +770,7 @@
       "_origin": "ast",
       "id": "components_common_src_ota_installed_version",
       "community": 1,
-      "community_name": "OTA firmware update",
+      "community_name": "ota.c",
       "norm_label": "installed_version()"
     },
     {
@@ -187,85 +781,261 @@
       "_origin": "ast",
       "id": "components_common_src_ota_publish_state",
       "community": 1,
-      "community_name": "OTA firmware update",
+      "community_name": "ota.c",
       "norm_label": "publish_state()"
+    },
+    {
+      "label": "publish_error()",
+      "file_type": "code",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L52",
+      "_origin": "ast",
+      "id": "components_common_src_ota_publish_error",
+      "community": 1,
+      "community_name": "ota.c",
+      "norm_label": "publish_error()"
+    },
+    {
+      "label": "url_is_trusted()",
+      "file_type": "code",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L66",
+      "_origin": "ast",
+      "id": "components_common_src_ota_url_is_trusted",
+      "community": 1,
+      "community_name": "ota.c",
+      "norm_label": "url_is_trusted()"
     },
     {
       "label": "fetch_manifest()",
       "file_type": "code",
       "source_file": "components/common/src/ota.c",
-      "source_location": "L52",
+      "source_location": "L72",
       "_origin": "ast",
       "id": "components_common_src_ota_fetch_manifest",
       "community": 1,
-      "community_name": "OTA firmware update",
+      "community_name": "ota.c",
       "norm_label": "fetch_manifest()"
     },
     {
       "label": "ota_task()",
       "file_type": "code",
       "source_file": "components/common/src/ota.c",
-      "source_location": "L115",
+      "source_location": "L135",
       "_origin": "ast",
       "id": "components_common_src_ota_ota_task",
       "community": 1,
-      "community_name": "OTA firmware update",
+      "community_name": "ota.c",
       "norm_label": "ota_task()"
     },
     {
       "label": "start_ota()",
       "file_type": "code",
       "source_file": "components/common/src/ota.c",
-      "source_location": "L150",
+      "source_location": "L170",
       "_origin": "ast",
       "id": "components_common_src_ota_start_ota",
       "community": 1,
-      "community_name": "OTA firmware update",
+      "community_name": "ota.c",
       "norm_label": "start_ota()"
     },
     {
       "label": "ota_start()",
       "file_type": "code",
       "source_file": "components/common/src/ota.c",
-      "source_location": "L168",
+      "source_location": "L193",
       "_origin": "ast",
       "id": "components_common_src_ota_ota_start",
       "community": 1,
-      "community_name": "OTA firmware update",
+      "community_name": "ota.c",
       "norm_label": "ota_start()"
     },
     {
       "label": "ota_on_connect()",
       "file_type": "code",
       "source_file": "components/common/src/ota.c",
-      "source_location": "L175",
+      "source_location": "L200",
       "_origin": "ast",
       "id": "components_common_src_ota_ota_on_connect",
       "community": 1,
-      "community_name": "OTA firmware update",
+      "community_name": "ota.c",
       "norm_label": "ota_on_connect()"
     },
     {
       "label": "ota_handle_message()",
       "file_type": "code",
       "source_file": "components/common/src/ota.c",
-      "source_location": "L195",
+      "source_location": "L220",
       "_origin": "ast",
       "id": "components_common_src_ota_ota_handle_message",
       "community": 1,
-      "community_name": "OTA firmware update",
+      "community_name": "ota.c",
       "norm_label": "ota_handle_message()"
     },
     {
       "label": "ota_confirm_running_image()",
       "file_type": "code",
       "source_file": "components/common/src/ota.c",
-      "source_location": "L220",
+      "source_location": "L248",
       "_origin": "ast",
       "id": "components_common_src_ota_ota_confirm_running_image",
       "community": 1,
-      "community_name": "OTA firmware update",
+      "community_name": "ota.c",
       "norm_label": "ota_confirm_running_image()"
+    },
+    {
+      "label": "wifi_sta.c",
+      "file_type": "code",
+      "source_file": "components/common/src/wifi_sta.c",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_common_src_wifi_sta",
+      "community": 8,
+      "community_name": "wifi_sta.c",
+      "norm_label": "wifi_sta.c"
+    },
+    {
+      "label": "on_reconnect_timer()",
+      "file_type": "code",
+      "source_file": "components/common/src/wifi_sta.c",
+      "source_location": "L28",
+      "_origin": "ast",
+      "id": "components_common_src_wifi_sta_on_reconnect_timer",
+      "community": 8,
+      "community_name": "wifi_sta.c",
+      "norm_label": "on_reconnect_timer()"
+    },
+    {
+      "label": "on_wifi_event()",
+      "file_type": "code",
+      "source_file": "components/common/src/wifi_sta.c",
+      "source_location": "L32",
+      "_origin": "ast",
+      "id": "components_common_src_wifi_sta_on_wifi_event",
+      "community": 8,
+      "community_name": "wifi_sta.c",
+      "norm_label": "on_wifi_event()"
+    },
+    {
+      "label": "esp_event_base_t",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "components_common_src_wifi_sta_c_esp_event_base_t",
+      "community": 8,
+      "community_name": "wifi_sta.c",
+      "norm_label": "esp_event_base_t"
+    },
+    {
+      "label": "wifi_sta_start()",
+      "file_type": "code",
+      "source_file": "components/common/src/wifi_sta.c",
+      "source_location": "L56",
+      "_origin": "ast",
+      "id": "components_common_src_wifi_sta_wifi_sta_start",
+      "community": 8,
+      "community_name": "wifi_sta.c",
+      "norm_label": "wifi_sta_start()"
+    },
+    {
+      "label": "wifi_sta_connected()",
+      "file_type": "code",
+      "source_file": "components/common/src/wifi_sta.c",
+      "source_location": "L102",
+      "_origin": "ast",
+      "id": "components_common_src_wifi_sta_wifi_sta_connected",
+      "community": 8,
+      "community_name": "wifi_sta.c",
+      "norm_label": "wifi_sta_connected()"
+    },
+    {
+      "label": "climate.c",
+      "file_type": "code",
+      "source_file": "src/esp2_temperature/src/climate.c",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_esp2_temperature_src_climate",
+      "community": 2,
+      "community_name": "climate_start",
+      "norm_label": "climate.c"
+    },
+    {
+      "label": "apply_heater()",
+      "file_type": "code",
+      "source_file": "src/esp2_temperature/src/climate.c",
+      "source_location": "L28",
+      "_origin": "ast",
+      "id": "src_esp2_temperature_src_climate_apply_heater",
+      "community": 2,
+      "community_name": "climate_start",
+      "norm_label": "apply_heater()"
+    },
+    {
+      "label": "poll_task()",
+      "file_type": "code",
+      "source_file": "src/esp2_temperature/src/climate.c",
+      "source_location": "L34",
+      "_origin": "ast",
+      "id": "src_esp2_temperature_src_climate_poll_task",
+      "community": 2,
+      "community_name": "climate_start",
+      "norm_label": "poll_task()"
+    },
+    {
+      "label": "on_message()",
+      "file_type": "code",
+      "source_file": "src/esp2_temperature/src/climate.c",
+      "source_location": "L61",
+      "_origin": "ast",
+      "id": "src_esp2_temperature_src_climate_on_message",
+      "community": 2,
+      "community_name": "climate_start",
+      "norm_label": "on_message()"
+    },
+    {
+      "label": "on_connect()",
+      "file_type": "code",
+      "source_file": "src/esp2_temperature/src/climate.c",
+      "source_location": "L67",
+      "_origin": "ast",
+      "id": "src_esp2_temperature_src_climate_on_connect",
+      "community": 0,
+      "community_name": "ha_publish_config",
+      "norm_label": "on_connect()"
+    },
+    {
+      "label": "climate_start()",
+      "file_type": "code",
+      "source_file": "src/esp2_temperature/src/climate.c",
+      "source_location": "L91",
+      "_origin": "ast",
+      "id": "src_esp2_temperature_src_climate_climate_start",
+      "community": 2,
+      "community_name": "climate_start",
+      "norm_label": "climate_start()"
+    },
+    {
+      "label": "ota.h",
+      "file_type": "code",
+      "source_file": "components/common/include/ota.h",
+      "source_location": "L1",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "ota.c",
+      "norm_label": "ota.h",
+      "id": "components_common_include_ota"
+    },
+    {
+      "label": "esp_event_base_t",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "community": 28,
+      "community_name": "esp_event_base_t",
+      "norm_label": "esp_event_base_t",
+      "id": "esp_event_base_t"
     },
     {
       "label": "dokumentacija-implementacije.md",
@@ -273,10 +1043,10 @@
       "source_file": "docs/dokumentacija-implementacije.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "docs_dokumentacija_implementacije",
       "community": 7,
       "community_name": "HomeAssistantOrchestration \u2014 Dokumentacija implementacije",
-      "norm_label": "dokumentacija-implementacije.md"
+      "norm_label": "dokumentacija-implementacije.md",
+      "id": "docs_dokumentacija_implementacije"
     },
     {
       "label": "HomeAssistantOrchestration \u2014 Dokumentacija implementacije",
@@ -284,10 +1054,10 @@
       "source_file": "docs/dokumentacija-implementacije.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "docs_dokumentacija_implementacije_homeassistantorchestration_dokumentacija_implementacije",
       "community": 7,
       "community_name": "HomeAssistantOrchestration \u2014 Dokumentacija implementacije",
-      "norm_label": "homeassistantorchestration \u2014 dokumentacija implementacije"
+      "norm_label": "homeassistantorchestration \u2014 dokumentacija implementacije",
+      "id": "docs_dokumentacija_implementacije_homeassistantorchestration_dokumentacija_implementacije"
     },
     {
       "label": "1. Uvod i cilj sistema",
@@ -295,10 +1065,10 @@
       "source_file": "docs/dokumentacija-implementacije.md",
       "source_location": "L12",
       "_origin": "ast",
-      "id": "docs_dokumentacija_implementacije_1_uvod_i_cilj_sistema",
       "community": 7,
       "community_name": "HomeAssistantOrchestration \u2014 Dokumentacija implementacije",
-      "norm_label": "1. uvod i cilj sistema"
+      "norm_label": "1. uvod i cilj sistema",
+      "id": "docs_dokumentacija_implementacije_1_uvod_i_cilj_sistema"
     },
     {
       "label": "2. Pregled arhitekture",
@@ -306,10 +1076,10 @@
       "source_file": "docs/dokumentacija-implementacije.md",
       "source_location": "L36",
       "_origin": "ast",
-      "id": "docs_dokumentacija_implementacije_2_pregled_arhitekture",
       "community": 7,
       "community_name": "HomeAssistantOrchestration \u2014 Dokumentacija implementacije",
-      "norm_label": "2. pregled arhitekture"
+      "norm_label": "2. pregled arhitekture",
+      "id": "docs_dokumentacija_implementacije_2_pregled_arhitekture"
     },
     {
       "label": "2.1 Topologija sistema",
@@ -317,10 +1087,10 @@
       "source_file": "docs/dokumentacija-implementacije.md",
       "source_location": "L38",
       "_origin": "ast",
-      "id": "docs_dokumentacija_implementacije_2_1_topologija_sistema",
       "community": 7,
       "community_name": "HomeAssistantOrchestration \u2014 Dokumentacija implementacije",
-      "norm_label": "2.1 topologija sistema"
+      "norm_label": "2.1 topologija sistema",
+      "id": "docs_dokumentacija_implementacije_2_1_topologija_sistema"
     },
     {
       "label": "2.2 Ure\u0111aji (plo\u010de)",
@@ -328,10 +1098,10 @@
       "source_file": "docs/dokumentacija-implementacije.md",
       "source_location": "L57",
       "_origin": "ast",
-      "id": "docs_dokumentacija_implementacije_2_2_ure\u0111aji_plo\u010de",
       "community": 7,
       "community_name": "HomeAssistantOrchestration \u2014 Dokumentacija implementacije",
-      "norm_label": "2.2 ure\u0111aji (ploce)"
+      "norm_label": "2.2 ure\u0111aji (ploce)",
+      "id": "docs_dokumentacija_implementacije_2_2_ure\u0111aji_plo\u010de"
     },
     {
       "label": "2.3 Softverski stek",
@@ -339,10 +1109,10 @@
       "source_file": "docs/dokumentacija-implementacije.md",
       "source_location": "L64",
       "_origin": "ast",
-      "id": "docs_dokumentacija_implementacije_2_3_softverski_stek",
       "community": 7,
       "community_name": "HomeAssistantOrchestration \u2014 Dokumentacija implementacije",
-      "norm_label": "2.3 softverski stek"
+      "norm_label": "2.3 softverski stek",
+      "id": "docs_dokumentacija_implementacije_2_3_softverski_stek"
     },
     {
       "label": "3. Build sistem (netrivijalan i bitan za razumevanje)",
@@ -350,10 +1120,10 @@
       "source_file": "docs/dokumentacija-implementacije.md",
       "source_location": "L75",
       "_origin": "ast",
-      "id": "docs_dokumentacija_implementacije_3_build_sistem_netrivijalan_i_bitan_za_razumevanje",
       "community": 7,
       "community_name": "HomeAssistantOrchestration \u2014 Dokumentacija implementacije",
-      "norm_label": "3. build sistem (netrivijalan i bitan za razumevanje)"
+      "norm_label": "3. build sistem (netrivijalan i bitan za razumevanje)",
+      "id": "docs_dokumentacija_implementacije_3_build_sistem_netrivijalan_i_bitan_za_razumevanje"
     },
     {
       "label": "Osnovne komande",
@@ -361,10 +1131,10 @@
       "source_file": "docs/dokumentacija-implementacije.md",
       "source_location": "L96",
       "_origin": "ast",
-      "id": "docs_dokumentacija_implementacije_osnovne_komande",
       "community": 7,
       "community_name": "HomeAssistantOrchestration \u2014 Dokumentacija implementacije",
-      "norm_label": "osnovne komande"
+      "norm_label": "osnovne komande",
+      "id": "docs_dokumentacija_implementacije_osnovne_komande"
     },
     {
       "label": "4. Zajedni\u010dka komponenta `common`",
@@ -372,10 +1142,10 @@
       "source_file": "docs/dokumentacija-implementacije.md",
       "source_location": "L107",
       "_origin": "ast",
-      "id": "docs_dokumentacija_implementacije_4_zajedni\u010dka_komponenta_common",
-      "community": 7,
-      "community_name": "HomeAssistantOrchestration \u2014 Dokumentacija implementacije",
-      "norm_label": "4. zajednicka komponenta `common`"
+      "community": 20,
+      "community_name": "4. Zajedni\u010dka komponenta `common`",
+      "norm_label": "4. zajednicka komponenta `common`",
+      "id": "docs_dokumentacija_implementacije_4_zajedni\u010dka_komponenta_common"
     },
     {
       "label": "4.1 `wifi_sta` \u2014 WiFi konektivnost",
@@ -383,10 +1153,10 @@
       "source_file": "docs/dokumentacija-implementacije.md",
       "source_location": "L113",
       "_origin": "ast",
-      "id": "docs_dokumentacija_implementacije_4_1_wifi_sta_wifi_konektivnost",
-      "community": 7,
-      "community_name": "HomeAssistantOrchestration \u2014 Dokumentacija implementacije",
-      "norm_label": "4.1 `wifi_sta` \u2014 wifi konektivnost"
+      "community": 20,
+      "community_name": "4. Zajedni\u010dka komponenta `common`",
+      "norm_label": "4.1 `wifi_sta` \u2014 wifi konektivnost",
+      "id": "docs_dokumentacija_implementacije_4_1_wifi_sta_wifi_konektivnost"
     },
     {
       "label": "4.2 `mqtt_wrap` \u2014 MQTT klijent i centralna dispe\u010derska ta\u010dka",
@@ -394,10 +1164,10 @@
       "source_file": "docs/dokumentacija-implementacije.md",
       "source_location": "L122",
       "_origin": "ast",
-      "id": "docs_dokumentacija_implementacije_4_2_mqtt_wrap_mqtt_klijent_i_centralna_dispe\u010derska_ta\u010dka",
-      "community": 7,
-      "community_name": "HomeAssistantOrchestration \u2014 Dokumentacija implementacije",
-      "norm_label": "4.2 `mqtt_wrap` \u2014 mqtt klijent i centralna dispecerska tacka"
+      "community": 20,
+      "community_name": "4. Zajedni\u010dka komponenta `common`",
+      "norm_label": "4.2 `mqtt_wrap` \u2014 mqtt klijent i centralna dispecerska tacka",
+      "id": "docs_dokumentacija_implementacije_4_2_mqtt_wrap_mqtt_klijent_i_centralna_dispe\u010derska_ta\u010dka"
     },
     {
       "label": "4.3 `ha_discovery` \u2014 Home Assistant auto-otkrivanje",
@@ -405,10 +1175,10 @@
       "source_file": "docs/dokumentacija-implementacije.md",
       "source_location": "L141",
       "_origin": "ast",
-      "id": "docs_dokumentacija_implementacije_4_3_ha_discovery_home_assistant_auto_otkrivanje",
-      "community": 7,
-      "community_name": "HomeAssistantOrchestration \u2014 Dokumentacija implementacije",
-      "norm_label": "4.3 `ha_discovery` \u2014 home assistant auto-otkrivanje"
+      "community": 20,
+      "community_name": "4. Zajedni\u010dka komponenta `common`",
+      "norm_label": "4.3 `ha_discovery` \u2014 home assistant auto-otkrivanje",
+      "id": "docs_dokumentacija_implementacije_4_3_ha_discovery_home_assistant_auto_otkrivanje"
     },
     {
       "label": "4.4 `app_rtos` \u2014 periodi\u010dni FreeRTOS zadaci",
@@ -416,10 +1186,10 @@
       "source_file": "docs/dokumentacija-implementacije.md",
       "source_location": "L154",
       "_origin": "ast",
-      "id": "docs_dokumentacija_implementacije_4_4_app_rtos_periodi\u010dni_freertos_zadaci",
-      "community": 7,
-      "community_name": "HomeAssistantOrchestration \u2014 Dokumentacija implementacije",
-      "norm_label": "4.4 `app_rtos` \u2014 periodicni freertos zadaci"
+      "community": 20,
+      "community_name": "4. Zajedni\u010dka komponenta `common`",
+      "norm_label": "4.4 `app_rtos` \u2014 periodicni freertos zadaci",
+      "id": "docs_dokumentacija_implementacije_4_4_app_rtos_periodi\u010dni_freertos_zadaci"
     },
     {
       "label": "4.5 `ota` \u2014 daljinsko a\u017euriranje firmvera",
@@ -427,10 +1197,10 @@
       "source_file": "docs/dokumentacija-implementacije.md",
       "source_location": "L164",
       "_origin": "ast",
-      "id": "docs_dokumentacija_implementacije_4_5_ota_daljinsko_a\u017euriranje_firmvera",
-      "community": 7,
-      "community_name": "HomeAssistantOrchestration \u2014 Dokumentacija implementacije",
-      "norm_label": "4.5 `ota` \u2014 daljinsko azuriranje firmvera"
+      "community": 20,
+      "community_name": "4. Zajedni\u010dka komponenta `common`",
+      "norm_label": "4.5 `ota` \u2014 daljinsko azuriranje firmvera",
+      "id": "docs_dokumentacija_implementacije_4_5_ota_daljinsko_a\u017euriranje_firmvera"
     },
     {
       "label": "5. Home Assistant integracija",
@@ -438,10 +1208,10 @@
       "source_file": "docs/dokumentacija-implementacije.md",
       "source_location": "L169",
       "_origin": "ast",
-      "id": "docs_dokumentacija_implementacije_5_home_assistant_integracija",
       "community": 7,
       "community_name": "HomeAssistantOrchestration \u2014 Dokumentacija implementacije",
-      "norm_label": "5. home assistant integracija"
+      "norm_label": "5. home assistant integracija",
+      "id": "docs_dokumentacija_implementacije_5_home_assistant_integracija"
     },
     {
       "label": "5.1 MQTT konvencije tema",
@@ -449,10 +1219,10 @@
       "source_file": "docs/dokumentacija-implementacije.md",
       "source_location": "L171",
       "_origin": "ast",
-      "id": "docs_dokumentacija_implementacije_5_1_mqtt_konvencije_tema",
       "community": 7,
       "community_name": "HomeAssistantOrchestration \u2014 Dokumentacija implementacije",
-      "norm_label": "5.1 mqtt konvencije tema"
+      "norm_label": "5.1 mqtt konvencije tema",
+      "id": "docs_dokumentacija_implementacije_5_1_mqtt_konvencije_tema"
     },
     {
       "label": "5.2 Obrazac po plo\u010di",
@@ -460,10 +1230,10 @@
       "source_file": "docs/dokumentacija-implementacije.md",
       "source_location": "L181",
       "_origin": "ast",
-      "id": "docs_dokumentacija_implementacije_5_2_obrazac_po_plo\u010di",
       "community": 7,
       "community_name": "HomeAssistantOrchestration \u2014 Dokumentacija implementacije",
-      "norm_label": "5.2 obrazac po ploci"
+      "norm_label": "5.2 obrazac po ploci",
+      "id": "docs_dokumentacija_implementacije_5_2_obrazac_po_plo\u010di"
     },
     {
       "label": "6. Konfiguracija flash memorije i particija",
@@ -471,10 +1241,10 @@
       "source_file": "docs/dokumentacija-implementacije.md",
       "source_location": "L199",
       "_origin": "ast",
-      "id": "docs_dokumentacija_implementacije_6_konfiguracija_flash_memorije_i_particija",
       "community": 7,
       "community_name": "HomeAssistantOrchestration \u2014 Dokumentacija implementacije",
-      "norm_label": "6. konfiguracija flash memorije i particija"
+      "norm_label": "6. konfiguracija flash memorije i particija",
+      "id": "docs_dokumentacija_implementacije_6_konfiguracija_flash_memorije_i_particija"
     },
     {
       "label": "7. Implementacija OTA a\u017euriranja (glavni doprinos)",
@@ -482,10 +1252,10 @@
       "source_file": "docs/dokumentacija-implementacije.md",
       "source_location": "L226",
       "_origin": "ast",
-      "id": "docs_dokumentacija_implementacije_7_implementacija_ota_a\u017euriranja_glavni_doprinos",
-      "community": 9,
-      "community_name": "7. Implementacija OTA a\u017euriranja (glavni doprinos)",
-      "norm_label": "7. implementacija ota azuriranja (glavni doprinos)"
+      "community": 7,
+      "community_name": "HomeAssistantOrchestration \u2014 Dokumentacija implementacije",
+      "norm_label": "7. implementacija ota azuriranja (glavni doprinos)",
+      "id": "docs_dokumentacija_implementacije_7_implementacija_ota_a\u017euriranja_glavni_doprinos"
     },
     {
       "label": "7.1 Zahtevi i odluke",
@@ -493,10 +1263,10 @@
       "source_file": "docs/dokumentacija-implementacije.md",
       "source_location": "L228",
       "_origin": "ast",
-      "id": "docs_dokumentacija_implementacije_7_1_zahtevi_i_odluke",
-      "community": 9,
-      "community_name": "7. Implementacija OTA a\u017euriranja (glavni doprinos)",
-      "norm_label": "7.1 zahtevi i odluke"
+      "community": 7,
+      "community_name": "HomeAssistantOrchestration \u2014 Dokumentacija implementacije",
+      "norm_label": "7.1 zahtevi i odluke",
+      "id": "docs_dokumentacija_implementacije_7_1_zahtevi_i_odluke"
     },
     {
       "label": "7.2 Centralno povezivanje (bez izmena u kodu plo\u010da)",
@@ -504,10 +1274,10 @@
       "source_file": "docs/dokumentacija-implementacije.md",
       "source_location": "L239",
       "_origin": "ast",
-      "id": "docs_dokumentacija_implementacije_7_2_centralno_povezivanje_bez_izmena_u_kodu_plo\u010da",
-      "community": 9,
-      "community_name": "7. Implementacija OTA a\u017euriranja (glavni doprinos)",
-      "norm_label": "7.2 centralno povezivanje (bez izmena u kodu ploca)"
+      "community": 7,
+      "community_name": "HomeAssistantOrchestration \u2014 Dokumentacija implementacije",
+      "norm_label": "7.2 centralno povezivanje (bez izmena u kodu ploca)",
+      "id": "docs_dokumentacija_implementacije_7_2_centralno_povezivanje_bez_izmena_u_kodu_plo\u010da"
     },
     {
       "label": "7.3 Javni API modula `ota`",
@@ -515,10 +1285,10 @@
       "source_file": "docs/dokumentacija-implementacije.md",
       "source_location": "L254",
       "_origin": "ast",
-      "id": "docs_dokumentacija_implementacije_7_3_javni_api_modula_ota",
-      "community": 9,
-      "community_name": "7. Implementacija OTA a\u017euriranja (glavni doprinos)",
-      "norm_label": "7.3 javni api modula `ota`"
+      "community": 7,
+      "community_name": "HomeAssistantOrchestration \u2014 Dokumentacija implementacije",
+      "norm_label": "7.3 javni api modula `ota`",
+      "id": "docs_dokumentacija_implementacije_7_3_javni_api_modula_ota"
     },
     {
       "label": "7.4 Tok a\u017euriranja",
@@ -526,10 +1296,10 @@
       "source_file": "docs/dokumentacija-implementacije.md",
       "source_location": "L262",
       "_origin": "ast",
-      "id": "docs_dokumentacija_implementacije_7_4_tok_a\u017euriranja",
-      "community": 9,
-      "community_name": "7. Implementacija OTA a\u017euriranja (glavni doprinos)",
-      "norm_label": "7.4 tok azuriranja"
+      "community": 7,
+      "community_name": "HomeAssistantOrchestration \u2014 Dokumentacija implementacije",
+      "norm_label": "7.4 tok azuriranja",
+      "id": "docs_dokumentacija_implementacije_7_4_tok_a\u017euriranja"
     },
     {
       "label": "7.5 Bezbednosna svojstva",
@@ -537,10 +1307,10 @@
       "source_file": "docs/dokumentacija-implementacije.md",
       "source_location": "L283",
       "_origin": "ast",
-      "id": "docs_dokumentacija_implementacije_7_5_bezbednosna_svojstva",
-      "community": 9,
-      "community_name": "7. Implementacija OTA a\u017euriranja (glavni doprinos)",
-      "norm_label": "7.5 bezbednosna svojstva"
+      "community": 7,
+      "community_name": "HomeAssistantOrchestration \u2014 Dokumentacija implementacije",
+      "norm_label": "7.5 bezbednosna svojstva",
+      "id": "docs_dokumentacija_implementacije_7_5_bezbednosna_svojstva"
     },
     {
       "label": "8. Merna studija: MQTT vs MQTTS/TLS",
@@ -548,10 +1318,10 @@
       "source_file": "docs/dokumentacija-implementacije.md",
       "source_location": "L295",
       "_origin": "ast",
-      "id": "docs_dokumentacija_implementacije_8_merna_studija_mqtt_vs_mqtts_tls",
       "community": 7,
       "community_name": "HomeAssistantOrchestration \u2014 Dokumentacija implementacije",
-      "norm_label": "8. merna studija: mqtt vs mqtts/tls"
+      "norm_label": "8. merna studija: mqtt vs mqtts/tls",
+      "id": "docs_dokumentacija_implementacije_8_merna_studija_mqtt_vs_mqtts_tls"
     },
     {
       "label": "9. Ograni\u010denja i pravci daljeg rada",
@@ -559,10 +1329,10 @@
       "source_file": "docs/dokumentacija-implementacije.md",
       "source_location": "L322",
       "_origin": "ast",
-      "id": "docs_dokumentacija_implementacije_9_ograni\u010denja_i_pravci_daljeg_rada",
       "community": 7,
       "community_name": "HomeAssistantOrchestration \u2014 Dokumentacija implementacije",
-      "norm_label": "9. ogranicenja i pravci daljeg rada"
+      "norm_label": "9. ogranicenja i pravci daljeg rada",
+      "id": "docs_dokumentacija_implementacije_9_ograni\u010denja_i_pravci_daljeg_rada"
     },
     {
       "label": "10. Zaklju\u010dak",
@@ -570,10 +1340,10 @@
       "source_file": "docs/dokumentacija-implementacije.md",
       "source_location": "L333",
       "_origin": "ast",
-      "id": "docs_dokumentacija_implementacije_10_zaklju\u010dak",
       "community": 7,
       "community_name": "HomeAssistantOrchestration \u2014 Dokumentacija implementacije",
-      "norm_label": "10. zakljucak"
+      "norm_label": "10. zakljucak",
+      "id": "docs_dokumentacija_implementacije_10_zaklju\u010dak"
     },
     {
       "label": "Dodatak A \u2014 Struktura repozitorijuma",
@@ -581,10 +1351,10 @@
       "source_file": "docs/dokumentacija-implementacije.md",
       "source_location": "L347",
       "_origin": "ast",
-      "id": "docs_dokumentacija_implementacije_dodatak_a_struktura_repozitorijuma",
       "community": 7,
       "community_name": "HomeAssistantOrchestration \u2014 Dokumentacija implementacije",
-      "norm_label": "dodatak a \u2014 struktura repozitorijuma"
+      "norm_label": "dodatak a \u2014 struktura repozitorijuma",
+      "id": "docs_dokumentacija_implementacije_dodatak_a_struktura_repozitorijuma"
     },
     {
       "label": "Dodatak B \u2014 Re\u010dnik pojmova",
@@ -592,10 +1362,10 @@
       "source_file": "docs/dokumentacija-implementacije.md",
       "source_location": "L364",
       "_origin": "ast",
-      "id": "docs_dokumentacija_implementacije_dodatak_b_re\u010dnik_pojmova",
       "community": 7,
       "community_name": "HomeAssistantOrchestration \u2014 Dokumentacija implementacije",
-      "norm_label": "dodatak b \u2014 recnik pojmova"
+      "norm_label": "dodatak b \u2014 recnik pojmova",
+      "id": "docs_dokumentacija_implementacije_dodatak_b_re\u010dnik_pojmova"
     },
     {
       "label": "app_rtos.h",
@@ -605,8 +1375,8 @@
       "_origin": "ast",
       "community": 11,
       "norm_label": "app_rtos.h",
-      "id": "components_common_include_app_rtos",
-      "community_name": "app_rtos.h"
+      "community_name": "app_rtos.h",
+      "id": "components_common_include_app_rtos"
     },
     {
       "label": "ha_discovery.h",
@@ -616,8 +1386,8 @@
       "_origin": "ast",
       "community": 12,
       "norm_label": "ha_discovery.h",
-      "id": "components_common_include_ha_discovery",
-      "community_name": "ha_discovery.h"
+      "community_name": "ha_discovery.h",
+      "id": "components_common_include_ha_discovery"
     },
     {
       "label": "mqtt_wrap.h",
@@ -627,19 +1397,8 @@
       "_origin": "ast",
       "community": 13,
       "norm_label": "mqtt_wrap.h",
-      "id": "components_common_include_mqtt_wrap",
-      "community_name": "mqtt_wrap.h"
-    },
-    {
-      "label": "secrets.example.h",
-      "file_type": "code",
-      "source_file": "components/common/include/secrets.example.h",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 14,
-      "norm_label": "secrets.example.h",
-      "id": "components_common_include_secrets_example",
-      "community_name": "secrets.example.h"
+      "community_name": "mqtt_wrap.h",
+      "id": "components_common_include_mqtt_wrap"
     },
     {
       "label": "wifi_sta.h",
@@ -649,151 +1408,8 @@
       "_origin": "ast",
       "community": 15,
       "norm_label": "wifi_sta.h",
-      "id": "components_common_include_wifi_sta",
-      "community_name": "wifi_sta.h"
-    },
-    {
-      "label": "app_rtos.c",
-      "file_type": "code",
-      "source_file": "components/common/src/app_rtos.c",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "app_rtos.c",
-      "id": "components_common_src_app_rtos",
-      "community_name": "rtos_every_ms"
-    },
-    {
-      "label": "periodic_trampoline()",
-      "file_type": "code",
-      "source_file": "components/common/src/app_rtos.c",
-      "source_location": "L10",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "periodic_trampoline()",
-      "id": "components_common_src_app_rtos_periodic_trampoline",
-      "community_name": "rtos_every_ms"
-    },
-    {
-      "label": "rtos_every_ms()",
-      "file_type": "code",
-      "source_file": "components/common/src/app_rtos.c",
-      "source_location": "L22",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "rtos_every_ms()",
-      "id": "components_common_src_app_rtos_rtos_every_ms",
-      "community_name": "rtos_every_ms"
-    },
-    {
-      "label": "TaskHandle_t",
-      "file_type": "code",
-      "source_file": "",
-      "source_location": "",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "taskhandle_t",
-      "id": "taskhandle_t",
-      "community_name": "rtos_every_ms"
-    },
-    {
-      "label": "rtos_periodic_fn",
-      "file_type": "code",
-      "source_file": "",
-      "source_location": "",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "rtos_periodic_fn",
-      "id": "rtos_periodic_fn",
-      "community_name": "rtos_every_ms"
-    },
-    {
-      "label": "UBaseType_t",
-      "file_type": "code",
-      "source_file": "",
-      "source_location": "",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "ubasetype_t",
-      "id": "ubasetype_t",
-      "community_name": "rtos_every_ms"
-    },
-    {
-      "label": "BaseType_t",
-      "file_type": "code",
-      "source_file": "",
-      "source_location": "",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "basetype_t",
-      "id": "basetype_t",
-      "community_name": "rtos_every_ms"
-    },
-    {
-      "label": "esp_event_base_t",
-      "file_type": "code",
-      "source_file": "",
-      "source_location": "",
-      "_origin": "ast",
-      "community": 19,
-      "norm_label": "esp_event_base_t",
-      "id": "components_common_src_mqtt_wrap_c_esp_event_base_t",
-      "community_name": "esp_event_base_t"
-    },
-    {
-      "label": "wifi_sta.c",
-      "file_type": "code",
-      "source_file": "components/common/src/wifi_sta.c",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 8,
-      "norm_label": "wifi_sta.c",
-      "id": "components_common_src_wifi_sta",
-      "community_name": "wifi_sta.c"
-    },
-    {
-      "label": "on_wifi_event()",
-      "file_type": "code",
-      "source_file": "components/common/src/wifi_sta.c",
-      "source_location": "L23",
-      "_origin": "ast",
-      "community": 8,
-      "norm_label": "on_wifi_event()",
-      "id": "components_common_src_wifi_sta_on_wifi_event",
-      "community_name": "wifi_sta.c"
-    },
-    {
-      "label": "esp_event_base_t",
-      "file_type": "code",
-      "source_file": "",
-      "source_location": "",
-      "_origin": "ast",
-      "community": 8,
-      "norm_label": "esp_event_base_t",
-      "id": "components_common_src_wifi_sta_c_esp_event_base_t",
-      "community_name": "wifi_sta.c"
-    },
-    {
-      "label": "wifi_sta_start()",
-      "file_type": "code",
-      "source_file": "components/common/src/wifi_sta.c",
-      "source_location": "L44",
-      "_origin": "ast",
-      "community": 8,
-      "norm_label": "wifi_sta_start()",
-      "id": "components_common_src_wifi_sta_wifi_sta_start",
-      "community_name": "wifi_sta.c"
-    },
-    {
-      "label": "wifi_sta_connected()",
-      "file_type": "code",
-      "source_file": "components/common/src/wifi_sta.c",
-      "source_location": "L84",
-      "_origin": "ast",
-      "community": 8,
-      "norm_label": "wifi_sta_connected()",
-      "id": "components_common_src_wifi_sta_wifi_sta_connected",
-      "community_name": "wifi_sta.c"
+      "community_name": "wifi_sta.h",
+      "id": "components_common_include_wifi_sta"
     },
     {
       "label": "gen-certs.sh",
@@ -807,8 +1423,8 @@
       "_origin": "ast",
       "community": 10,
       "norm_label": "gen-certs.sh",
-      "id": "docs_measurement_broker_gen_certs",
-      "community_name": "gen-certs.sh"
+      "community_name": "gen-certs.sh",
+      "id": "docs_measurement_broker_gen_certs"
     },
     {
       "label": "gen-certs.sh script",
@@ -822,8 +1438,8 @@
       "_origin": "ast",
       "community": 10,
       "norm_label": "gen-certs.sh script",
-      "id": "docs_measurement_broker_gen_certs_sh__entry",
-      "community_name": "gen-certs.sh"
+      "community_name": "gen-certs.sh",
+      "id": "docs_measurement_broker_gen_certs_sh__entry"
     },
     {
       "label": "plot_results.py",
@@ -833,8 +1449,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "plot_results.py",
-      "id": "docs_measurement_plot_results",
-      "community_name": "plot_results.py"
+      "community_name": "plot_results.py",
+      "id": "docs_measurement_plot_results"
     },
     {
       "label": "load_results()",
@@ -844,8 +1460,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "load_results()",
-      "id": "docs_measurement_plot_results_load_results",
-      "community_name": "plot_results.py"
+      "community_name": "plot_results.py",
+      "id": "docs_measurement_plot_results_load_results"
     },
     {
       "label": "_style_axis()",
@@ -855,8 +1471,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "_style_axis()",
-      "id": "docs_measurement_plot_results_style_axis",
-      "community_name": "plot_results.py"
+      "community_name": "plot_results.py",
+      "id": "docs_measurement_plot_results_style_axis"
     },
     {
       "label": "bar2()",
@@ -866,8 +1482,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "bar2()",
-      "id": "docs_measurement_plot_results_bar2",
-      "community_name": "plot_results.py"
+      "community_name": "plot_results.py",
+      "id": "docs_measurement_plot_results_bar2"
     },
     {
       "label": "annotate_delta()",
@@ -877,8 +1493,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "annotate_delta()",
-      "id": "docs_measurement_plot_results_annotate_delta",
-      "community_name": "plot_results.py"
+      "community_name": "plot_results.py",
+      "id": "docs_measurement_plot_results_annotate_delta"
     },
     {
       "label": "fig_heap()",
@@ -888,8 +1504,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "fig_heap()",
-      "id": "docs_measurement_plot_results_fig_heap",
-      "community_name": "plot_results.py"
+      "community_name": "plot_results.py",
+      "id": "docs_measurement_plot_results_fig_heap"
     },
     {
       "label": "fig_handshake()",
@@ -899,8 +1515,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "fig_handshake()",
-      "id": "docs_measurement_plot_results_fig_handshake",
-      "community_name": "plot_results.py"
+      "community_name": "plot_results.py",
+      "id": "docs_measurement_plot_results_fig_handshake"
     },
     {
       "label": "fig_rtt()",
@@ -910,8 +1526,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "fig_rtt()",
-      "id": "docs_measurement_plot_results_fig_rtt",
-      "community_name": "plot_results.py"
+      "community_name": "plot_results.py",
+      "id": "docs_measurement_plot_results_fig_rtt"
     },
     {
       "label": "fig_packet()",
@@ -921,8 +1537,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "fig_packet()",
-      "id": "docs_measurement_plot_results_fig_packet",
-      "community_name": "plot_results.py"
+      "community_name": "plot_results.py",
+      "id": "docs_measurement_plot_results_fig_packet"
     },
     {
       "label": "main()",
@@ -932,8 +1548,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "main()",
-      "id": "docs_measurement_plot_results_main",
-      "community_name": "plot_results.py"
+      "community_name": "plot_results.py",
+      "id": "docs_measurement_plot_results_main"
     },
     {
       "label": "Dvo-stubi\u010dni magnitude grafikon: x-osa nosi identitet (ne samo boja).",
@@ -943,8 +1559,8 @@
       "_origin": "ast",
       "community": 3,
       "norm_label": "dvo-stubicni magnitude grafikon: x-osa nosi identitet (ne samo boja).",
-      "id": "docs_measurement_plot_results_rationale_72",
-      "community_name": "plot_results.py"
+      "community_name": "plot_results.py",
+      "id": "docs_measurement_plot_results_rationale_72"
     },
     {
       "label": "rtt.py",
@@ -954,8 +1570,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "rtt.py",
-      "id": "docs_measurement_rtt",
-      "community_name": "rtt.py"
+      "community_name": "rtt.py",
+      "id": "docs_measurement_rtt"
     },
     {
       "label": "make_client()",
@@ -965,8 +1581,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "make_client()",
-      "id": "docs_measurement_rtt_make_client",
-      "community_name": "rtt.py"
+      "community_name": "rtt.py",
+      "id": "docs_measurement_rtt_make_client"
     },
     {
       "label": "RttMeter",
@@ -976,8 +1592,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "rttmeter",
-      "id": "docs_measurement_rtt_rttmeter",
-      "community_name": "rtt.py"
+      "community_name": "rtt.py",
+      "id": "docs_measurement_rtt_rttmeter"
     },
     {
       "label": ".__init__()",
@@ -987,8 +1603,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": ".__init__()",
-      "id": "docs_measurement_rtt_rttmeter_init",
-      "community_name": "rtt.py"
+      "community_name": "rtt.py",
+      "id": "docs_measurement_rtt_rttmeter_init"
     },
     {
       "label": ".on_connect()",
@@ -998,8 +1614,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": ".on_connect()",
-      "id": "docs_measurement_rtt_rttmeter_on_connect",
-      "community_name": "rtt.py"
+      "community_name": "rtt.py",
+      "id": "docs_measurement_rtt_rttmeter_on_connect"
     },
     {
       "label": ".on_message()",
@@ -1009,8 +1625,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": ".on_message()",
-      "id": "docs_measurement_rtt_rttmeter_on_message",
-      "community_name": "rtt.py"
+      "community_name": "rtt.py",
+      "id": "docs_measurement_rtt_rttmeter_on_message"
     },
     {
       "label": "percentile()",
@@ -1020,8 +1636,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "percentile()",
-      "id": "docs_measurement_rtt_percentile",
-      "community_name": "rtt.py"
+      "community_name": "rtt.py",
+      "id": "docs_measurement_rtt_percentile"
     },
     {
       "label": "main()",
@@ -1031,8 +1647,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "main()",
-      "id": "docs_measurement_rtt_main",
-      "community_name": "rtt.py"
+      "community_name": "rtt.py",
+      "id": "docs_measurement_rtt_main"
     },
     {
       "label": "paho-mqtt 2.x (VERSION2) uz fallback na 1.x.",
@@ -1042,8 +1658,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "paho-mqtt 2.x (version2) uz fallback na 1.x.",
-      "id": "docs_measurement_rtt_rationale_38",
-      "community_name": "rtt.py"
+      "community_name": "rtt.py",
+      "id": "docs_measurement_rtt_rationale_38"
     },
     {
       "label": "lights.h",
@@ -1053,8 +1669,8 @@
       "_origin": "ast",
       "community": 16,
       "norm_label": "lights.h",
-      "id": "src_esp1_lights_include_lights",
-      "community_name": "lights.h"
+      "community_name": "lights.h",
+      "id": "src_esp1_lights_include_lights"
     },
     {
       "label": "lights.c",
@@ -1064,8 +1680,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "lights.c",
-      "id": "src_esp1_lights_src_lights",
-      "community_name": "mqtt_publish"
+      "community_name": "ha_publish_config",
+      "id": "src_esp1_lights_src_lights"
     },
     {
       "label": "cmd_topic()",
@@ -1075,8 +1691,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "cmd_topic()",
-      "id": "src_esp1_lights_src_lights_cmd_topic",
-      "community_name": "mqtt_publish"
+      "community_name": "ha_publish_config",
+      "id": "src_esp1_lights_src_lights_cmd_topic"
     },
     {
       "label": "state_topic()",
@@ -1086,8 +1702,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "state_topic()",
-      "id": "src_esp1_lights_src_lights_state_topic",
-      "community_name": "mqtt_publish"
+      "community_name": "ha_publish_config",
+      "id": "src_esp1_lights_src_lights_state_topic"
     },
     {
       "label": "apply_relay()",
@@ -1097,8 +1713,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "apply_relay()",
-      "id": "src_esp1_lights_src_lights_apply_relay",
-      "community_name": "mqtt_publish"
+      "community_name": "ha_publish_config",
+      "id": "src_esp1_lights_src_lights_apply_relay"
     },
     {
       "label": "on_message()",
@@ -1108,8 +1724,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "on_message()",
-      "id": "src_esp1_lights_src_lights_on_message",
-      "community_name": "mqtt_publish"
+      "community_name": "ha_publish_config",
+      "id": "src_esp1_lights_src_lights_on_message"
     },
     {
       "label": "on_connect()",
@@ -1119,8 +1735,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "on_connect()",
-      "id": "src_esp1_lights_src_lights_on_connect",
-      "community_name": "mqtt_publish"
+      "community_name": "ha_publish_config",
+      "id": "src_esp1_lights_src_lights_on_connect"
     },
     {
       "label": "lights_start()",
@@ -1130,8 +1746,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "lights_start()",
-      "id": "src_esp1_lights_src_lights_lights_start",
-      "community_name": "mqtt_publish"
+      "community_name": "ha_publish_config",
+      "id": "src_esp1_lights_src_lights_lights_start"
     },
     {
       "label": "esp1_lights/src/main.c",
@@ -1141,8 +1757,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "esp1_lights/src/main.c",
-      "id": "src_esp1_lights_src_main",
-      "community_name": "mqtt_publish"
+      "community_name": "ha_publish_config",
+      "id": "src_esp1_lights_src_main"
     },
     {
       "label": "app_main()",
@@ -1152,8 +1768,8 @@
       "_origin": "ast",
       "community": 0,
       "norm_label": "app_main()",
-      "id": "src_esp1_lights_src_main_app_main",
-      "community_name": "mqtt_publish"
+      "community_name": "ha_publish_config",
+      "id": "src_esp1_lights_src_main_app_main"
     },
     {
       "label": "climate.h",
@@ -1163,8 +1779,8 @@
       "_origin": "ast",
       "community": 17,
       "norm_label": "climate.h",
-      "id": "src_esp2_temperature_include_climate",
-      "community_name": "climate.h"
+      "community_name": "climate.h",
+      "id": "src_esp2_temperature_include_climate"
     },
     {
       "label": "dht22.h",
@@ -1174,74 +1790,8 @@
       "_origin": "ast",
       "community": 18,
       "norm_label": "dht22.h",
-      "id": "src_esp2_temperature_include_dht22",
-      "community_name": "dht22.h"
-    },
-    {
-      "label": "climate.c",
-      "file_type": "code",
-      "source_file": "src/esp2_temperature/src/climate.c",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 2,
-      "norm_label": "climate.c",
-      "id": "src_esp2_temperature_src_climate",
-      "community_name": "climate_start"
-    },
-    {
-      "label": "apply_heater()",
-      "file_type": "code",
-      "source_file": "src/esp2_temperature/src/climate.c",
-      "source_location": "L27",
-      "_origin": "ast",
-      "community": 2,
-      "norm_label": "apply_heater()",
-      "id": "src_esp2_temperature_src_climate_apply_heater",
-      "community_name": "climate_start"
-    },
-    {
-      "label": "poll_task()",
-      "file_type": "code",
-      "source_file": "src/esp2_temperature/src/climate.c",
-      "source_location": "L33",
-      "_origin": "ast",
-      "community": 2,
-      "norm_label": "poll_task()",
-      "id": "src_esp2_temperature_src_climate_poll_task",
-      "community_name": "climate_start"
-    },
-    {
-      "label": "on_message()",
-      "file_type": "code",
-      "source_file": "src/esp2_temperature/src/climate.c",
-      "source_location": "L55",
-      "_origin": "ast",
-      "community": 2,
-      "norm_label": "on_message()",
-      "id": "src_esp2_temperature_src_climate_on_message",
-      "community_name": "climate_start"
-    },
-    {
-      "label": "on_connect()",
-      "file_type": "code",
-      "source_file": "src/esp2_temperature/src/climate.c",
-      "source_location": "L61",
-      "_origin": "ast",
-      "community": 0,
-      "norm_label": "on_connect()",
-      "id": "src_esp2_temperature_src_climate_on_connect",
-      "community_name": "mqtt_publish"
-    },
-    {
-      "label": "climate_start()",
-      "file_type": "code",
-      "source_file": "src/esp2_temperature/src/climate.c",
-      "source_location": "L85",
-      "_origin": "ast",
-      "community": 2,
-      "norm_label": "climate_start()",
-      "id": "src_esp2_temperature_src_climate_climate_start",
-      "community_name": "climate_start"
+      "community_name": "dht22.h",
+      "id": "src_esp2_temperature_include_dht22"
     },
     {
       "label": "dht22.c",
@@ -1251,8 +1801,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "dht22.c",
-      "id": "src_esp2_temperature_src_dht22",
-      "community_name": "climate_start"
+      "community_name": "climate_start",
+      "id": "src_esp2_temperature_src_dht22"
     },
     {
       "label": "wait_level()",
@@ -1262,8 +1812,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "wait_level()",
-      "id": "src_esp2_temperature_src_dht22_wait_level",
-      "community_name": "climate_start"
+      "community_name": "climate_start",
+      "id": "src_esp2_temperature_src_dht22_wait_level"
     },
     {
       "label": "gpio_num_t",
@@ -1273,8 +1823,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "gpio_num_t",
-      "id": "gpio_num_t",
-      "community_name": "climate_start"
+      "community_name": "climate_start",
+      "id": "gpio_num_t"
     },
     {
       "label": "dht22_read()",
@@ -1284,8 +1834,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "dht22_read()",
-      "id": "src_esp2_temperature_src_dht22_dht22_read",
-      "community_name": "climate_start"
+      "community_name": "climate_start",
+      "id": "src_esp2_temperature_src_dht22_dht22_read"
     },
     {
       "label": "esp_err_t",
@@ -1295,8 +1845,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "esp_err_t",
-      "id": "esp_err_t",
-      "community_name": "climate_start"
+      "community_name": "climate_start",
+      "id": "esp_err_t"
     },
     {
       "label": "esp2_temperature/src/main.c",
@@ -1306,8 +1856,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "esp2_temperature/src/main.c",
-      "id": "src_esp2_temperature_src_main",
-      "community_name": "climate_start"
+      "community_name": "climate_start",
+      "id": "src_esp2_temperature_src_main"
     },
     {
       "label": "app_main()",
@@ -1317,8 +1867,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "app_main()",
-      "id": "src_esp2_temperature_src_main_app_main",
-      "community_name": "climate_start"
+      "community_name": "climate_start",
+      "id": "src_esp2_temperature_src_main_app_main"
     },
     {
       "label": "OTA firmware update",
@@ -1332,8 +1882,8 @@
       "rationale": "Triggered over MQTT, downloaded over HTTPS from GitHub Releases, verified with the ESP-IDF public CA bundle (no embedded cert, no local server). Wired centrally in components/common (mqtt_wrap + ota) so every board gets OTA with no per-module code.",
       "community": 1,
       "norm_label": "ota firmware update",
-      "id": "readme_ota_update",
-      "community_name": "OTA firmware update"
+      "community_name": "ota.c",
+      "id": "readme_ota_update"
     },
     {
       "label": "MQTT Discovery",
@@ -1347,8 +1897,8 @@
       "rationale": "Entities appear in Home Assistant automatically via retained homeassistant/<component>/<board>/<object_id>/config messages; device block carries sw_version.",
       "community": 0,
       "norm_label": "mqtt discovery",
-      "id": "readme_mqtt_discovery",
-      "community_name": "mqtt_publish"
+      "community_name": "ha_publish_config",
+      "id": "readme_mqtt_discovery"
     },
     {
       "label": "Last Will availability",
@@ -1362,8 +1912,8 @@
       "rationale": "Each board reports availability via a retained MQTT Last Will on home/<board>/status (online/offline); publishes online on connect.",
       "community": 5,
       "norm_label": "last will availability",
-      "id": "readme_last_will_availability",
-      "community_name": "mqtt_wrap.c"
+      "community_name": "mqtt_wrap.c",
+      "id": "readme_last_will_availability"
     },
     {
       "label": "dual-OTA partitions",
@@ -1377,8 +1927,8 @@
       "rationale": "partitions.csv defines ota_0/ota_1/otadata on 4 MB flash; requires WROOM-32 with 4 MB, first image must be flashed over USB.",
       "community": 1,
       "norm_label": "dual-ota partitions",
-      "id": "readme_dual_ota_partitions",
-      "community_name": "OTA firmware update"
+      "community_name": "ota.c",
+      "id": "readme_dual_ota_partitions"
     },
     {
       "label": "bootloader rollback",
@@ -1392,8 +1942,8 @@
       "rationale": "A freshly-flashed image is only marked valid after it successfully reconnects to MQTT, so a broken build automatically reverts on the next reboot.",
       "community": 1,
       "norm_label": "bootloader rollback",
-      "id": "readme_rollback",
-      "community_name": "OTA firmware update"
+      "community_name": "ota.c",
+      "id": "readme_rollback"
     },
     {
       "label": "esp_https_ota over HTTPS (CA bundle)",
@@ -1407,8 +1957,8 @@
       "rationale": "Uses esp_https_ota with the public certificate bundle (CONFIG_MBEDTLS_CERTIFICATE_BUNDLE); binaries + per-board <board>.json manifest hosted on GitHub Releases.",
       "community": 3,
       "norm_label": "esp_https_ota over https (ca bundle)",
-      "id": "readme_https_transport",
-      "community_name": "plot_results.py"
+      "community_name": "plot_results.py",
+      "id": "readme_https_transport"
     },
     {
       "label": "ESP1 lights board",
@@ -1422,8 +1972,8 @@
       "rationale": "Relay light-switch board (env esp1_lights); in the measurement study is the plain-MQTT peer (1883).",
       "community": 0,
       "norm_label": "esp1 lights board",
-      "id": "readme_esp1_lights",
-      "community_name": "mqtt_publish"
+      "community_name": "ha_publish_config",
+      "id": "readme_esp1_lights"
     },
     {
       "label": "ESP2 temperature board",
@@ -1437,8 +1987,8 @@
       "rationale": "DHT22 sensor + heater relay board (env esp2_temperature); in the measurement study is the MQTTS-TLS peer (8883).",
       "community": 2,
       "norm_label": "esp2 temperature board",
-      "id": "readme_esp2_temperature",
-      "community_name": "climate_start"
+      "community_name": "climate_start",
+      "id": "readme_esp2_temperature"
     },
     {
       "label": "plain-MQTT vs TLS measurement study",
@@ -1452,8 +2002,8 @@
       "rationale": "Compares ESP1 plain MQTT (1883) vs ESP2 MQTTS-TLS (8883) on handshake time, retained heap, on-wire packet size, and end-to-end RTT.",
       "community": 3,
       "norm_label": "plain-mqtt vs tls measurement study",
-      "id": "readme_measurement_study",
-      "community_name": "plot_results.py"
+      "community_name": "plot_results.py",
+      "id": "readme_measurement_study"
     },
     {
       "label": "Fig: connection time / TLS handshake",
@@ -1466,8 +2016,8 @@
       "contributor": null,
       "community": 3,
       "norm_label": "fig: connection time / tls handshake",
-      "id": "docs_measurement_fig_handshake",
-      "community_name": "plot_results.py"
+      "community_name": "plot_results.py",
+      "id": "docs_measurement_fig_handshake"
     },
     {
       "label": "Fig: retained heap after connection",
@@ -1480,8 +2030,8 @@
       "contributor": null,
       "community": 3,
       "norm_label": "fig: retained heap after connection",
-      "id": "docs_measurement_fig_heap",
-      "community_name": "plot_results.py"
+      "community_name": "plot_results.py",
+      "id": "docs_measurement_fig_heap"
     },
     {
       "label": "Fig: on-wire message size per PUBLISH",
@@ -1494,8 +2044,8 @@
       "contributor": null,
       "community": 3,
       "norm_label": "fig: on-wire message size per publish",
-      "id": "docs_measurement_fig_packet",
-      "community_name": "plot_results.py"
+      "community_name": "plot_results.py",
+      "id": "docs_measurement_fig_packet"
     },
     {
       "label": "Fig: end-to-end command RTT",
@@ -1508,8 +2058,8 @@
       "contributor": null,
       "community": 4,
       "norm_label": "fig: end-to-end command rtt",
-      "id": "docs_measurement_fig_rtt",
-      "community_name": "rtt.py"
+      "community_name": "rtt.py",
+      "id": "docs_measurement_fig_rtt"
     },
     {
       "label": "README.md",
@@ -1522,8 +2072,8 @@
       "contributor": null,
       "community": 1,
       "norm_label": "readme.md",
-      "id": "readme_document",
-      "community_name": "OTA firmware update"
+      "community_name": "ota.c",
+      "id": "readme_document"
     },
     {
       "label": "CLAUDE.md",
@@ -1536,8 +2086,8 @@
       "contributor": null,
       "community": 5,
       "norm_label": "claude.md",
-      "id": "claude_document",
-      "community_name": "mqtt_wrap.c"
+      "community_name": "mqtt_wrap.c",
+      "id": "claude_document"
     },
     {
       "label": "docs/README.md (architecture diagrams)",
@@ -1550,20 +2100,466 @@
       "contributor": null,
       "community": 3,
       "norm_label": "docs/readme.md (architecture diagrams)",
-      "id": "docs_readme_document",
-      "community_name": "plot_results.py"
+      "community_name": "plot_results.py",
+      "id": "docs_readme_document"
     }
   ],
   "links": [
     {
-      "relation": "references",
-      "confidence": "INFERRED",
-      "confidence_score": 0.85,
-      "source_file": "README.md",
-      "source_location": null,
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/agents/README.md",
+      "source_location": "L1",
       "weight": 1.0,
-      "source": "readme_ota_update",
-      "target": "components_common_include_ota"
+      "_origin": "ast",
+      "source": "claude_agents_readme",
+      "target": "claude_agents_readme_embedded_agent_team_homeassistantorchestration",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/agents/README.md",
+      "source_location": "L23",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "claude_agents_readme_embedded_agent_team_homeassistantorchestration",
+      "target": "claude_agents_readme_how_to_run_the_team",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/agents/README.md",
+      "source_location": "L38",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "claude_agents_readme_embedded_agent_team_homeassistantorchestration",
+      "target": "claude_agents_readme_invocation_examples_things_to_say_to_the_lead",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/agents/README.md",
+      "source_location": "L48",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "claude_agents_readme_embedded_agent_team_homeassistantorchestration",
+      "target": "claude_agents_readme_notes",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/agents/README.md",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "claude_agents_readme_embedded_agent_team_homeassistantorchestration",
+      "target": "claude_agents_readme_roster",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/agents/build-qa.md",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "claude_agents_build_qa",
+      "target": "claude_agents_build_qa_environments",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/agents/build-qa.md",
+      "source_location": "L38",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "claude_agents_build_qa",
+      "target": "claude_agents_build_qa_output",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/agents/build-qa.md",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "claude_agents_build_qa",
+      "target": "claude_agents_build_qa_procedure",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/agents/firmware-dev.md",
+      "source_location": "L37",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "claude_agents_firmware_dev",
+      "target": "claude_agents_firmware_dev_adding_a_new_ha_entity_do_all_three_in_the_board_module",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/agents/firmware-dev.md",
+      "source_location": "L42",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "claude_agents_firmware_dev",
+      "target": "claude_agents_firmware_dev_how_you_work",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/agents/firmware-dev.md",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "claude_agents_firmware_dev",
+      "target": "claude_agents_firmware_dev_non_negotiable_rules_for_this_codebase",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/agents/firmware-dev.md",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "claude_agents_firmware_dev",
+      "target": "claude_agents_firmware_dev_what_you_own",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/agents/integration-tester.md",
+      "source_location": "L36",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "claude_agents_integration_tester",
+      "target": "claude_agents_integration_tester_how_you_work",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/agents/integration-tester.md",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "claude_agents_integration_tester",
+      "target": "claude_agents_integration_tester_scope",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/agents/integration-tester.md",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "claude_agents_integration_tester",
+      "target": "claude_agents_integration_tester_what_to_verify",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/agents/mqtt-ha-dev.md",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "claude_agents_mqtt_ha_dev",
+      "target": "claude_agents_mqtt_ha_dev_contracts_you_must_preserve",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/agents/mqtt-ha-dev.md",
+      "source_location": "L47",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "claude_agents_mqtt_ha_dev",
+      "target": "claude_agents_mqtt_ha_dev_how_you_work",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/agents/mqtt-ha-dev.md",
+      "source_location": "L40",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "claude_agents_mqtt_ha_dev",
+      "target": "claude_agents_mqtt_ha_dev_rules",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/agents/mqtt-ha-dev.md",
+      "source_location": "L34",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "claude_agents_mqtt_ha_dev",
+      "target": "claude_agents_mqtt_ha_dev_topic_conventions_keep_consistent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/agents/mqtt-ha-dev.md",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "claude_agents_mqtt_ha_dev",
+      "target": "claude_agents_mqtt_ha_dev_what_you_own",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/agents/ota-build-dev.md",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "claude_agents_ota_build_dev",
+      "target": "claude_agents_ota_build_dev_build_system_model_important_non_obvious",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/agents/ota-build-dev.md",
+      "source_location": "L34",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "claude_agents_ota_build_dev",
+      "target": "claude_agents_ota_build_dev_ota_model",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/agents/ota-build-dev.md",
+      "source_location": "L46",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "claude_agents_ota_build_dev",
+      "target": "claude_agents_ota_build_dev_rules",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/agents/ota-build-dev.md",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "claude_agents_ota_build_dev",
+      "target": "claude_agents_ota_build_dev_what_you_own",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/agents/qa-reviewer.md",
+      "source_location": "L34",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "claude_agents_qa_reviewer",
+      "target": "claude_agents_qa_reviewer_general_embedded_c_review",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/agents/qa-reviewer.md",
+      "source_location": "L39",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "claude_agents_qa_reviewer",
+      "target": "claude_agents_qa_reviewer_output",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/agents/qa-reviewer.md",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "claude_agents_qa_reviewer",
+      "target": "claude_agents_qa_reviewer_project_specific_checklist_highest_signal",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/agents/unit-tester.md",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "claude_agents_unit_tester",
+      "target": "claude_agents_unit_tester_current_state",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/agents/unit-tester.md",
+      "source_location": "L31",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "claude_agents_unit_tester",
+      "target": "claude_agents_unit_tester_how_you_work",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/agents/unit-tester.md",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "claude_agents_unit_tester",
+      "target": "claude_agents_unit_tester_what_to_test_highest_value_first",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/certs/README.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_certs_readme",
+      "target": "components_common_certs_readme_certs_privatni_ca_za_verifikaciju_mosquitto_brokera",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/certs/README.md",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_certs_readme_certs_privatni_ca_za_verifikaciju_mosquitto_brokera",
+      "target": "components_common_certs_readme_ca_crt",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/certs/README.md",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_certs_readme_certs_privatni_ca_za_verifikaciju_mosquitto_brokera",
+      "target": "components_common_certs_readme_za\u0161to_ime_mora_ostati_ca_crt",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/certs/README.md",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_certs_readme_certs_privatni_ca_za_verifikaciju_mosquitto_brokera",
+      "target": "components_common_certs_readme_\u0161ta_se_commit_uje",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/app_rtos.c",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_app_rtos",
+      "target": "components_common_src_app_rtos_periodic_trampoline",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/app_rtos.c",
+      "source_location": "L25",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_app_rtos",
+      "target": "components_common_src_app_rtos_rtos_every_ms",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/app_rtos.c",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "_origin": "ast",
+      "source": "components_common_src_app_rtos_rtos_every_ms",
+      "target": "basetype_t",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/app_rtos.c",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "_origin": "ast",
+      "source": "components_common_src_app_rtos_rtos_every_ms",
+      "target": "rtos_periodic_fn",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/app_rtos.c",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "return_type",
+      "_origin": "ast",
+      "source": "components_common_src_app_rtos_rtos_every_ms",
+      "target": "taskhandle_t",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/app_rtos.c",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "_origin": "ast",
+      "source": "components_common_src_app_rtos_rtos_every_ms",
+      "target": "ubasetype_t",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/esp2_temperature/src/climate.c",
+      "source_location": "L105",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_esp2_temperature_src_climate_climate_start",
+      "target": "components_common_src_app_rtos_rtos_every_ms"
     },
     {
       "relation": "contains",
@@ -1625,7 +2621,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "src/esp2_temperature/src/climate.c",
-      "source_location": "L96",
+      "source_location": "L102",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_esp2_temperature_src_climate_climate_start",
@@ -1649,7 +2645,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "components/common/src/ha_discovery.c",
-      "source_location": "L48",
+      "source_location": "L52",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_ha_discovery_ha_publish_config",
@@ -1661,7 +2657,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "components/common/src/ota.c",
-      "source_location": "L189",
+      "source_location": "L214",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_ota_ota_on_connect",
@@ -1695,7 +2691,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "src/esp2_temperature/src/climate.c",
-      "source_location": "L69",
+      "source_location": "L75",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_esp2_temperature_src_climate_on_connect",
@@ -1705,7 +2701,51 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L88",
+      "source_location": "L67",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_mqtt_wrap",
+      "target": "components_common_src_mqtt_wrap_lowwater_cb",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/mqtt_wrap.c",
+      "source_location": "L40",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_mqtt_wrap",
+      "target": "components_common_src_mqtt_wrap_meas_heap",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/mqtt_wrap.c",
+      "source_location": "L48",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_mqtt_wrap",
+      "target": "components_common_src_mqtt_wrap_meas_time",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/mqtt_wrap.c",
+      "source_location": "L52",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_mqtt_wrap",
+      "target": "components_common_src_mqtt_wrap_meas_tlscfg",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/mqtt_wrap.c",
+      "source_location": "L182",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_mqtt_wrap",
@@ -1716,7 +2756,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L18",
+      "source_location": "L72",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_mqtt_wrap",
@@ -1727,7 +2767,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L84",
+      "source_location": "L178",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_mqtt_wrap",
@@ -1738,7 +2778,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L76",
+      "source_location": "L169",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_mqtt_wrap",
@@ -1749,7 +2789,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L53",
+      "source_location": "L125",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_mqtt_wrap",
@@ -1760,7 +2800,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L80",
+      "source_location": "L173",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_mqtt_wrap",
@@ -1790,10 +2830,70 @@
     {
       "relation": "calls",
       "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/mqtt_wrap.c",
+      "source_location": "L87",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_mqtt_wrap_mqtt_event_handler",
+      "target": "components_common_src_mqtt_wrap_meas_heap",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/mqtt_wrap.c",
+      "source_location": "L134",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_mqtt_wrap_mqtt_start",
+      "target": "components_common_src_mqtt_wrap_meas_heap",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/mqtt_wrap.c",
+      "source_location": "L79",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_mqtt_wrap_mqtt_event_handler",
+      "target": "components_common_src_mqtt_wrap_meas_time",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/mqtt_wrap.c",
+      "source_location": "L133",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_mqtt_wrap_mqtt_start",
+      "target": "components_common_src_mqtt_wrap_meas_tlscfg",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/mqtt_wrap.c",
+      "source_location": "L72",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "_origin": "ast",
+      "source": "components_common_src_mqtt_wrap_mqtt_event_handler",
+      "target": "components_common_src_mqtt_wrap_c_esp_event_base_t",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L30",
+      "source_location": "L102",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_mqtt_wrap_mqtt_event_handler",
@@ -1805,7 +2905,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L40",
+      "source_location": "L112",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_mqtt_wrap_mqtt_event_handler",
@@ -1817,23 +2917,11 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L31",
+      "source_location": "L103",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_mqtt_wrap_mqtt_event_handler",
       "target": "components_common_src_ota_ota_on_connect"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L18",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "_origin": "ast",
-      "source": "components_common_src_mqtt_wrap_mqtt_event_handler",
-      "target": "esp_event_base_t",
-      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -1841,7 +2929,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L57",
+      "source_location": "L129",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_mqtt_wrap_mqtt_start",
@@ -1851,7 +2939,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L53",
+      "source_location": "L125",
       "weight": 1.0,
       "context": "parameter_type",
       "_origin": "ast",
@@ -1863,7 +2951,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/mqtt_wrap.c",
-      "source_location": "L53",
+      "source_location": "L125",
       "weight": 1.0,
       "context": "parameter_type",
       "_origin": "ast",
@@ -1899,7 +2987,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "src/esp2_temperature/src/climate.c",
-      "source_location": "L97",
+      "source_location": "L103",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_esp2_temperature_src_climate_climate_start",
@@ -1911,10 +2999,22 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "components/common/src/ota.c",
-      "source_location": "L141",
+      "source_location": "L161",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_ota_ota_task",
+      "target": "components_common_src_mqtt_wrap_mqtt_publish"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L60",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_ota_publish_error",
       "target": "components_common_src_mqtt_wrap_mqtt_publish"
     },
     {
@@ -1959,7 +3059,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "src/esp2_temperature/src/climate.c",
-      "source_location": "L30",
+      "source_location": "L31",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_esp2_temperature_src_climate_apply_heater",
@@ -1971,7 +3071,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "src/esp2_temperature/src/climate.c",
-      "source_location": "L82",
+      "source_location": "L88",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_esp2_temperature_src_climate_on_connect",
@@ -1983,7 +3083,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "src/esp2_temperature/src/climate.c",
-      "source_location": "L49",
+      "source_location": "L55",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_esp2_temperature_src_climate_poll_task",
@@ -1995,7 +3095,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "components/common/src/ota.c",
-      "source_location": "L176",
+      "source_location": "L201",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_ota_ota_on_connect",
@@ -2019,7 +3119,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "src/esp2_temperature/src/climate.c",
-      "source_location": "L62",
+      "source_location": "L68",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_esp2_temperature_src_climate_on_connect",
@@ -2031,7 +3131,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "src/esp2_temperature/src/climate.c",
-      "source_location": "L35",
+      "source_location": "L36",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_esp2_temperature_src_climate_poll_task",
@@ -2051,7 +3151,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/ota.c",
-      "source_location": "L52",
+      "source_location": "L72",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_ota",
@@ -2073,7 +3173,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/ota.c",
-      "source_location": "L220",
+      "source_location": "L248",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_ota",
@@ -2084,7 +3184,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/ota.c",
-      "source_location": "L195",
+      "source_location": "L220",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_ota",
@@ -2095,7 +3195,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/ota.c",
-      "source_location": "L175",
+      "source_location": "L200",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_ota",
@@ -2106,7 +3206,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/ota.c",
-      "source_location": "L168",
+      "source_location": "L193",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_ota",
@@ -2117,11 +3217,22 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/ota.c",
-      "source_location": "L115",
+      "source_location": "L135",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_ota",
       "target": "components_common_src_ota_ota_task",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L52",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_ota",
+      "target": "components_common_src_ota_publish_error",
       "confidence_score": 1.0
     },
     {
@@ -2139,11 +3250,22 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/ota.c",
-      "source_location": "L150",
+      "source_location": "L170",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_ota",
       "target": "components_common_src_ota_start_ota",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L66",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_ota",
+      "target": "components_common_src_ota_url_is_trusted",
       "confidence_score": 1.0
     },
     {
@@ -2181,7 +3303,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/ota.c",
-      "source_location": "L110",
+      "source_location": "L130",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_ota_fetch_manifest",
@@ -2193,10 +3315,34 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/ota.c",
-      "source_location": "L138",
+      "source_location": "L236",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_ota_ota_handle_message",
+      "target": "components_common_src_ota_installed_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L158",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_ota_ota_task",
+      "target": "components_common_src_ota_installed_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L57",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_ota_publish_error",
       "target": "components_common_src_ota_installed_version",
       "confidence_score": 1.0
     },
@@ -2217,7 +3363,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/ota.c",
-      "source_location": "L192",
+      "source_location": "L217",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_ota_ota_on_connect",
@@ -2229,7 +3375,31 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/ota.c",
-      "source_location": "L191",
+      "source_location": "L177",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_ota_start_ota",
+      "target": "components_common_src_ota_publish_error",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L175",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_ota_start_ota",
+      "target": "components_common_src_ota_url_is_trusted",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/ota.c",
+      "source_location": "L216",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_ota_ota_on_connect",
@@ -2251,7 +3421,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/ota.c",
-      "source_location": "L203",
+      "source_location": "L228",
       "weight": 1.0,
       "_origin": "ast",
       "source": "components_common_src_ota_ota_handle_message",
@@ -2321,448 +3491,58 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "docs/dokumentacija-implementacije.md",
-      "source_location": "L1",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_dokumentacija_implementacije",
-      "target": "docs_dokumentacija_implementacije_homeassistantorchestration_dokumentacija_implementacije",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/dokumentacija-implementacije.md",
-      "source_location": "L333",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_dokumentacija_implementacije_homeassistantorchestration_dokumentacija_implementacije",
-      "target": "docs_dokumentacija_implementacije_10_zaklju\u010dak",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/dokumentacija-implementacije.md",
-      "source_location": "L12",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_dokumentacija_implementacije_homeassistantorchestration_dokumentacija_implementacije",
-      "target": "docs_dokumentacija_implementacije_1_uvod_i_cilj_sistema",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/dokumentacija-implementacije.md",
-      "source_location": "L36",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_dokumentacija_implementacije_homeassistantorchestration_dokumentacija_implementacije",
-      "target": "docs_dokumentacija_implementacije_2_pregled_arhitekture",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/dokumentacija-implementacije.md",
-      "source_location": "L75",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_dokumentacija_implementacije_homeassistantorchestration_dokumentacija_implementacije",
-      "target": "docs_dokumentacija_implementacije_3_build_sistem_netrivijalan_i_bitan_za_razumevanje",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/dokumentacija-implementacije.md",
-      "source_location": "L107",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_dokumentacija_implementacije_homeassistantorchestration_dokumentacija_implementacije",
-      "target": "docs_dokumentacija_implementacije_4_zajedni\u010dka_komponenta_common",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/dokumentacija-implementacije.md",
-      "source_location": "L169",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_dokumentacija_implementacije_homeassistantorchestration_dokumentacija_implementacije",
-      "target": "docs_dokumentacija_implementacije_5_home_assistant_integracija",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/dokumentacija-implementacije.md",
-      "source_location": "L199",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_dokumentacija_implementacije_homeassistantorchestration_dokumentacija_implementacije",
-      "target": "docs_dokumentacija_implementacije_6_konfiguracija_flash_memorije_i_particija",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/dokumentacija-implementacije.md",
-      "source_location": "L226",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_dokumentacija_implementacije_homeassistantorchestration_dokumentacija_implementacije",
-      "target": "docs_dokumentacija_implementacije_7_implementacija_ota_a\u017euriranja_glavni_doprinos",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/dokumentacija-implementacije.md",
-      "source_location": "L295",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_dokumentacija_implementacije_homeassistantorchestration_dokumentacija_implementacije",
-      "target": "docs_dokumentacija_implementacije_8_merna_studija_mqtt_vs_mqtts_tls",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/dokumentacija-implementacije.md",
-      "source_location": "L322",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_dokumentacija_implementacije_homeassistantorchestration_dokumentacija_implementacije",
-      "target": "docs_dokumentacija_implementacije_9_ograni\u010denja_i_pravci_daljeg_rada",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/dokumentacija-implementacije.md",
-      "source_location": "L347",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_dokumentacija_implementacije_homeassistantorchestration_dokumentacija_implementacije",
-      "target": "docs_dokumentacija_implementacije_dodatak_a_struktura_repozitorijuma",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/dokumentacija-implementacije.md",
-      "source_location": "L364",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_dokumentacija_implementacije_homeassistantorchestration_dokumentacija_implementacije",
-      "target": "docs_dokumentacija_implementacije_dodatak_b_re\u010dnik_pojmova",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/dokumentacija-implementacije.md",
-      "source_location": "L38",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_dokumentacija_implementacije_2_pregled_arhitekture",
-      "target": "docs_dokumentacija_implementacije_2_1_topologija_sistema",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/dokumentacija-implementacije.md",
-      "source_location": "L57",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_dokumentacija_implementacije_2_pregled_arhitekture",
-      "target": "docs_dokumentacija_implementacije_2_2_ure\u0111aji_plo\u010de",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/dokumentacija-implementacije.md",
-      "source_location": "L64",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_dokumentacija_implementacije_2_pregled_arhitekture",
-      "target": "docs_dokumentacija_implementacije_2_3_softverski_stek",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/dokumentacija-implementacije.md",
-      "source_location": "L96",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_dokumentacija_implementacije_3_build_sistem_netrivijalan_i_bitan_za_razumevanje",
-      "target": "docs_dokumentacija_implementacije_osnovne_komande",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/dokumentacija-implementacije.md",
-      "source_location": "L113",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_dokumentacija_implementacije_4_zajedni\u010dka_komponenta_common",
-      "target": "docs_dokumentacija_implementacije_4_1_wifi_sta_wifi_konektivnost",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/dokumentacija-implementacije.md",
-      "source_location": "L122",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_dokumentacija_implementacije_4_zajedni\u010dka_komponenta_common",
-      "target": "docs_dokumentacija_implementacije_4_2_mqtt_wrap_mqtt_klijent_i_centralna_dispe\u010derska_ta\u010dka",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/dokumentacija-implementacije.md",
-      "source_location": "L141",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_dokumentacija_implementacije_4_zajedni\u010dka_komponenta_common",
-      "target": "docs_dokumentacija_implementacije_4_3_ha_discovery_home_assistant_auto_otkrivanje",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/dokumentacija-implementacije.md",
-      "source_location": "L154",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_dokumentacija_implementacije_4_zajedni\u010dka_komponenta_common",
-      "target": "docs_dokumentacija_implementacije_4_4_app_rtos_periodi\u010dni_freertos_zadaci",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/dokumentacija-implementacije.md",
-      "source_location": "L164",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_dokumentacija_implementacije_4_zajedni\u010dka_komponenta_common",
-      "target": "docs_dokumentacija_implementacije_4_5_ota_daljinsko_a\u017euriranje_firmvera",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/dokumentacija-implementacije.md",
-      "source_location": "L171",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_dokumentacija_implementacije_5_home_assistant_integracija",
-      "target": "docs_dokumentacija_implementacije_5_1_mqtt_konvencije_tema",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/dokumentacija-implementacije.md",
-      "source_location": "L181",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_dokumentacija_implementacije_5_home_assistant_integracija",
-      "target": "docs_dokumentacija_implementacije_5_2_obrazac_po_plo\u010di",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/dokumentacija-implementacije.md",
-      "source_location": "L228",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_dokumentacija_implementacije_7_implementacija_ota_a\u017euriranja_glavni_doprinos",
-      "target": "docs_dokumentacija_implementacije_7_1_zahtevi_i_odluke",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/dokumentacija-implementacije.md",
-      "source_location": "L239",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_dokumentacija_implementacije_7_implementacija_ota_a\u017euriranja_glavni_doprinos",
-      "target": "docs_dokumentacija_implementacije_7_2_centralno_povezivanje_bez_izmena_u_kodu_plo\u010da",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/dokumentacija-implementacije.md",
-      "source_location": "L254",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_dokumentacija_implementacije_7_implementacija_ota_a\u017euriranja_glavni_doprinos",
-      "target": "docs_dokumentacija_implementacije_7_3_javni_api_modula_ota",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/dokumentacija-implementacije.md",
-      "source_location": "L262",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_dokumentacija_implementacije_7_implementacija_ota_a\u017euriranja_glavni_doprinos",
-      "target": "docs_dokumentacija_implementacije_7_4_tok_a\u017euriranja",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/dokumentacija-implementacije.md",
-      "source_location": "L283",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_dokumentacija_implementacije_7_implementacija_ota_a\u017euriranja_glavni_doprinos",
-      "target": "docs_dokumentacija_implementacije_7_5_bezbednosna_svojstva",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "components/common/src/app_rtos.c",
-      "source_location": "L10",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "components_common_src_app_rtos",
-      "target": "components_common_src_app_rtos_periodic_trampoline"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "components/common/src/app_rtos.c",
-      "source_location": "L22",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "components_common_src_app_rtos",
-      "target": "components_common_src_app_rtos_rtos_every_ms"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "components/common/src/app_rtos.c",
-      "source_location": "L22",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "components_common_src_app_rtos_rtos_every_ms",
-      "target": "basetype_t"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "components/common/src/app_rtos.c",
-      "source_location": "L22",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "components_common_src_app_rtos_rtos_every_ms",
-      "target": "rtos_periodic_fn"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "components/common/src/app_rtos.c",
-      "source_location": "L22",
-      "weight": 1.0,
-      "context": "return_type",
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "components_common_src_app_rtos_rtos_every_ms",
-      "target": "taskhandle_t"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "components/common/src/app_rtos.c",
-      "source_location": "L22",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "components_common_src_app_rtos_rtos_every_ms",
-      "target": "ubasetype_t"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "src/esp2_temperature/src/climate.c",
-      "source_location": "L99",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp2_temperature_src_climate_climate_start",
-      "target": "components_common_src_app_rtos_rtos_every_ms"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "components/common/src/wifi_sta.c",
-      "source_location": "L23",
+      "source_location": "L28",
       "weight": 1.0,
       "_origin": "ast",
-      "confidence_score": 1.0,
       "source": "components_common_src_wifi_sta",
-      "target": "components_common_src_wifi_sta_on_wifi_event"
+      "target": "components_common_src_wifi_sta_on_reconnect_timer",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/wifi_sta.c",
-      "source_location": "L84",
+      "source_location": "L32",
       "weight": 1.0,
       "_origin": "ast",
-      "confidence_score": 1.0,
       "source": "components_common_src_wifi_sta",
-      "target": "components_common_src_wifi_sta_wifi_sta_connected"
+      "target": "components_common_src_wifi_sta_on_wifi_event",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/wifi_sta.c",
-      "source_location": "L44",
+      "source_location": "L102",
       "weight": 1.0,
       "_origin": "ast",
-      "confidence_score": 1.0,
       "source": "components_common_src_wifi_sta",
-      "target": "components_common_src_wifi_sta_wifi_sta_start"
+      "target": "components_common_src_wifi_sta_wifi_sta_connected",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/src/wifi_sta.c",
+      "source_location": "L56",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "components_common_src_wifi_sta",
+      "target": "components_common_src_wifi_sta_wifi_sta_start",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "components/common/src/wifi_sta.c",
-      "source_location": "L23",
+      "source_location": "L32",
       "weight": 1.0,
       "context": "parameter_type",
       "_origin": "ast",
-      "confidence_score": 1.0,
       "source": "components_common_src_wifi_sta_on_wifi_event",
-      "target": "components_common_src_wifi_sta_c_esp_event_base_t"
+      "target": "components_common_src_wifi_sta_c_esp_event_base_t",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -2782,11 +3562,441 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "src/esp2_temperature/src/climate.c",
-      "source_location": "L95",
+      "source_location": "L101",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_esp2_temperature_src_climate_climate_start",
       "target": "components_common_src_wifi_sta_wifi_sta_start"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_esp2_temperature",
+      "target": "src_esp2_temperature_src_climate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/esp2_temperature/src/climate.c",
+      "source_location": "L28",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_esp2_temperature_src_climate",
+      "target": "src_esp2_temperature_src_climate_apply_heater",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/esp2_temperature/src/climate.c",
+      "source_location": "L91",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_esp2_temperature_src_climate",
+      "target": "src_esp2_temperature_src_climate_climate_start",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/esp2_temperature/src/climate.c",
+      "source_location": "L67",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_esp2_temperature_src_climate",
+      "target": "src_esp2_temperature_src_climate_on_connect",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/esp2_temperature/src/climate.c",
+      "source_location": "L61",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_esp2_temperature_src_climate",
+      "target": "src_esp2_temperature_src_climate_on_message",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/esp2_temperature/src/climate.c",
+      "source_location": "L34",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_esp2_temperature_src_climate",
+      "target": "src_esp2_temperature_src_climate_poll_task",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/esp2_temperature/src/climate.c",
+      "source_location": "L99",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_esp2_temperature_src_climate_climate_start",
+      "target": "src_esp2_temperature_src_climate_apply_heater",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/esp2_temperature/src/climate.c",
+      "source_location": "L63",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_esp2_temperature_src_climate_on_message",
+      "target": "src_esp2_temperature_src_climate_apply_heater",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/esp2_temperature/src/main.c",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_esp2_temperature_src_main_app_main",
+      "target": "src_esp2_temperature_src_climate_climate_start"
+    },
+    {
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_ota_update",
+      "target": "components_common_include_ota"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/dokumentacija-implementacije.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "docs_dokumentacija_implementacije",
+      "target": "docs_dokumentacija_implementacije_homeassistantorchestration_dokumentacija_implementacije"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/dokumentacija-implementacije.md",
+      "source_location": "L333",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "docs_dokumentacija_implementacije_homeassistantorchestration_dokumentacija_implementacije",
+      "target": "docs_dokumentacija_implementacije_10_zaklju\u010dak"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/dokumentacija-implementacije.md",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "docs_dokumentacija_implementacije_homeassistantorchestration_dokumentacija_implementacije",
+      "target": "docs_dokumentacija_implementacije_1_uvod_i_cilj_sistema"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/dokumentacija-implementacije.md",
+      "source_location": "L36",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "docs_dokumentacija_implementacije_homeassistantorchestration_dokumentacija_implementacije",
+      "target": "docs_dokumentacija_implementacije_2_pregled_arhitekture"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/dokumentacija-implementacije.md",
+      "source_location": "L75",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "docs_dokumentacija_implementacije_homeassistantorchestration_dokumentacija_implementacije",
+      "target": "docs_dokumentacija_implementacije_3_build_sistem_netrivijalan_i_bitan_za_razumevanje"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/dokumentacija-implementacije.md",
+      "source_location": "L107",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "docs_dokumentacija_implementacije_homeassistantorchestration_dokumentacija_implementacije",
+      "target": "docs_dokumentacija_implementacije_4_zajedni\u010dka_komponenta_common"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/dokumentacija-implementacije.md",
+      "source_location": "L169",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "docs_dokumentacija_implementacije_homeassistantorchestration_dokumentacija_implementacije",
+      "target": "docs_dokumentacija_implementacije_5_home_assistant_integracija"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/dokumentacija-implementacije.md",
+      "source_location": "L199",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "docs_dokumentacija_implementacije_homeassistantorchestration_dokumentacija_implementacije",
+      "target": "docs_dokumentacija_implementacije_6_konfiguracija_flash_memorije_i_particija"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/dokumentacija-implementacije.md",
+      "source_location": "L226",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "docs_dokumentacija_implementacije_homeassistantorchestration_dokumentacija_implementacije",
+      "target": "docs_dokumentacija_implementacije_7_implementacija_ota_a\u017euriranja_glavni_doprinos"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/dokumentacija-implementacije.md",
+      "source_location": "L295",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "docs_dokumentacija_implementacije_homeassistantorchestration_dokumentacija_implementacije",
+      "target": "docs_dokumentacija_implementacije_8_merna_studija_mqtt_vs_mqtts_tls"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/dokumentacija-implementacije.md",
+      "source_location": "L322",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "docs_dokumentacija_implementacije_homeassistantorchestration_dokumentacija_implementacije",
+      "target": "docs_dokumentacija_implementacije_9_ograni\u010denja_i_pravci_daljeg_rada"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/dokumentacija-implementacije.md",
+      "source_location": "L347",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "docs_dokumentacija_implementacije_homeassistantorchestration_dokumentacija_implementacije",
+      "target": "docs_dokumentacija_implementacije_dodatak_a_struktura_repozitorijuma"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/dokumentacija-implementacije.md",
+      "source_location": "L364",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "docs_dokumentacija_implementacije_homeassistantorchestration_dokumentacija_implementacije",
+      "target": "docs_dokumentacija_implementacije_dodatak_b_re\u010dnik_pojmova"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/dokumentacija-implementacije.md",
+      "source_location": "L38",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "docs_dokumentacija_implementacije_2_pregled_arhitekture",
+      "target": "docs_dokumentacija_implementacije_2_1_topologija_sistema"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/dokumentacija-implementacije.md",
+      "source_location": "L57",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "docs_dokumentacija_implementacije_2_pregled_arhitekture",
+      "target": "docs_dokumentacija_implementacije_2_2_ure\u0111aji_plo\u010de"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/dokumentacija-implementacije.md",
+      "source_location": "L64",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "docs_dokumentacija_implementacije_2_pregled_arhitekture",
+      "target": "docs_dokumentacija_implementacije_2_3_softverski_stek"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/dokumentacija-implementacije.md",
+      "source_location": "L96",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "docs_dokumentacija_implementacije_3_build_sistem_netrivijalan_i_bitan_za_razumevanje",
+      "target": "docs_dokumentacija_implementacije_osnovne_komande"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/dokumentacija-implementacije.md",
+      "source_location": "L113",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "docs_dokumentacija_implementacije_4_zajedni\u010dka_komponenta_common",
+      "target": "docs_dokumentacija_implementacije_4_1_wifi_sta_wifi_konektivnost"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/dokumentacija-implementacije.md",
+      "source_location": "L122",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "docs_dokumentacija_implementacije_4_zajedni\u010dka_komponenta_common",
+      "target": "docs_dokumentacija_implementacije_4_2_mqtt_wrap_mqtt_klijent_i_centralna_dispe\u010derska_ta\u010dka"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/dokumentacija-implementacije.md",
+      "source_location": "L141",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "docs_dokumentacija_implementacije_4_zajedni\u010dka_komponenta_common",
+      "target": "docs_dokumentacija_implementacije_4_3_ha_discovery_home_assistant_auto_otkrivanje"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/dokumentacija-implementacije.md",
+      "source_location": "L154",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "docs_dokumentacija_implementacije_4_zajedni\u010dka_komponenta_common",
+      "target": "docs_dokumentacija_implementacije_4_4_app_rtos_periodi\u010dni_freertos_zadaci"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/dokumentacija-implementacije.md",
+      "source_location": "L164",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "docs_dokumentacija_implementacije_4_zajedni\u010dka_komponenta_common",
+      "target": "docs_dokumentacija_implementacije_4_5_ota_daljinsko_a\u017euriranje_firmvera"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/dokumentacija-implementacije.md",
+      "source_location": "L171",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "docs_dokumentacija_implementacije_5_home_assistant_integracija",
+      "target": "docs_dokumentacija_implementacije_5_1_mqtt_konvencije_tema"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/dokumentacija-implementacije.md",
+      "source_location": "L181",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "docs_dokumentacija_implementacije_5_home_assistant_integracija",
+      "target": "docs_dokumentacija_implementacije_5_2_obrazac_po_plo\u010di"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/dokumentacija-implementacije.md",
+      "source_location": "L228",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "docs_dokumentacija_implementacije_7_implementacija_ota_a\u017euriranja_glavni_doprinos",
+      "target": "docs_dokumentacija_implementacije_7_1_zahtevi_i_odluke"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/dokumentacija-implementacije.md",
+      "source_location": "L239",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "docs_dokumentacija_implementacije_7_implementacija_ota_a\u017euriranja_glavni_doprinos",
+      "target": "docs_dokumentacija_implementacije_7_2_centralno_povezivanje_bez_izmena_u_kodu_plo\u010da"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/dokumentacija-implementacije.md",
+      "source_location": "L254",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "docs_dokumentacija_implementacije_7_implementacija_ota_a\u017euriranja_glavni_doprinos",
+      "target": "docs_dokumentacija_implementacije_7_3_javni_api_modula_ota"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/dokumentacija-implementacije.md",
+      "source_location": "L262",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "docs_dokumentacija_implementacije_7_implementacija_ota_a\u017euriranja_glavni_doprinos",
+      "target": "docs_dokumentacija_implementacije_7_4_tok_a\u017euriranja"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/dokumentacija-implementacije.md",
+      "source_location": "L283",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "docs_dokumentacija_implementacije_7_implementacija_ota_a\u017euriranja_glavni_doprinos",
+      "target": "docs_dokumentacija_implementacije_7_5_bezbednosna_svojstva"
     },
     {
       "relation": "contains",
@@ -3416,119 +4626,6 @@
       "source_location": null,
       "weight": 1.0,
       "source": "readme_esp2_temperature",
-      "target": "src_esp2_temperature_src_climate"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp2_temperature/src/climate.c",
-      "source_location": "L27",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "src_esp2_temperature_src_climate",
-      "target": "src_esp2_temperature_src_climate_apply_heater"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp2_temperature/src/climate.c",
-      "source_location": "L85",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "src_esp2_temperature_src_climate",
-      "target": "src_esp2_temperature_src_climate_climate_start"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp2_temperature/src/climate.c",
-      "source_location": "L61",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "src_esp2_temperature_src_climate",
-      "target": "src_esp2_temperature_src_climate_on_connect"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp2_temperature/src/climate.c",
-      "source_location": "L55",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "src_esp2_temperature_src_climate",
-      "target": "src_esp2_temperature_src_climate_on_message"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp2_temperature/src/climate.c",
-      "source_location": "L33",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "src_esp2_temperature_src_climate",
-      "target": "src_esp2_temperature_src_climate_poll_task"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp2_temperature/src/climate.c",
-      "source_location": "L93",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "src_esp2_temperature_src_climate_climate_start",
-      "target": "src_esp2_temperature_src_climate_apply_heater"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/esp2_temperature/src/climate.c",
-      "source_location": "L57",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "src_esp2_temperature_src_climate_on_message",
-      "target": "src_esp2_temperature_src_climate_apply_heater"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "src/esp2_temperature/src/climate.c",
-      "source_location": "L38",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp2_temperature_src_climate_poll_task",
-      "target": "src_esp2_temperature_src_dht22_dht22_read"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "src/esp2_temperature/src/main.c",
-      "source_location": "L10",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_esp2_temperature_src_main_app_main",
-      "target": "src_esp2_temperature_src_climate_climate_start"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "README.md",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "readme_esp2_temperature",
       "target": "src_esp2_temperature_src_dht22"
     },
     {
@@ -3864,5 +4961,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "4a16693a2c1d92623c08f6c44f59e48f3c9fd573"
+  "built_at_commit": "0c1b858f4b6f80df24a998ce696869ee1e6b5e6f"
 }
