@@ -8,5 +8,6 @@
 
 /* ---- MQTT broker (Mosquitto on the Raspberry Pi / Home Assistant) ---- */
 #define MQTT_URI        "mqtt://192.168.1.10:1883"  /* Raspberry Pi broker */
+#define MQTT_URI_TLS "mqtts://192.168.1.10:8883"  /* esp2: MQTTS (TLS), IP must match server cert SAN */
 #define MQTT_USER       "mqttuser"                  /* "" if anonymous */
 #define MQTT_PASSWORD   "mqttpass"

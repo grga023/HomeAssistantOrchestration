@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 #include "driver/gpio.h"
 #include "cJSON.h"
 #include "esp_log.h"
@@ -35,15 +36,20 @@ static void poll_task(void *ctx) {
     if (!mqtt_is_connected()) return;
 
     float t = 0, h = 0;
+    /* DHT22 commonly NACKs transiently; retry a couple of times before giving up. */
     esp_err_t err = dht22_read(s_dht_pin, &t, &h);
+    for (int retry = 0; err != ESP_OK && retry < 2; retry++) {
+        vTaskDelay(pdMS_TO_TICKS(50));
+        err = dht22_read(s_dht_pin, &t, &h);
+    }
     if (err != ESP_OK) {
         ESP_LOGW(TAG, "DHT read failed (%d)", err);
         return;
     }
 
     cJSON *root = cJSON_CreateObject();
-    cJSON_AddNumberToObject(root, "temperature", (int)(t * 10 + 0.5f) / 10.0);
-    cJSON_AddNumberToObject(root, "humidity", (int)(h * 10 + 0.5f) / 10.0);
+    cJSON_AddNumberToObject(root, "temperature", roundf(t * 10) / 10.0);
+    cJSON_AddNumberToObject(root, "humidity", roundf(h * 10) / 10.0);
     char *out = cJSON_PrintUnformatted(root);
     if (out) {
         mqtt_publish(SENSOR_STATE, out, true);

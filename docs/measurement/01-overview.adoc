@@ -135,7 +135,8 @@ certifikatskim bundle-om* (`esp_crt_bundle`). Kod je u
   *tek pošto se ponovo poveže na MQTT* (`ota_confirm_running_image()` poziva
   `esp_ota_mark_app_valid_cancel_rollback()`); u suprotnom bootloader vraća
   prethodnu sliku.
-* *MQTT topici* (`<board>` = `esp1_lights` ili `esp2_temperature`):
+* *MQTT topici* (`<board>` = `lights` ili `temperature` — kratki board id koji se
+  koristi u topicima i u imenu `<board>.json` manifesta):
 +
 [cols="2,3",options="header"]
 |===
@@ -153,9 +154,9 @@ certifikatskim bundle-om* (`esp_crt_bundle`). Kod je u
 
 [NOTE]
 ====
-OTA je *već implementiran i ukompajliran* u firmware — za razliku od TLS sloja iz
-link:02-firmware-plan.adoc[02], koji je i dalje plan. OTA i merni (TLS) deo su
-nezavisni.
+OTA je *već implementiran i ukompajliran* u firmware. TLS sloj iz
+link:02-firmware-plan.adoc[02] je *sada takođe implementiran* i ukompajliran u
+esp2 build. OTA i merni (TLS) deo su nezavisni.
 ====
 
 '''

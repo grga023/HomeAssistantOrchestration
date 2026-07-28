@@ -10,8 +10,11 @@ Prazni šabloni koje popuniš *izmerenim* brojevima, plus gotovi grafikoni.
 
 [NOTE]
 ====
-Brojevi u tabelama i na graficima su trenutno *placeholder* (očekivane vrednosti iz
-link:04-methodology.adoc[04]) — samo da vidiš izgled. Zameni ih svojim merenjima.
+Brojevi u tabelama i na graficima (uključujući `results.csv` i sve `fig-*.png`) su
+trenutno *placeholder* (očekivane vrednosti iz link:04-methodology.adoc[04]) — samo
+da vidiš izgled. Iako je firmverski TLS sada implementiran, ovi brojevi *ostaju
+placeholder* dok se ne snime realna merenja na hardveru po postupku iz
+link:05-runbook.adoc[05 — Runbook]. Tek tada ih zameni svojim merenjima.
 ====
 
 == Kako se generišu grafikoni

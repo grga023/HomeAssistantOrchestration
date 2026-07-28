@@ -28,9 +28,13 @@ void ha_publish_config(const char *component, const char *object_id,
         "\"payload_available\":\"online\","
         "\"payload_not_available\":\"offline\",",
         object_id, s_board, object_id, mqtt_availability_topic());
+    /* snprintf returns the would-be length; clamp so sizeof(json) - n never
+     * underflows and defeats the bound of the next call. */
+    if (n < 0 || n > (int)sizeof(json)) n = sizeof(json);
 
     if (extra_json && extra_json[0]) {
         n += snprintf(json + n, sizeof(json) - n, "%s,", extra_json);
+        if (n < 0 || n > (int)sizeof(json)) n = sizeof(json);
     }
 
     /* Device block. sw_version comes from the app descriptor (version.txt),

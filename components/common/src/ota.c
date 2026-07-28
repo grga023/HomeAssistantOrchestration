@@ -48,6 +48,26 @@ static void publish_state(void) {
     mqtt_publish(s_state_topic, json, true);
 }
 
+/* Publish the current state plus an error field (for a rejected/failed OTA). */
+static void publish_error(const char *err) {
+    char json[192];
+    snprintf(json, sizeof(json),
+             "{\"installed_version\":\"%s\",\"latest_version\":\"%s\","
+             "\"error\":\"%s\"}",
+             installed_version(),
+             s_latest_ver[0] ? s_latest_ver : installed_version(),
+             err);
+    mqtt_publish(s_state_topic, json, true);
+}
+
+/* Allowlist: firmware may only be fetched from the trusted release download
+ * base (OTA_MANIFEST_URL_BASE), i.e. the same GitHub host/path the signed
+ * manifest lives under. Any other URL is rejected. */
+static bool url_is_trusted(const char *url) {
+    size_t base_len = strlen(OTA_MANIFEST_URL_BASE);
+    return strncmp(url, OTA_MANIFEST_URL_BASE, base_len) == 0;
+}
+
 /* GET the per-board manifest and learn the latest version + firmware URL. */
 static void fetch_manifest(void) {
     char url[256];
@@ -152,6 +172,11 @@ static void start_ota(const char *url) {
         ESP_LOGE(TAG, "start_ota: empty url");
         return;
     }
+    if (!url_is_trusted(url)) {
+        ESP_LOGE(TAG, "start_ota: rejected untrusted url: %s", url);
+        publish_error("untrusted url");
+        return;
+    }
     char *copy = strdup(url);
     if (!copy) {
         ESP_LOGE(TAG, "start_ota: OOM");
@@ -206,10 +231,13 @@ bool ota_handle_message(const char *topic, int topic_len,
 
     if ((int)strlen(s_install_topic) == topic_len &&
         strncmp(s_install_topic, topic, topic_len) == 0) {
-        if (s_latest_url[0]) {
-            start_ota(s_latest_url);
-        } else {
+        if (!s_latest_url[0]) {
             ESP_LOGE(TAG, "install: no manifest url");
+        } else if (strcmp(s_latest_ver, installed_version()) == 0) {
+            /* Only flash on a genuine upgrade; latest == running is a no-op. */
+            ESP_LOGI(TAG, "install: already at %s, skipping", installed_version());
+        } else {
+            start_ota(s_latest_url);
         }
         return true;
     }

@@ -12,8 +12,9 @@ ostaje čist plain baseline.
 
 [NOTE]
 ====
-Izmene *još nisu primenjene* — ovo je plan. Kad kreneš (ili mi kažeš da krenem),
-radi se po redosledu iz link:05-runbook.adoc[05 — Runbook].
+Izmene su *sada primenjene* u firmveru — ovaj dokument opisuje šta je urađeno.
+Za korake reprodukcije builda/flash-a idi po redosledu iz
+link:05-runbook.adoc[05 — Runbook].
 ====
 
 == Princip: jedna kod-putanja, TLS pali `mqtts://` šema

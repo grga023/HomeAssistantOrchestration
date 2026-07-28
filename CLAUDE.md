@@ -137,3 +137,13 @@ Do all three in the board's module: subscribe to its command topic **and**
 `ha_publish_config(...)` in `on_connect()`, handle its command in `on_message()`,
 and publish state (retained) whenever it changes. Follow the topic naming and
 the length-based topic matching already used in that file.
+
+## Embedded agent team
+
+This repo ships a persistent team of specialist subagents under `.claude/agents/`
+(see `.claude/agents/README.md` for roster + orchestration). Roles:
+`firmware-dev`, `mqtt-ha-dev`, `ota-build-dev` (developers); `unit-tester`,
+`integration-tester` (test); `qa-reviewer`, `build-qa` (QA). The main session acts
+as tech-lead: split work into a shared task list, spawn the relevant specialists
+(multiple instances when work fans out), let them coordinate, then integrate.
+Standard pipeline: implement → `build-qa` → tests → `qa-reviewer`.

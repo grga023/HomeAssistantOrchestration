@@ -8,34 +8,46 @@
 #include "esp_event.h"
 #include "esp_netif.h"
 #include "esp_log.h"
+#include "esp_timer.h"
 #include "nvs_flash.h"
 
 static const char *TAG = "wifi";
 
 #define WIFI_CONNECTED_BIT BIT0
 #define WIFI_FAIL_BIT      BIT1
-#define WIFI_MAX_RETRY     10
+#define WIFI_BACKOFF_MIN_MS 1000
+#define WIFI_BACKOFF_MAX_MS 30000
 
 static EventGroupHandle_t s_wifi_events;
-static int s_retry = 0;
+static esp_timer_handle_t s_reconnect_timer;
+static int s_backoff_ms = WIFI_BACKOFF_MIN_MS;
 static volatile bool s_connected = false;
+
+/* One-shot timer callback: retry the association without blocking the event
+ * task. Scheduled after each disconnect with an ever-growing backoff. */
+static void on_reconnect_timer(void *arg) {
+    esp_wifi_connect();
+}
 
 static void on_wifi_event(void *arg, esp_event_base_t base, int32_t id, void *data) {
     if (base == WIFI_EVENT && id == WIFI_EVENT_STA_START) {
         esp_wifi_connect();
     } else if (base == WIFI_EVENT && id == WIFI_EVENT_STA_DISCONNECTED) {
         s_connected = false;
-        if (s_retry < WIFI_MAX_RETRY) {
-            esp_wifi_connect();
-            s_retry++;
-            ESP_LOGI(TAG, "retry connect (%d)", s_retry);
-        } else {
-            xEventGroupSetBits(s_wifi_events, WIFI_FAIL_BIT);
+        /* Never give up: schedule an unbounded reconnect with exponential
+         * backoff (1s -> 30s cap). Stop any pending timer first so overlapping
+         * disconnect events don't stack retries. */
+        esp_timer_stop(s_reconnect_timer);
+        ESP_LOGI(TAG, "disconnected, retry in %d ms", s_backoff_ms);
+        esp_timer_start_once(s_reconnect_timer, (int64_t)s_backoff_ms * 1000);
+        s_backoff_ms *= 2;
+        if (s_backoff_ms > WIFI_BACKOFF_MAX_MS) {
+            s_backoff_ms = WIFI_BACKOFF_MAX_MS;
         }
     } else if (base == IP_EVENT && id == IP_EVENT_STA_GOT_IP) {
         ip_event_got_ip_t *evt = (ip_event_got_ip_t *)data;
         ESP_LOGI(TAG, "got IP " IPSTR, IP2STR(&evt->ip_info.ip));
-        s_retry = 0;
+        s_backoff_ms = WIFI_BACKOFF_MIN_MS;
         s_connected = true;
         xEventGroupSetBits(s_wifi_events, WIFI_CONNECTED_BIT);
     }
@@ -59,6 +71,12 @@ void wifi_sta_start(const char *hostname) {
 
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
     ESP_ERROR_CHECK(esp_wifi_init(&cfg));
+
+    const esp_timer_create_args_t timer_args = {
+        .callback = &on_reconnect_timer,
+        .name = "wifi_reconnect",
+    };
+    ESP_ERROR_CHECK(esp_timer_create(&timer_args, &s_reconnect_timer));
 
     ESP_ERROR_CHECK(esp_event_handler_instance_register(
         WIFI_EVENT, ESP_EVENT_ANY_ID, &on_wifi_event, NULL, NULL));

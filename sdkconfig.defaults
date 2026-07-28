@@ -8,3 +8,18 @@ CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions.csv"
 CONFIG_BOOTLOADER_APP_ROLLBACK_ENABLE=y
 CONFIG_MBEDTLS_CERTIFICATE_BUNDLE=y
 CONFIG_ESP_HTTPS_OTA_EVENT_POST_TIMEOUT=2000
+
+# A6: pin mbedTLS TLS I/O buffers and disable dynamic allocation so the retained
+# heap delta (pre_start - connected) is reproducible across runs. See
+# docs/measurement/04-methodology.adoc and 02-firmware-plan.adoc.
+CONFIG_MBEDTLS_SSL_IN_CONTENT_LEN=16384
+CONFIG_MBEDTLS_SSL_OUT_CONTENT_LEN=4096
+CONFIG_MBEDTLS_DYNAMIC_BUFFER=n
+
+# B2: task watchdog as a self-heal backstop; complements the WiFi reconnect
+# loop (B1) by resetting the board if a task wedges past the timeout.
+# PANIC=y is required for a real self-heal: without it the TWDT only prints a
+# backtrace on timeout and never reboots.
+CONFIG_ESP_TASK_WDT_EN=y
+CONFIG_ESP_TASK_WDT_TIMEOUT_S=30
+CONFIG_ESP_TASK_WDT_PANIC=y

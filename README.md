@@ -130,8 +130,9 @@ See `docs/*.puml` (PlantUML sequence diagrams) for the boot flow and each board.
 ## Roadmap
 
 - [x] OTA updates (esp_https_ota pull over HTTPS, GitHub Releases)
-- [ ] MQTTS/TLS for the MQTT client itself (designed in `docs/measurement/`, not
-  yet wired into `mqtt_wrap.c`)
+- [x] MQTTS/TLS for the MQTT client itself (wired into `mqtt_wrap.c`, enabled on
+  `esp2_temperature` via `-DMQTT_TLS=1`; embedded broker CA in
+  `components/common/certs/ca.crt`). See `docs/measurement/` for the study.
 - [ ] Per-board `sdkconfig.defaults` overrides if boards diverge
 
 ## Wiring notes
