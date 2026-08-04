@@ -51,6 +51,11 @@ jobs:
             -D _site/measurement docs/measurement/*.adoc
           # bring generated figures alongside the HTML (referenced relatively)
           cp docs/measurement/fig-*.png _site/measurement/ 2>/dev/null || true
+          # publish data + scripts + broker files so the download links resolve
+          cp docs/measurement/results.csv docs/measurement/*.py docs/measurement/*.sh _site/measurement/ 2>/dev/null || true
+          mkdir -p _site/measurement/data _site/measurement/broker
+          cp docs/measurement/data/* _site/measurement/data/ 2>/dev/null || true
+          cp docs/measurement/broker/* _site/measurement/broker/ 2>/dev/null || true
           # source cross-links point to *.adoc; rewrite them to *.html
           sed -i -E 's/(href="[^"]*)\.adoc"/\1.html"/g; s/(href="[^"]*)\.adoc#/\1.html#/g' \
             _site/measurement/*.html

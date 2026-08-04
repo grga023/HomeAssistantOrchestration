@@ -15,12 +15,13 @@ opterećenja u odnosu na plain MQTT.
 
 [IMPORTANT]
 ====
-Ovo je *plan i metodologija* za merni (TLS) deo — u trenutku pisanja firmware
-*još nije menjan za merenja* (nema Raspberry Pi-ja ni ESP pločica pri ruci). MQTT
-klijent u `mqtt_wrap.c` je i dalje *plain* `mqtt://` (1883); TLS je opisan kao
-dizajn/plan u link:02-firmware-plan.adoc[02] i još nije uključen u kod. Sve komande,
-konfiguracije i skripte su spremne da se izvrše kad hardver bude dostupan. Redosled
-izvršavanja je u <<_runbook>>.
+*Ažurirano (avgust 2026): merenje je izvedeno na živom hardveru.* TLS izmene
+firmvera su *implementirane* (`mqtt_wrap.c` bira `mqtts://` 8883 za esp2), a sva
+četiri merenja su *sprovedena sa realnim podacima*. Dokumenti 01–06 su izvorni
+*plan i metodologija*; stvarno okruženje i postupak su u
+link:07-okruzenje-i-izvodjenje.adoc[07], a *realni rezultati + odgovor na
+hipotezu* u link:08-rezultati-i-analiza.adoc[08]. Dubinska *Wireshark analiza
+paketa* (dokaz enkripcije na nivou žice) je u link:09-wireshark-analiza.adoc[09].
 
 (OTA sloj je zaseban i *već je implementiran* u firmveru — vidi
 link:01-overview.adoc[01].)
@@ -61,6 +62,21 @@ link:01-overview.adoc[01].)
 | Prazne tabele za izmerene brojeve + gotovi grafikoni (plain vs TLS) i mesta za
   Wireshark snimke.
 | Poglavlje „Rezultati"
+
+| link:07-okruzenje-i-izvodjenje.adoc[07 — Okruženje i izvođenje]
+| „Materijali i metode": tačan hardver, verzije, stvarna broker/PKI/TLS
+  konfiguracija, instrumentacija, merni alati i postupak korak-po-korak.
+| Poglavlje „Eksperimentalna postavka"
+
+| link:08-rezultati-i-analiza.adoc[08 — Rezultati i analiza]
+| *Realni izmereni brojevi* za sve 4 metrike, grafikoni, analiza, ograničenja i
+  *odgovor na hipotezu*.
+| Poglavlje „Rezultati i diskusija"
+
+| link:09-wireshark-analiza.adoc[09 — Wireshark analiza]
+| Dubinska analiza paketa istog snimka: TLS handshake dissection, „Follow TCP
+  Stream" dokaz (plain curi `mqttuser`/`mqttpass`, MQTTS ne), uparen +29 B po poruci.
+| Poglavlje „Analiza mrežnog saobraćaja"
 |===
 
 == Skripte i artefakti (spremne za izvršavanje)
@@ -78,8 +94,24 @@ link:01-overview.adoc[01].)
 | link:rtt.py[`rtt.py`]
 | Python (paho-mqtt) skripta za merenje end-to-end command RTT (4. merenje).
 
+| link:meas_capture.py[`meas_capture.py`]
+| Serijska automatizacija: reset ploče N puta + prikupljanje MEAS heap/vreme (1+2).
+
+| link:m3_driver.py[`m3_driver.py`]
+| Generator saobraćaja tokom pcap snimanja (reset + upareni plain/TLS publish).
+
+| link:pcap_analyze.py[`pcap_analyze.py`]
+| Analiza pcap-a (scapy): veličine, handshake, dokaz enkripcije (3. merenje).
+
+| link:wireshark_analyze.sh[`wireshark_analyze.sh`]
+| tshark (Wireshark CLI) analiza istog pcap-a: protocol hierarchy, `ServerHello`
+  (verzija + cipher), follow-stream (plain vs opaque).
+
 | link:results.csv[`results.csv`] + link:plot_results.py[`plot_results.py`]
-| Šablon za izmerene brojeve + matplotlib skripta koja pravi grafikone (`fig-*.png`).
+| Izmereni brojevi + matplotlib skripta koja pravi grafikone (`fig-*.png`).
+
+| `data/meas_esp1.csv`, `data/meas_esp2.csv`
+| Sirovi izmereni podaci (po 30 boot-ciklusa po čvoru).
 |===
 
 == Ključne odluke (dogovoreno)
@@ -103,7 +135,9 @@ link:01-overview.adoc[01].)
 | Dokumentacija + metodologija + šablon rezultata | ✅ napisano
 | RPi skripte (gen-certs, mosquitto conf, rtt.py, plot_results.py) | ✅ napisano
 | OTA (MQTT → HTTPS/GitHub Releases, `esp_crt_bundle`, dual-OTA + rollback) | ✅ implementirano
-| TLS izmene firmvera (mqtt_wrap.c, CMake, secrets, platformio.ini) | ⏳ planirano (čeka hardver / dozvolu)
-| `components/common/certs/ca.crt` | ⏳ generiše se skriptom `gen-certs.sh`
-| Prikupljanje podataka (heap/handshake/pcap/RTT) | ⏳ čeka Raspberry Pi + 2× ESP32
+| TLS izmene firmvera (mqtt_wrap.c, CMake, secrets, platformio.ini) | ✅ implementirano
+| `components/common/certs/ca.crt` | ✅ generisan + ugrađen (real CA)
+| Prikupljanje podataka (heap/handshake/pcap/RTT) | ✅ *izvedeno* (vidi link:08-rezultati-i-analiza.adoc[08])
+| Realni rezultati + odgovor na hipotezu | ✅ link:08-rezultati-i-analiza.adoc[08]
+| Wireshark/paket analiza (handshake, follow-stream, +29 B) | ✅ link:09-wireshark-analiza.adoc[09]
 |===

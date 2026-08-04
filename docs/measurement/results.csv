@@ -1,7 +1,7 @@
 metric,unit,plain,tls
-heap_retained,KB,4,36
-handshake_mean,ms,60,480
-handshake_p95,ms,95,650
-rtt_mean,ms,28,45
-rtt_p95,ms,60,90
-msg_wire_size,B,42,68
+heap_retained,KB,7.3,40.7
+handshake_mean,ms,161,693
+handshake_p95,ms,470,1048
+rtt_mean,ms,158.7,159.9
+rtt_p95,ms,182,190
+msg_wire_size,B,45,74

@@ -266,6 +266,14 @@ odziv po komandi.
 
 == Očekivani rezultati
 
+[NOTE]
+====
+Ovo su *očekivane* (a priori) vrednosti iz plana. *Realni izmereni rezultati* su u
+link:08-rezultati-i-analiza.adoc[08 — Rezultati i analiza]. Napomena: stvarno
+pregovoreni cipher na uređaju je bio *`ECDHE-RSA-AES256-GCM-SHA384`* (AES-256, ne
+AES-128 kako je ovde pretpostavljeno) — vidi link:07-okruzenje-i-izvodjenje.adoc[07].
+====
+
 Za tihu lokalnu LAN, WROOM-32 (bez PSRAM), TLS 1.2 ECDHE-RSA-AES128-GCM, RSA-2048
 server cert, mbedTLS IN=16384/OUT=4096, `DYNAMIC_BUFFER` off.
 

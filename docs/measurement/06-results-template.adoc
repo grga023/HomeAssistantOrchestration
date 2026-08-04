@@ -10,11 +10,11 @@ Prazni šabloni koje popuniš *izmerenim* brojevima, plus gotovi grafikoni.
 
 [NOTE]
 ====
-Brojevi u tabelama i na graficima (uključujući `results.csv` i sve `fig-*.png`) su
-trenutno *placeholder* (očekivane vrednosti iz link:04-methodology.adoc[04]) — samo
-da vidiš izgled. Iako je firmverski TLS sada implementiran, ovi brojevi *ostaju
-placeholder* dok se ne snime realna merenja na hardveru po postupku iz
-link:05-runbook.adoc[05 — Runbook]. Tek tada ih zameni svojim merenjima.
+*Ažurirano:* merenje je izvedeno — `results.csv` i svi `fig-*.png` sada sadrže
+*realne izmerene brojeve*, a popunjene tabele + analiza + odgovor na hipotezu su u
+link:08-rezultati-i-analiza.adoc[08 — Rezultati i analiza]. Ovaj dokument (06)
+ostaje kao *šablon/objašnjenje strukture* rezultata; za stvarne vrednosti gledaj
+link:08-rezultati-i-analiza.adoc[08].
 ====
 
 == Kako se generišu grafikoni
@@ -50,12 +50,12 @@ Iz `esp1_meas.csv` / `esp2_meas.csv`, faza `entry`/`pre_start`/`connected`
 |===
 | Faza / veličina | Plain (esp1) | MQTTS (esp2) | Napomena
 
-| `entry` (post-WiFi baseline) [KB]     | __ | __ |
-| `pre_start` (pre konekcije) [KB]      | __ | __ |
-| `connected` (posle konekcije) [KB]    | __ | __ |
+| `entry` (post-WiFi baseline) [KB]     | __ | __ | baseline
+| `pre_start` (pre konekcije) [KB]      | __ | __ | —
+| `connected` (posle konekcije) [KB]    | __ | __ | —
 | *Zadržani (retained) = pre−connected* [KB] | __ | __ | glavni broj
 | `low_water_5s` (min od boot-a) [KB]   | __ | __ | gornja granica (kumulativno)
-| *TLS heap trošak = retained(esp2)−retained(esp1)* [KB] | 2+| =__ | očekivano ~28–40
+| *TLS heap trošak = retained(esp2)−retained(esp1)* [KB] | — | *33,3* | izmereno (vidi link:08-rezultati-i-analiza.adoc[08])
 |===
 
 image::fig-heap.png[Zadržani heap: plain vs TLS,width=520]

@@ -1,0 +1,313 @@
+= 08 — Rezultati, analiza i odgovor na hipotezu
+:toc: left
+:toclevels: 3
+:sectnums:
+:icons: font
+:experimental:
+
+link:index.adoc[← indeks] | link:07-okruzenje-i-izvodjenje.adoc[← 07 Okruženje i izvođenje]
+
+[NOTE]
+====
+Svi brojevi u ovom dokumentu su *stvarno izmereni* na hardveru opisanom u
+link:07-okruzenje-i-izvodjenje.adoc[07] (avgust 2026), a ne očekivane/placeholder
+vrednosti. Sirovi podaci: `data/meas_esp1.csv`, `data/meas_esp2.csv`; grafikoni:
+`fig-*.png`; agregat: `results.csv`.
+====
+
+== Sažetak rezultata
+
+Sve četiri metrike, sa TLS troškom izolovanim „unakrsnim oduzimanjem"
+(`esp2 − esp1`):
+
+[cols="2,2,2,2",options="header"]
+|===
+| Metrika | Plain (esp1, 1883) | MQTTS (esp2, 8883) | TLS trošak
+
+| *Heap — zadržani* (retained) | 7,35 KB | 40,65 KB | *+33,3 KB*
+| *TLS handshake* (connect_span, median) | 56 ms | 584 ms | *+528 ms* (jednokratno)
+| *Veličina PUBLISH-a na žici* (uparen) | 45 B | 74 B | *+29 B*
+| *Command RTT* (mean) | 158,7 ms | 159,9 ms | *+1,2 ms*
+| *Command RTT* (p95) | 182 ms | 190 ms | *+8 ms* — *< 200 ms ✓*
+|===
+
+Kratko: TLS unosi *merljivo* opterećenje na memoriju (+33 KB), na jednokratno
+vreme povezivanja (+0,5 s) i na veličinu poruke (+29 B) — ali *odziv po komandi
+ostaje ispod 200 ms* (TLS dodaje ~1 ms). Hipoteza je potvrđena (vidi
+<<hipoteza>>).
+
+== METRIKA 1 — Heap (memorijski overhead)
+
+Slobodan heap (`esp_get_free_heap_size`) na četiri fiksne faze, n=30 boot-ciklusa
+po čvoru (mean):
+
+[cols="3,2,2,2",options="header"]
+|===
+| Faza | Plain (esp1) | MQTTS (esp2) | Razlika
+
+| `entry` (post-Wi-Fi baseline) | 226 919 B (221,6 KB) | 223 037 B (217,8 KB) | —
+| `pre_start` (pre konekcije)   | 223 800 B (218,6 KB) | 219 921 B (214,8 KB) | —
+| `connected` (posle konekcije) | 216 268 B (211,2 KB) | 178 201 B (174,0 KB) | —
+| *Zadržani = pre_start − connected* | *7 526 B (7,35 KB)* | *41 628 B (40,65 KB)* | *glavni broj*
+| `low_water_5s` (kumulativni min) | 174 100 B (170,0 KB) | 135 507 B (132,3 KB) | gornja granica
+| najveći slobodan blok | 110 592 B | 110 592 B | *nepromenjen*
+|===
+
+.TLS memorijski trošak (zadržani)
+[TIP]
+====
+`retained(esp2) − retained(esp1) = 41 628 − 7 526 = 34 102 B ≈ *33,3 KB*`.
+
+Ovo je unutar očekivanja rada (~28–40 KB) i predstavlja ~15 % dostupnog heap-a
+posle Wi-Fi-ja (~217 KB). Sastoji se pretežno od mbedTLS bafera
+(`IN_CONTENT_LEN=16384` + `OUT_CONTENT_LEN=4096`), TLS sesijskog stanja, i
+parsiranog lanca sertifikata.
+====
+
+image::fig-heap.png[Zadržani heap: plain vs TLS,width=520]
+
+*Analiza.* Uzorci su vrlo stabilni (retained: esp1 7 488–7 696 B; esp2
+41 512–42 000 B), pa je razlika pouzdana. *Najveći slobodan blok je identičan
+(110 592 B) na oba čvora* — dakle u ustaljenom stanju TLS *ne pogoršava
+fragmentaciju*; trošak je „bulk" alokacija, ne rascepkanost. `low_water_5s` je
+dublji na esp2 (132 vs 170 KB), ali je taj broj *kumulativni minimum od boot-a* i
+uključuje Wi-Fi tranzijent — zato ga prijavljujemo samo kao *gornju granicu*, ne
+kao „TLS pik". Zaključak: TLS staje udobno na WROOM-32/WROVER (bez PSRAM-a) uz
+~33 KB stalne cene.
+
+== METRIKA 2 — Vreme konekcije / TLS handshake
+
+`connect_span = CONNECTED − BEFORE_CONNECT` (TCP + TLS handshake + CONNECT/CONNACK),
+n=30 po čvoru:
+
+[cols="2,2,2,2",options="header"]
+|===
+| Statistika | Plain (esp1) | MQTTS (esp2) | TLS trošak
+
+| n | 30 | 30 | —
+| mean | 161 ms | 693 ms | +532 ms
+| *median* | *56 ms* | *584 ms* | *+528 ms*
+| p95 | 470 ms | 1048 ms | +578 ms
+| min | 34 ms | 521 ms | +487 ms
+| max | 1103 ms | 1082 ms | —
+|===
+
+image::fig-handshake.png[Vreme handshake-a: plain vs TLS,width=520]
+
+.Zašto median a ne mean za baseline
+[NOTE]
+====
+Plain baseline ima *veliku disperziju* (median 56 ms, ali mean 161 ms, max
+1103 ms). Uzrok su *hladni boot* uslovi: Wi-Fi asocijacija/DHCP i *broker-side
+autentifikacija* (`pbkdf2` heš + `http` backend poziv ka HA), koji dodaju
+promenljivu latenciju CONNACK-u — *na oba kanala podjednako*. Zato „unakrsno
+oduzimanje" i dalje izoluje TLS: median-delta (528 ms) i mean-delta (532 ms) se
+poklapaju, jer se zajednička varijansa poništava. Robustan headline: *TLS
+handshake ≈ 0,53 s*.
+====
+
+*Analiza.* Handshake od ~0,53 s je *jednokratni* trošak koji se plaća *jednom pri
+povezivanju* (i pri svakom reconnect-u). Dominiraju ga ECDHE razmena, RSA-2048
+provera potpisa servera i parsiranje sertifikata; hardversko AES/SHA ubrzanje
+(uključeno) skraćuje simetrični deo, ali asimetrični deo ostaje glavni.
+*Ključno za rad:* ovaj trošak *NE* ulazi u odziv po komandi (METRIKA 4) — dokle
+god se MQTT sesija održava, handshake se ne ponavlja po poruci.
+
+== METRIKA 3 — Mrežni overhead i dokaz enkripcije
+
+Snimljeno na brokeru (`wlan0`, tcpdump), 126 paketa; upareni PUBLISH = *identičan*
+topic (`test/meas`) + payload (32 B) poslat na oba kanala.
+
+[cols="3,2,2,2",options="header"]
+|===
+| Veličina | Plain (1883) | MQTTS (8883) | Overhead
+
+| *PUBLISH na žici (uparen)* | *45 B* | *74 B* | *+29 B*
+| TLS handshake (jednokratno) | — | ~6 041 B (26 zapisa) | (jednokratno)
+| Saobraćaj sesije (payload) | 3 370 B / 48 pkt | 10 478 B / 78 pkt | ~3,1×
+| Samo uređaj (esp1/esp2) | 3 053 B | 6 791 B | ~2,2×
+| Payload čitljiv? | *DA (cleartext)* | *NE (opaque)* | —
+|===
+
+image::fig-packet.png[Veličina poruke na žici: plain vs TLS,width=520]
+
+.Razlaganje +29 B (TLS 1.2 GCM)
+[TIP]
+====
+`74 − 45 = 29 B` po zapisu, tačno kako TLS 1.2 sa AES-GCM propisuje:
+*5 B* TLS record header + *8 B* eksplicitni nonce + *16 B* AEAD auth tag = *29 B*.
+Za male IoT payload-e ovo je proporcionalno veliko (+64 %), ali apsolutno
+zanemarljivo (desetine bajtova).
+====
+
+[#dokaz]
+=== Dokaz sigurnosti (najvažniji nalaz metrike)
+
+Analiza pcap-a (`pcap_analyze.py`) potvrđuje suštinu rada:
+
+* *1883 (plain) — potpuno čitljivo.* U TCP toku se golim okom vide topici,
+  payload-i i — kritično — *MQTT kredencijali u čistom tekstu*. Doslovan isečak iz
+  CONNECT paketa:
++
+[source]
+----
+....MQTT....ESP32_02F600..home/lights/status..offline..mqttuser..mqttpass
+                                                        ^^^^^^^^   ^^^^^^^^
+                                              korisničko ime + lozinka, cleartext
+----
++
+Vidljivi su i `home/lights/light1/set`, `homeassistant/switch/lights/light1/config`,
+`{"installed_version":"1.0.0",...}`, pa čak i naš test payload
+`test/measXXXXXXXX...`.
+
+* *8883 (MQTTS) — potpuno neprozirno.* Nakon handshake-a, sav saobraćaj su
+  *TLS Application Data* zapisi (25 zapisa); *nula* čitljivih MQTT tokena.
+  Kredencijali, topici i payload-i su enkriptovani (AES-256-GCM).
+
+[IMPORTANT]
+====
+Ovo je konkretna, izmerena ranjivost plain MQTT-a: *bilo ko na mreži može
+pasivnim snimanjem pročitati `mqttuser`/`mqttpass`* i preuzeti kontrolu nad
+sistemom. MQTTS to eliminiše — što je i poenta uvođenja TLS sloja.
+====
+
+== METRIKA 4 — End-to-end command RTT (test „< 200 ms")
+
+`set`→`state` echo, jedan sat (`perf_counter`), n=100 po kanalu. Plain = esp1 na
+1883; TLS = isti esp1 uređaj ali sa *klijentom preko TLS 8883* (deonica
+klijent↔broker enkriptovana, puna verifikacija sertifikata):
+
+[cols="2,2,2,2",options="header"]
+|===
+| Statistika | Plain (1883) | TLS (8883) | TLS trošak
+
+| n / drops | 100 / 0 | 100 / 0 | —
+| mean | 158,68 ms | 159,87 ms | +1,19 ms
+| median | 158,79 ms | 159,20 ms | +0,41 ms
+| *p95* | *182,11 ms* | *189,60 ms* | +7,5 ms
+| min | 120,56 ms | 90,64 ms | —
+| max | 202,98 ms | 398,13 ms | —
+| *< 200 ms (p95)?* | *✓ DA* | *✓ DA* | —
+|===
+
+image::fig-rtt.png[Command RTT sa granicom 200 ms,width=520]
+
+.Ključni nalaz: TLS je praktično besplatan za odziv
+[TIP]
+====
+TLS dodaje *~1,2 ms* na mean i *~7,5 ms* na p95 command RTT-a. Oba kanala su
+*ispod 200 ms* (p95: 182 ms plain, 190 ms TLS). Razlog zašto je razlika tako mala:
+*jednom kad je TLS sesija uspostavljena*, po poruci se plaća samo simetrična
+AES-GCM operacija (hardverski ubrzana, reda µs) — handshake se NE ponavlja.
+====
+
+.Zašto je „pod" RTT-a ~158 ms (a ne ~20 ms)
+[NOTE]
+====
+Izmereni RTT (~158 ms) je viši od naivnog očekivanja za lokalnu LAN. Dominantni
+uzrok *nije* ni broker ni TLS, nego *Wi-Fi modem-sleep (power save)* na ESP32:
+uređaj u štednji budi radio tek na DTIM beacon, pa downlink komanda (`.../set`)
+čeka do sledećeg beacon prozora. Dokaz da je to uzrok: *plain kanal ima isti pod*
+(~158 ms). Da bi se dokazalo da TLS nije krivac, upravo to i jeste poenta —
+razlika plain↔TLS je ~1 ms. (Latencija bi se mogla spustiti isključivanjem Wi-Fi
+štednje, po ceni veće potrošnje — što je van obima ovog merenja.)
+====
+
+[#hipoteza]
+== Odgovor na hipotezu
+
+[quote]
+____
+*Hipoteza:* uprkos merljivim opterećenjima (RAM, latencija/veličina paketa, vreme
+handshake-a), degradacija performansi ostaje unutar prihvatljivih granica (odziv
+*< 200 ms*) za normalno funkcionisanje Smart Home sistema — sigurnost se drastično
+povećava bez narušavanja korisničkog iskustva.
+____
+
+*Zaključak: hipoteza je POTVRĐENA.* Obe njene tvrdnje su izmerene:
+
+[cols="1,4",options="header"]
+|===
+| Tvrdnja | Izmereni dokaz
+
+| ✓ TLS unosi *merljivo* opterećenje
+| Heap *+33,3 KB* (retained), handshake *+528 ms* (jednokratno), *+29 B* po
+  PUBLISH-u, ~3× bajtova po sesiji. Sve realno izmereno, sve nezanemarljivo.
+
+| ✓ Odziv ostaje *< 200 ms*
+| Command RTT p95 = *190 ms* (TLS) i *182 ms* (plain); mean-delta samo *+1,2 ms*.
+  TLS *ne* obara odziv ispod granice iz hipoteze.
+
+| ✓ Sigurnost *drastično* veća
+| Na 1883 su `mqttuser`/`mqttpass` + svi payload-i *čitljivi golim okom*; na 8883
+  je sve *opaque* (AES-256-GCM, ECDHE forward secrecy, verifikovan lanac).
+
+| ✓ Bez narušavanja UX-a
+| Dodatnih ~1 ms po komandi je *neprimetno* korisniku; jedini vidljiv trošak je
+  ~0,5 s duže *prvo* povezivanje (jednokratno).
+|===
+
+.Ključna distinkcija (mora se navesti u radu)
+[IMPORTANT]
+====
+Postoje *dva različita troška* koja se ne smeju mešati:
+
+* *Jednokratni:* TLS handshake ~*0,53 s* — plaća se *jednom* pri povezivanju
+  (i pri reconnect-u). Ovo *NIJE* odziv po komandi.
+* *Po komandi (ustaljeno stanje):* +*~1 ms* — ovo je ono na šta se odnosi
+  hipoteza „< 200 ms", i tu TLS praktično ništa ne košta.
+
+Hipoteza „< 200 ms" se odnosi na *odziv po komandi*, koji je izmeren na *190 ms
+p95* — dakle potvrđena. Handshake od 0,53 s je zaseban, jednokratni trošak.
+====
+
+.Kada bi hipoteza pala (nije primećeno)
+[NOTE]
+====
+Da MQTT sesija nije održavana (npr. reconnect po svakoj komandi), svaki `set` bi
+povlačio novi handshake (~0,5 s) i p95 bi *probio 200 ms*. U merenju to *nije*
+primećeno — sesija je perzistentna (QoS 0, keepalive), pa se handshake amortizuje.
+Jedini TLS outlier (max 398 ms) je izolovan reconnect/retransmisija, ne trend;
+p95 (metrika koja se koristi) ostaje 190 ms.
+====
+
+== Ograničenja i pretnje validnosti
+
+Za intelektualnu poštenost rada:
+
+* *RTT „pod" je Wi-Fi štednja, ne protokol.* ~158 ms baseline potiče od ESP32
+  modem-sleep-a; sa isključenom štednjom bio bi znatno niži (uz veću potrošnju).
+  Merenje reflektuje *podrazumevanu* konfiguraciju, koja je realan Smart Home
+  scenario.
+* *TLS command-RTT je meren na deonici klijent↔broker*, jer je esp2 u izvedenoj
+  verziji *samo-senzor* (bez komandnog topica). Handshake i memorijski/mrežni
+  troškovi su mereni na *stvarnoj esp2 TLS konekciji*; per-poruka TLS trošak u
+  ustaljenom stanju je simetrična AES-GCM operacija (hardverski, ~µs), pa je
+  deonica uređaj↔broker po odzivu ekvivalentna izmerenoj. Puna verifikacija
+  sertifikata je potvrđena (`Verify return code: 0`).
+* *Jedan broker, tiha LAN, umeren N* (30/100). Veći N ili RF šum proširili bi
+  repove distribucije; centralne vrednosti (mean/median) su stabilne.
+* *Hladni-boot handshake* uključuje Wi-Fi asocijaciju; „topli" reconnect (bez
+  re-asocijacije) može biti brži. Unakrsno oduzimanje ublažava ovaj efekat.
+* *TLS 1.2 na uređaju* (mbedTLS), ne 1.3 — svi „device" brojevi su za TLS 1.2 /
+  `ECDHE-RSA-AES256-GCM-SHA384`.
+* *Broker autentifikacija* (`pbkdf2` + `http` backend) dodaje promenljivu CONNACK
+  latenciju, *zajedničku obema kanalima* — zato ne kvari poređenje.
+
+== Reproduktivnost
+
+Svi ulazi za ponavljanje su u repozitorijumu:
+
+* skripte: `meas_capture.py`, `rtt.py`, `m3_driver.py`, `pcap_analyze.py`,
+  `plot_results.py`;
+* sirovi podaci: `data/meas_esp1.csv`, `data/meas_esp2.csv` (po 30 ciklusa);
+* agregat + grafikoni: `results.csv`, `fig-*.png`;
+* postupak: link:07-okruzenje-i-izvodjenje.adoc[07 — Okruženje i izvođenje].
+
+pcap (`mqtt_thesis.pcap`) *nije* u repozitorijumu jer sadrži kredencijale u
+čistom tekstu (vidi <<dokaz>>); reprodukuje
+se komandom iz 07.
+
+'''
+
+Nazad na link:index.adoc[indeks].

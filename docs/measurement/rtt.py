@@ -53,7 +53,7 @@ class RttMeter:
 
     # --- callbacks (rade i za V1 i za V2 potpise) ---
     def on_connect(self, client, userdata, flags, reason_code, properties=None):
-        rc = int(reason_code) if not isinstance(reason_code, int) else reason_code
+        rc = getattr(reason_code, "value", reason_code)   # paho 2.x ReasonCode -> int
         if rc == 0:
             client.subscribe(self.state_topic, qos=0)
             self.connected.set()

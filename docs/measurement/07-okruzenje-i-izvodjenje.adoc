@@ -1,0 +1,348 @@
+= 07 — Okruženje i izvođenje merenja
+:toc: left
+:toclevels: 3
+:sectnums:
+:icons: font
+:experimental:
+
+link:index.adoc[← indeks] | link:06-results-template.adoc[← 06 Šablon] | link:08-rezultati-i-analiza.adoc[08 Rezultati i analiza →]
+
+[NOTE]
+====
+Ovo je *izveštaj o stvarno izvedenom merenju* — za razliku od dokumenata
+link:04-methodology.adoc[04] (metodologija/plan) i link:05-runbook.adoc[05]
+(runbook), ovde je opisano *tačno šta je korišćeno i kako je merenje sprovedeno*
+na živom hardveru, sa realnim vrednostima parametara. Brojevi (rezultati) su u
+link:08-rezultati-i-analiza.adoc[08 — Rezultati i analiza].
+====
+
+Ovaj dokument je „materijali i metode" praktičnog dela rada: precizan popis
+hardvera, softvera i verzija, stvarna konfiguracija brokera i PKI/TLS sloja,
+instrumentacija firmvera, korišćeni merni alati i, na kraju, korak-po-korak
+postupak kojim su prikupljena sva četiri merenja.
+
+== Sažetak: šta je izmereno i na čemu
+
+[cols="1,3",options="header"]
+|===
+| Stavka | Vrednost
+
+| Predmet poređenja | `esp1_lights` (plain MQTT, 1883) vs `esp2_temperature` (MQTTS/TLS, 8883)
+| Metod | „unakrsno oduzimanje" — isti merni kod na oba čvora, razlika = TLS trošak
+| Merenja | (1) heap, (2) vreme handshake-a, (3) mrežni overhead + dokaz enkripcije, (4) command RTT
+| Broj uzoraka | heap/handshake: n=30 po čvoru; RTT: n=100 po kanalu; pcap: 126 paketa
+| Datum izvođenja | avgust 2026, potpuno lokalna LAN (bez Cloud-a)
+|===
+
+== Hardver
+
+[cols="1,2,3",options="header"]
+|===
+| Uloga | Uređaj | Detalji
+
+| Hub / broker
+| Raspberry Pi 4 Model B
+| Home Assistant OS 18.2 (aarch64), hostname `pihome`, IP `192.168.0.10`,
+  Wi-Fi (`wlan0`) na lokalnu mrežu.
+
+| Čvor A (baseline)
+| ESP32 DevKit (ESP32-WROOM-32)
+| PlatformIO env `esp1_lights`, plain MQTT `:1883`. USB-serijski most CP2102
+  (Silicon Labs), `/dev/ttyUSB0`. Uloga: 4 releja/svetla (switch entiteti).
+
+| Čvor B (predmet analize)
+| *ESP-WROVER-KIT V4.1* (ESP32-WROVER)
+| PlatformIO env `esp2_temperature`, MQTTS `:8883` (TLS). USB-serijski most
+  FT2232HL (dvokanalni: kanal A = JTAG `/dev/ttyUSB1`, kanal B = UART
+  `/dev/ttyUSB2`). Uloga: 4 *simulirana* temperaturna senzora + prikaz na
+  ugrađenom 320×240 ILI9341 LCD-u.
+|===
+
+[NOTE]
+.Napomena o čvoru B (odstupanje od prvobitnog plana)
+====
+U prvobitnom planu (link:01-overview.adoc[01]) esp2 je bio „termostat" sa DHT22
+senzorom i grejačem (relejem). U izvedenoj verziji, `esp2_temperature` je
+prilagođen ploči *ESP-WROVER-KIT V4.1*: umesto DHT22 koristi *četiri simulirana
+temperaturna senzora* (nasumični hod), objavljuje ih na svakih *30 s* i prikazuje
+na *ugrađenom LCD-u*. Grejač (relej) je uklonjen jer je njegov GPIO (23) na
+WROVER-KIT-u zauzet LCD signalom (MOSI). Ova izmena *ne utiče na merni deo*: merni
+kod („MEAS") živi u deljenom `mqtt_wrap.c` i identičan je na oba čvora; TLS je i
+dalje jedina razlika između esp1 i esp2. Jedina praktična posledica je za
+METRIKU 4 (command-RTT), gde je za TLS-kanal korišćen esp1 uređaj sa klijentom na
+8883 (vidi <<_metrika_4_command_rtt>> i link:08-rezultati-i-analiza.adoc[08]).
+====
+
+== Softver i verzije
+
+[cols="2,2,3",options="header"]
+|===
+| Komponenta | Verzija | Uloga / napomena
+
+| ESP-IDF | *5.5.0* | Firmware framework (pure C). mbedTLS ukompajliran u build.
+| PlatformIO Core | *6.1.19* | Build/flash/monitor; bira ploču preko `-DSMARTHOME_BOARD`.
+| Toolchain | espressif32 6.12.0 | GCC za Xtensa, cmake, ninja, esptool 4.9.0.
+| Eclipse Mosquitto | *2.1.2* | MQTT broker (HA add-on „Mosquitto broker" 7.1.0).
+| Home Assistant | *2026.7.4* | Core; MQTT integracija na broker preko loopback 1883.
+| Home Assistant OS | 18.2 | OS na Raspberry Pi 4B.
+| mbedTLS | (iz ESP-IDF 5.5) | TLS 1.2 stek na uređaju; HW AES/SHA/MPI.
+| Python paho-mqtt | 2.7.0 | Merni klijent (`rtt.py`, `m3_driver.py`).
+| Python scapy | 2.7.0 | Analiza pcap-a (`pcap_analyze.py`).
+| Python matplotlib | 3.x | Generisanje grafikona (`plot_results.py`).
+| tcpdump | 4.99.6 | Snimanje saobraćaja na brokeru (kroz add-on kontejner).
+| Firmware verzija | `1.0.0` | Iz `version.txt` (ista na oba čvora; ulazi u `sw_version`).
+|===
+
+== Mrežna topologija i adrese
+
+Potpuno lokalna Wi-Fi mreža (SSID `Grgur`), bez oslanjanja na Cloud.
+
+[cols="2,2,3",options="header"]
+|===
+| Čvor | IP | Kanal ka brokeru
+
+| Raspberry Pi (broker + HA) | `192.168.0.10` | —
+| esp1 (lights, baseline) | `192.168.0.11` | plain MQTT `:1883`
+| esp2 (temperature, TLS) | `192.168.0.12` | MQTTS `:8883` (TLS 1.2)
+| Merni PC (Linux) | (DHCP) | paho/tcpdump klijent; serijski link ka obema pločama
+|===
+
+== Broker: stvarna Mosquitto konfiguracija
+
+Mosquitto radi kao Home Assistant add-on. Aktivna konfiguracija (izvučena iz
+kontejnera `app_core_mosquitto`) ima *četiri listenera*; za rad su relevantna dva
+MQTT listenera:
+
+[source,ini]
+----
+# plain MQTT — esp1 + Home Assistant (loopback)
+listener 1883
+protocol mqtt
+
+# MQTTS / TLS — esp2
+listener 8883
+protocol mqtt
+cafile   /ssl/server.crt
+certfile /ssl/server.crt
+keyfile  /ssl/server.key
+require_certificate false        # server-only TLS (klijent ne šalje svoj sertifikat)
+----
+
+Autentifikacija je globalna (deljena za oba porta), preko add-on `go-auth`
+plugin-a (`files` + `http` backend, `pbkdf2` heš). Korisnik `mqttuser` mora da se
+poklapa sa `MQTT_USER`/`MQTT_PASSWORD` u `secrets.h`.
+
+[IMPORTANT]
+.Verzija TLS-a: 1.2 na uređaju (ne 1.3)
+====
+U aktivnoj konfiguraciji *nije* postavljen `tls_version`, pa broker prihvata i
+TLS 1.2 i TLS 1.3. Merni PC (OpenSSL) sa brokerom pregovara *TLS 1.3*, ali
+*uređaj (ESP32/mbedTLS) pregovara TLS 1.2* jer je u buildu uključen samo
+`CONFIG_MBEDTLS_SSL_PROTO_TLS1_2`. *Svi brojevi u radu koji se tiču uređaja
+odnose se na TLS 1.2.* Ovo je bitno eksplicitno navesti da se ne pomešaju dve
+različite TLS sesije (PC↔broker vs ESP32↔broker).
+====
+
+== PKI i TLS: stvarni sertifikati i cipher
+
+Lokalni CA i server sertifikat su generisani skriptom
+link:broker/gen-certs.sh[`broker/gen-certs.sh`] (OpenSSL) na Raspberry Pi-ju.
+Stvarni parametri (izmereni `openssl s_client`-om protiv živog brokera):
+
+[cols="2,3",options="header"]
+|===
+| Parametar | Izmerena vrednost
+
+| CA | `CN=HomeLab-CA`, RSA-2048, SHA-256, samopotpisan
+| Server sertifikat | `CN=pihome.local`
+| SAN (Subject Alternative Name) | `DNS:pihome.local`, `IP:192.168.0.10`
+| Ključ servera | RSA *2048-bit*
+| Potpis | `sha256WithRSAEncryption`
+| Validnost | `notBefore` 2026-08-04 … `notAfter` 2028-11-06
+| Verifikacija lanca (`openssl verify`) | *Verify return code: 0 (ok)*
+| TLS verzija (uređaj/ESP32) | *TLS 1.2*
+| Cipher suite (TLS 1.2) | *`ECDHE-RSA-AES256-GCM-SHA384`*
+| Ključna razmena | ECDHE (efemerno, forward secrecy) + RSA autentifikacija servera
+| Simetrična šifra | AES-256-GCM (AEAD; 16-bajtni auth tag)
+|===
+
+[NOTE]
+.Provera identiteta na uređaju
+====
+Firmware kači ugrađeni `ca.crt` i prikuplja podatke sa
+`skip_cert_common_name_check=true` — lanac/potpis se *i dalje* verifikuju protiv
+našeg CA (MITM bez `ca.key` je blokiran), preskače se samo poklapanje imena. U
+potvrdnom „full verification" runu (METRIKA 4, TLS kanal) paho klijent je radio
+*sa punom verifikacijom* (bez `--insecure`) prema `192.168.0.10`, i pošto je IP u
+SAN-u — verifikacija je prošla (`Verify return code: 0`). Time je pokazano da i
+puna provera identiteta radi, a ne samo poverenje u lanac.
+====
+
+Ključni mbedTLS parametri iz `sdkconfig.esp2_temperature` (određuju heap broj i
+moraju biti reproduktivni):
+
+[cols="3,2",options="header"]
+|===
+| Parametar | Vrednost
+| `CONFIG_MBEDTLS_SSL_IN_CONTENT_LEN` | 16384
+| `CONFIG_MBEDTLS_SSL_OUT_CONTENT_LEN` | 4096
+| `CONFIG_MBEDTLS_ASYMMETRIC_CONTENT_LEN` | uključeno (IN velik, OUT mali)
+| `CONFIG_MBEDTLS_DYNAMIC_BUFFER` | *isključeno* (statički baferi → reproduktivan heap)
+| `CONFIG_MBEDTLS_HARDWARE_AES` / `SHA` / `MPI` | uključeno (hardversko ubrzanje)
+| `CONFIG_MBEDTLS_SSL_PROTO_TLS1_2` | uključeno (TLS 1.2)
+|===
+
+== Firmware instrumentacija (MEAS)
+
+Sav merni kod je u deljenom `components/common/src/mqtt_wrap.c` i kompajlira se
+*bajt-identično* na oba čvora; jedina razlika je TLS blok pod `#ifdef MQTT_USE_TLS`
+(uključen samo za esp2 preko `-DMQTT_TLS=1`). Izlaz ide kroz jedan grep-abilan tag
+`ESP_LOGI("MEAS", ...)` kao CSV red:
+
+[source]
+----
+MEAS: <board>,<metric>,<phase>,<a>,<b>,<c>
+----
+
+Prikupljene tačke:
+
+[cols="2,4",options="header"]
+|===
+| MEAS red | Značenje
+
+| `heap,entry` | slobodan heap na vrhu `mqtt_start()` (post-Wi-Fi baseline)
+| `heap,pre_start` | slobodan heap neposredno pre `esp_mqtt_client_start()`
+| `heap,connected` | slobodan heap u `MQTT_EVENT_CONNECTED` (+ najveći blok = fragmentacija)
+| `heap,low_water_5s` | `esp_get_minimum_free_heap_size()` 5 s posle konekcije (kumulativni min)
+| `heapdelta,retained` | `pre_start − connected` (glavni memorijski broj)
+| `time,connect_span` | `CONNECTED − BEFORE_CONNECT` = TCP + TLS handshake + CONNECT/CONNACK
+| `time,connect_total` | `CONNECTED − (pre start)`
+| `tlscfg` | `plain` ili `in_out_dyn,16384,4096,0` (potvrda TLS parametara)
+|===
+
+Vreme se meri `esp_timer_get_time()`-om *na esp-mqtt tasku*, između događaja
+`MQTT_EVENT_BEFORE_CONNECT` i `MQTT_EVENT_CONNECTED` — a ne oko neblokirajućeg
+`esp_mqtt_client_start()`. Detaljna instrumentacija je u
+link:04-methodology.adoc[04].
+
+== Alati i skripte za merenje
+
+Sve skripte su u `docs/measurement/` i pokrenute su Python interpreterom iz
+PlatformIO okruženja (`~/.platformio/penv/bin/python`), koji već ima potrebne
+pakete.
+
+[cols="2,4",options="header"]
+|===
+| Skripta | Uloga
+
+| link:meas_capture.py[`meas_capture.py`]
+| *(METRIKA 1+2)* Resetuje ploču preko serijskog porta (DTR/RTS auto-reset) N puta
+  i za svaki boot skuplja MEAS heap/vreme redove. Piše jedan CSV red po ciklusu.
+  Svaki reset daje jedan čist uzorak `connect_span` + heap.
+
+| link:rtt.py[`rtt.py`]
+| *(METRIKA 4)* Meri command RTT `set`→`state` na jednom satu (`perf_counter`),
+  uz alternaciju ON/OFF i drenažu retained poruka. Radi na 1883 (plain) i 8883
+  (TLS, `--cafile`).
+
+| link:m3_driver.py[`m3_driver.py`]
+| *(METRIKA 3)* Tokom snimanja: resetuje obe ploče (svež handshake + publish) i
+  objavljuje *identičan* topic+payload na 1883 i 8883 (TLS 1.2) radi merenja
+  overhead-a po poruci na uparenom slučaju.
+
+| link:pcap_analyze.py[`pcap_analyze.py`]
+| *(METRIKA 3)* Analizira pcap (scapy): bajtovi/paketi po portu i uređaju,
+  veličina TLS handshake-a, dokaz enkripcije (čitljivi tokeni na 1883 vs opaque na
+  8883), i uparena veličina PUBLISH-a plain vs TLS.
+
+| link:plot_results.py[`plot_results.py`]
+| Čita `results.csv` (izmereni brojevi) i pravi 4 grafikona (`fig-*.png`).
+|===
+
+Sirovi podaci (bez tajni) su sačuvani kao artefakti:
+`data/meas_esp1.csv`, `data/meas_esp2.csv` (po 30 boot-ciklusa).
+
+[WARNING]
+.pcap se NE commit-uje
+====
+Snimak `mqtt_thesis.pcap` *namerno nije* u repozitorijumu (dodat u `.gitignore`):
+plain 1883 CONNECT paket sadrži `mqttuser`/`mqttpass` u *čistom tekstu* — što je
+upravo ranjivost koju rad demonstrira. Nalazi iz pcap-a (veličine, dokaz
+enkripcije) su u link:08-rezultati-i-analiza.adoc[08], bez izlaganja kredencijala.
+====
+
+== Postupak izvođenja (korak po korak)
+
+Ovako su prikupljena merenja (broker + obe ploče online):
+
+=== Priprema
+
+[source,bash]
+----
+# obe ploče flešovane i online; broker sluša 1883 + 8883
+pio run -e esp1_lights      -t upload --upload-port /dev/ttyUSB0
+pio run -e esp2_temperature -t upload --upload-port /dev/ttyUSB2   # TLS build
+
+# provera TLS-a sa PC-a pre merenja (mora Verify return code: 0)
+openssl s_client -connect 192.168.0.10:8883 -tls1_2 \
+  -CAfile components/common/certs/ca.crt </dev/null
+----
+
+=== METRIKA 1 + 2 — heap i handshake (n=30 po čvoru)
+
+[source,bash]
+----
+python meas_capture.py --port /dev/ttyUSB0 --board lights      -n 30 --out data/meas_esp1.csv
+python meas_capture.py --port /dev/ttyUSB2 --board temperature -n 30 --out data/meas_esp2.csv
+----
+
+Skripta resetuje ploču, sačeka pun boot (Wi-Fi → MQTT connect → 5 s low-water) i
+zabeleži MEAS redove. Statistika (`mean/median/p95/min/max`) računata je nad 30
+ciklusa po čvoru.
+
+=== METRIKA 3 — mrežni overhead (pcap na brokeru)
+
+Snimanje se radi *na Raspberry Pi-ju* (broker host, interfejs `wlan0`), jer se na
+Wi-Fi klijentu vide samo L2-enkriptovani frejmovi. Pošto HAOS host nema tcpdump,
+koristi se kontejner add-on-a sa `--net=host`:
+
+[source,bash]
+----
+# na Pi-ju: tcpdump u host mrežnom namespace-u, stream ka PC-u
+ssh -p 22222 root@192.168.0.10 \
+  "timeout 60 docker run --rm --net=host --privileged --entrypoint tcpdump \
+   ghcr.io/hassio-addons/ssh:24.0.1 -i wlan0 -n -s 0 -U -w - \
+   tcp port 1883 or tcp port 8883" > mqtt_thesis.pcap
+
+# na PC-u, tokom snimanja: generiši saobraćaj (reset + upareni publish)
+python m3_driver.py
+# analiza:
+python pcap_analyze.py mqtt_thesis.pcap --esp1 192.168.0.11 --esp2 192.168.0.12
+----
+
+=== METRIKA 4 — command RTT (n=100 po kanalu)
+
+[source,bash]
+----
+# plain (esp1 na 1883)
+python rtt.py --host 192.168.0.10 --port 1883 -u mqttuser -P '***' \
+  --set home/lights/light1/set --state home/lights/light1/state -n 100
+
+# TLS (klijent na 8883, puna verifikacija — IP u SAN-u)
+python rtt.py --host 192.168.0.10 --port 8883 --cafile components/common/certs/ca.crt \
+  -u mqttuser -P '***' \
+  --set home/lights/light1/set --state home/lights/light1/state -n 100
+----
+
+=== Generisanje grafikona
+
+[source,bash]
+----
+# results.csv popunjen izmerenim brojevima
+python plot_results.py results.csv --out-dir .
+# -> fig-heap.png, fig-handshake.png, fig-rtt.png, fig-packet.png
+----
+
+'''
+
+Rezultati i njihova analiza: link:08-rezultati-i-analiza.adoc[08 — Rezultati i analiza →]

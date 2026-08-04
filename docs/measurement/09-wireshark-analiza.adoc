@@ -1,0 +1,242 @@
+= 09 — Wireshark analiza (dubinska analiza paketa)
+:toc: left
+:toclevels: 3
+:sectnums:
+:icons: font
+:experimental:
+
+link:index.adoc[← indeks] | link:08-rezultati-i-analiza.adoc[← 08 Rezultati i analiza]
+
+[NOTE]
+====
+Ovaj dokument je *dubinska analiza istog snimka* (`mqtt_thesis.pcap`) koji je
+korišćen za METRIKU 3 u link:08-rezultati-i-analiza.adoc[08]. Dok 08 daje
+zbirne brojeve, ovde se ide *paket po paket* — TLS handshake se rastavlja na
+poruke, a „Follow TCP Stream" se koristi kao *direktan vizuelni dokaz* da plain
+MQTT curi kredencijale, a MQTTS ne.
+
+Svi brojevi su izvučeni iz *stvarnog snimka* (126 paketa, snimljeno na brokeru,
+`tcpdump -i wlan0 'tcp port 1883 or tcp port 8883'`). Snimak *nije* u
+repozitorijumu jer sadrži lozinke u čistom tekstu (vidi <<stream>>); reprodukuje
+se postupkom iz link:07-okruzenje-i-izvodjenje.adoc[07] i skriptama
+link:pcap_analyze.py[`pcap_analyze.py`] / link:wireshark_analyze.sh[`wireshark_analyze.sh`].
+====
+
+== Cilj i metod
+
+Cilj je da se na nivou žice pokaže *šta tačno* TLS štiti i *po koju cenu*. Analiza
+odgovara na tri pitanja koja Wireshark direktno vizuelizuje:
+
+. *Šta se vidi na 1883 (plain)?* → `Statistics → Protocol Hierarchy` + `Follow TCP Stream`.
+. *Šta se pregovara na 8883 (TLS)?* → dissection `ServerHello` (verzija + cipher suite).
+. *Koliko TLS dodaje po poruci?* → uparen `PUBLISH` (identičan topic+payload) na oba porta.
+
+Ista analiza se reprodukuje na tri načina, svi daju iste brojeve:
+
+[cols="1,3",options="header"]
+|===
+| Alat | Kako
+
+| *Wireshark (GUI)* | `Statistics → Protocol Hierarchy` / `→ Conversations`; desni klik na
+  paket → `Follow → TCP Stream`; `Decode As…` za port 1883 → `MQTT`.
+| *tshark (CLI)* | link:wireshark_analyze.sh[`wireshark_analyze.sh`] — forsira MQTT
+  dissection na 1883 (`-d tcp.port==1883,mqtt`) i TLS na 8883.
+| *Python/scapy* | link:pcap_analyze.py[`pcap_analyze.py`] — bez zavisnosti od
+  `tshark` binarija; brojevi u tabelama ispod su iz ove skripte.
+|===
+
+== Hijerarhija protokola i konverzacije
+
+`Statistics → Protocol Hierarchy` (agregirano po portu; payload = TCP-payload bajtovi,
+bez Ethernet/IP/TCP zaglavlja):
+
+[cols="3,2,2,2",options="header"]
+|===
+| Konverzacija | Paketa | Payload | Napomena
+
+| *1883 (plain, esp1)* | 48 | 3 370 B | ceo saobraćaj = *čitljiv MQTT*
+| *8883 (TLS, esp2)*   | 78 | 10 478 B | `TLSv1.2` iznad TCP; MQTT *nevidljiv*
+| — samo uređaj esp1 (192.168.0.11) | — | 3 053 B | baseline
+| — samo uređaj esp2 (192.168.0.12) | — | 6 791 B | ~2,2× baseline-a
+|===
+
+.Zašto je TLS strana „teža" u snimku
+[NOTE]
+====
+8883 nosi ~3× više payload bajtova od 1883, ali to *nije* per-poruka cena — najveći
+deo je *jednokratni TLS handshake* (`ServerHello`, `Certificate`, `ServerKeyExchange`;
+vidi <<handshake>>). Kad se handshake izuzme, po-poruci razlika je samo *+29 B*
+(<<publish>>).
+====
+
+[#handshake]
+== TLS handshake — dissection poruka
+
+Wireshark rastavlja handshake na `8883` na pojedinačne poruke. Iz snimka
+(prva, potpuna razmena; smer *C*=klijent→broker, *S*=broker→klijent):
+
+[cols="1,3,2",options="header"]
+|===
+| Smer | Handshake poruka | Veličina
+
+| C→S | `ClientHello` | 219 B
+| S→C | `ServerHello` | 65 B
+| S→C | `Certificate` (lanac servera) | 856 B
+| S→C | `ServerKeyExchange` (ECDHE parametri + potpis) | 300 B
+| S→C | `ServerHelloDone` | 4 B
+| C→S | `ClientKeyExchange` (ECDHE javni ključ klijenta) | 37 B
+| C→S | `ChangeCipherSpec` + `Finished` (šifrovan) | —
+| S→C | `NewSessionTicket` + `ChangeCipherSpec` + `Finished` | 186 B + …
+|===
+
+.Pregovoreni parametri (iz `ServerHello`)
+[TIP]
+====
+Wireshark polja `Handshake Protocol: Server Hello`:
+
+[source]
+----
+Version:      TLS 1.2 (0x0303)
+Cipher Suite: TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (0xc030)
+----
+
+Dakle: *TLS 1.2*, razmena ključeva *ECDHE* (forward secrecy — otud
+`ServerKeyExchange`), autentifikacija servera *RSA-2048* (`Certificate` 856 B),
+simetrična šifra *AES-256-GCM*, integritet *SHA-384*. Ovo se poklapa sa `openssl
+s_client` izlazom iz link:07-okruzenje-i-izvodjenje.adoc[07] (`Verify return code: 0`).
+====
+
+Ukupan handshake saobraćaj na 8883 u snimku: *~6 041 B (26 `Handshake` zapisa,
+uklj. retransmisije/duplirani blok)* — to je *jednokratna* cena po konekciji, ista
+ona koja u METRICI 2 daje ~0,53 s (link:08-rezultati-i-analiza.adoc[08]).
+
+[#stream]
+== Follow TCP Stream — dokaz enkripcije
+
+Ovo je *najvažniji nalaz* analize. „Follow TCP Stream" u Wireshark-u pokazuje ceo
+razgovor kao tekst.
+
+=== 1883 (plain) — sve čitljivo, uključujući lozinku
+
+Isečci iz TCP toka na 1883 (kontrolni znaci zamenjeni tačkom):
+
+[source]
+----
+# MQTT CONNECT — klijent id, will-topic, will-msg, KORISNIČKO IME i LOZINKA:
+....MQTT....ESP32_02F600..home/lights/status..offline..mqttuser..mqttpass
+                                                        ^^^^^^^^   ^^^^^^^^
+                                              username + password, CLEARTEXT
+
+# Komandni topic i HA discovery config:
+..6b..home/lights/light1/set.1...)homeassistant/switch/lights/light1/config{"nam...
+"name":"ESP1 Lights","model":"ESP32 DevKit","manufacturer":"HomeAssistantOrchest...
+
+# Stanje i OTA:
+1...home/lights/statusonline
+1M..home/lights/ota/state{"installed_version":"1.0.0","latest_version":"1.0.0"}
+
+# Naš uparen test PUBLISH (test/meas):
+0+..test/measXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+----
+
+Automatska pretraga (`pcap_analyze.py`) našla je *6 uzoraka* sa čitljivim MQTT
+tokenima na 1883; kritično, `mqttuser`/`mqttpass` su vidljivi u `CONNECT` paketu.
+
+=== 8883 (MQTTS) — potpuno neprozirno
+
+Isti „Follow TCP Stream" na 8883, nakon handshake-a, sadrži *samo* TLS
+`Application Data` zapise:
+
+[source]
+----
+Content Type: Application Data (23)
+Version: TLS 1.2 (0x0303)
+Encrypted Application Data: 5a3f9c…  (opaque)
+----
+
+Merljivo: *25* `Application Data` zapisa, *0* čitljivih MQTT tokena, *0* plaintext
+curenja. Kredencijali, topici i payload-i su enkriptovani (AES-256-GCM).
+
+[IMPORTANT]
+====
+Ovo je *izmerena, a ne teorijska* ranjivost: bilo ko sa pristupom mreži može
+pasivnim `tcpdump`-om pročitati `mqttuser`/`mqttpass` sa 1883 i preuzeti kontrolu
+nad celim Smart Home sistemom (svi `.../set` topici su takođe vidljivi). MQTTS
+(8883) to u potpunosti eliminiše — što je i suština rada.
+====
+
+[#publish]
+== Uparen PUBLISH — TLS overhead po poruci
+
+Identičan `PUBLISH` (`test/meas`, 32 B payload) poslat na oba kanala, izmerena
+veličina TCP payload-a:
+
+[cols="3,2,2,2",options="header"]
+|===
+| Poruka | Plain (1883) | TLS (8883) | Overhead
+
+| `PUBLISH test/meas` (uparen) | *45 B* | *74 B* | *+29 B*
+|===
+
+image::fig-packet.png[Veličina PUBLISH-a na žici: plain vs TLS,width=520]
+
+.Razlaganje +29 B (TLS 1.2, AES-GCM)
+[TIP]
+====
+`74 − 45 = 29 B` tačno kako TLS 1.2 record sa AEAD šifrom propisuje:
+
+[cols="3,1",options="header"]
+|===
+| Komponenta | Bajtova
+| TLS record header (`type`+`version`+`length`) | 5
+| Eksplicitni GCM nonce | 8
+| AEAD authentication tag | 16
+| *Ukupno* | *29*
+|===
+
+Za male IoT payload-e ovo je relativno mnogo (+64 %), ali apsolutno zanemarljivo
+(desetine bajtova po poruci) i *konstantno* — ne raste s brojem poruka.
+====
+
+== Reprodukcija
+
+Snimanje na brokeru (Raspberry Pi), zatim analiza bilo kojim od tri alata:
+
+[source,bash]
+----
+# 1) snimanje na brokeru dok m3_driver.py generiše uparen saobraćaj (vidi 07)
+sudo tcpdump -i wlan0 -w mqtt_thesis.pcap 'tcp port 1883 or tcp port 8883'
+
+# 2a) Wireshark GUI:  File → Open → mqtt_thesis.pcap
+#     Statistics → Protocol Hierarchy / Conversations
+#     desni klik na 1883 paket → Decode As… → MQTT
+#     desni klik → Follow → TCP Stream   (uporedi 1883 vs 8883)
+
+# 2b) tshark (CLI) — sve sekcije odjednom:
+./wireshark_analyze.sh mqtt_thesis.pcap
+
+# 2c) Python/scapy (bez tshark-a) — brojevi iz ovog dokumenta:
+python3 pcap_analyze.py mqtt_thesis.pcap
+----
+
+== Zaključak
+
+[cols="1,4",options="header"]
+|===
+| Nalaz | Dokaz iz snimka
+
+| Plain MQTT *curi kredencijale* | `mqttuser`/`mqttpass` čitljivi u `CONNECT` na 1883
+  (Follow TCP Stream); + svi topici, HA config i payload-i.
+| MQTTS *sve krije* | 25 `Application Data` zapisa, 0 čitljivih tokena; pregovoreno
+  `TLS 1.2 / ECDHE-RSA-AES256-GCM-SHA384` sa forward secrecy.
+| Cena je *jednokratna + mala* | handshake ~6 KB / ~0,53 s po konekciji; *+29 B*
+  po poruci (5+8+16 B GCM okvir) — bez uticaja na command-RTT (< 200 ms, vidi 08).
+|===
+
+Ovime je i vizuelno (na nivou paketa) potvrđen zaključak iz
+link:08-rezultati-i-analiza.adoc[08]: *TLS drastično povećava sigurnost uz
+merljiv ali prihvatljiv trošak.*
+
+'''
+
+Nazad na link:index.adoc[indeks].
