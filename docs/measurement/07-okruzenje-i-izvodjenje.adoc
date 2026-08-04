@@ -59,6 +59,15 @@ postupak kojim su prikupljena sva četiri merenja.
 |===
 
 [NOTE]
+====
+Redosled `/dev/ttyUSBn` zavisi od USB enumeracije i može se razlikovati između
+sesija/host-ova; pouzdana identifikacija je *po čipu*: CP2102 = esp1, FT2232 kanal
+B (UART) = esp2. Brojevi u ovom dokumentu odgovaraju enumeraciji *tokom merenja*;
+u link:10-realni-podaci-uredjaja.adoc[10] / link:11-cpu-i-dijagnostika.adoc[11] su
+iz kasnije sesije (esp1 = `ttyUSB2`, esp2 UART = `ttyUSB1`).
+====
+
+[NOTE]
 .Napomena o čvoru B (odstupanje od prvobitnog plana)
 ====
 U prvobitnom planu (link:01-overview.adoc[01]) esp2 je bio „termostat" sa DHT22

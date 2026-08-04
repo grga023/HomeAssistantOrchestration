@@ -159,6 +159,10 @@ Isečci iz TCP toka na 1883 (kontrolni znaci zamenjeni tačkom):
 Automatska pretraga (`pcap_analyze.py`) našla je *6 uzoraka* sa čitljivim MQTT
 tokenima na 1883; kritično, `homeuser`/`N7kQ2pX9` su vidljivi u `CONNECT` paketu.
 
+NOTE: `installed_version:1.0.0` (u OTA state poruci gore) pokazuje da je snimak iz
+*merne faze* (firmver v1.0.0, pre nadogradnje na v3.0.0); sve protokolarne veličine
+(cleartext vs TLS, veličine paketa) su nezavisne od verzije aplikacije.
+
 image::ws-stream-1883.png[Follow TCP Stream 1883: cleartext MQTT + kredencijali (crveno=klijent),width=720]
 
 === 8883 (MQTTS) — potpuno neprozirno

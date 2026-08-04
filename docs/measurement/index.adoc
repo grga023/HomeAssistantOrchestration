@@ -167,8 +167,9 @@ link:01-overview.adoc[01].)
 * *esp1_lights* = plain MQTT, port 1883 → *baseline (referentna tačka)*.
 * *esp2_temperature* = MQTTS, port 8883 → *predmet analize opterećenja*.
 * TLS provera: *oba pristupa* — podaci se prikupljaju sa `skip_cert_common_name_check=true`
-  (garantovano radi), a zatim jedan potvrdni „full verification" run sa DNS-SAN
-  sertifikatom (`homeassistant.local`). Objašnjeno u link:03-broker-pki-tls.adoc[03].
+  (garantovano radi), a zatim jedan potvrdni „full verification" run (sertifikat
+  `CN=pihome.local`, IP-SAN `192.168.0.10`). Plan u link:03-broker-pki-tls.adoc[03],
+  izvedeno u link:07-okruzenje-i-izvodjenje.adoc[07].
 * Uključena su *sva 4 merenja* (3 tražena + command-RTT koji direktno testira
   hipotezu „< 200 ms").
 

@@ -67,16 +67,16 @@ I (57) boot:  0 nvs              WiFi data        01 02 00009000 00004000
 I (64) boot:  1 otadata          OTA data         01 00 0000d000 00002000
 I (77) boot:  3 ota_0            OTA app          00 10 00010000 001b0000
 I (83) boot:  4 ota_1            OTA app          00 11 001c0000 001b0000
-I (491) app_init: Project name:     HomeAssistantOrchestration
+I (493) app_init: Project name:     HomeAssistantOrchestration
 I (499) app_init: App version:      3.0.0
-I (510) app_init: ESP-IDF:          5.5.0
-I (1426) wifi:connected with <WIFI_SSID>, aid = 5, channel 11, BW20, bssid = <ROUTER_BSSID>
-I (2838) esp_netif_handlers: sta ip: 192.168.0.11, mask: 255.255.255.0, gw: 192.168.0.1
-I (2838) MEAS: lights,heap,entry,219376,219376,110592
+I (512) app_init: ESP-IDF:          5.5.0
+I (1438) wifi:connected with <WIFI_SSID>, aid = 5, channel 11, BW20, bssid = <ROUTER_BSSID>
+I (2898) esp_netif_handlers: sta ip: 192.168.0.11, mask: 255.255.255.0, gw: 192.168.0.1
+I (2898) MEAS: lights,heap,entry,219376,219376,110592
 I (2958) MEAS: lights,time,connect_span,46243,46,
-I (2908) MEAS: lights,heapdelta,retained,7480,,
-I (2908) mqtt: connected
-I (7908) MEAS: lights,cpu,load,7,50,28        (diag CPU — vidi 11)
+I (2968) MEAS: lights,heapdelta,retained,7480,,
+I (2978) mqtt: connected
+I (7908) MEAS: lights,cpu,load,7,50,28
 ----
 
 Log potvrđuje *dual-OTA particije* (`ota_0`/`ota_1`, svaka `0x1b0000` = 1,75 MB +
@@ -162,7 +162,7 @@ Iz `data/pi_system.txt`:
 
 == MQTT Discovery — auto-kreirane HA entitete
 
-Iz `data/mqtt_discovery.txt` — *10 retained config poruka* koje čvorovi objave na
+Iz `data/mqtt_discovery.txt` — *18 retained config poruka* koje čvorovi objave na
 `homeassistant/.../config`, pa se entiteti sami pojave u HA:
 
 [cols="2,3",options="header"]
@@ -171,6 +171,7 @@ Iz `data/mqtt_discovery.txt` — *10 retained config poruka* koje čvorovi objav
 
 | `switch` × 4 | `lights/light1..4` (relej svetla)
 | `sensor` × 4 | `temperature/temp1..4` (°C, `device_class: temperature`)
+| `sensor` × 8 | *diag*: `cpu`, `heap_free`, `rssi`, `uptime` — po čvoru (v3.0.0, vidi link:11-cpu-i-dijagnostika.adoc[11])
 | `update` × 2 | `lights/firmware`, `temperature/firmware` (OTA „Install" dugme)
 |===
 
@@ -183,7 +184,7 @@ Iz `data/mqtt_states.txt` (retained na brokeru, uživo):
 home/lights/status online
 home/lights/light1/state OFF   (… light2/3/4 OFF)
 home/temperature/status online
-home/temperature/sensor/state {"t1":20.4,"t2":23.7,"t3":17.5,"t4":26.7}
+home/temperature/sensor/state {"t1":21.6,"t2":23.1,"t3":20.0,"t4":26.5}
 home/lights/ota/state         {"installed_version":"3.0.0","latest_version":"3.0.0"}
 home/temperature/ota/state    {"installed_version":"3.0.0","latest_version":"3.0.0"}
 ----

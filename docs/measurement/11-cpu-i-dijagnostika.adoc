@@ -41,20 +41,20 @@ jezgra. Metod je *jedinično-nezavisan* (odnos), pa nije bitna rezolucija sata.
 [#connect]
 == CPU pri povezivanju (Wi-Fi + MQTT/TLS handshake)
 
-Prvi uzorak posle boot-a hvata prozor povezivanja. Iz `MEAS: <board>,cpu,load,...`
-(dva hladna boot-a, prozor ~2,5–7,5 s) — *prosek* dva jezgra:
+Prvi uzorak posle boot-a (v3.0.0) hvata prozor povezivanja. Iz
+`MEAS: <board>,cpu,load,...` (jedan hladan boot, prozor ~2,5–7,5 s) — *prosek* dva
+jezgra (verifikovljivo iz `data/esp*_boot.log`):
 
 [cols="3,2,2,2",options="header"]
 |===
 | Prozor „connect" (avg) | esp1 (plain) | esp2 (MQTTS/TLS) | Δ (TLS)
 
-| boot A | 29 % | 34 % | +5
-| boot B | 28 % | 34 % | +6
+| izmereno (boot log) | 28 % | 34 % | +6
 |===
 
 Per-core podela *varira* od boot-a do boot-a (handshake „padne" na trenutno slobodno
-jezgro — u boot-u A razlika je na app-jezgru `52→60 %`, u boot-u B na net-jezgru
-`7→18 %`), pa je *prosek* robustan signal.
+jezgro; u ovom boot-u razlika je na net-jezgru `7→18 %`, dok su app-jezgra skoro
+izjednačena `50→51 %`), pa je *prosek* robustan signal.
 
 .TLS handshake je merljiv CPU „šiljak"
 [TIP]
@@ -158,7 +158,7 @@ sensor.esp1_lights_uptime     107 s    sensor.esp2_temperature_uptime     67 s
 |===
 | Nalaz | Dokaz
 
-| TLS CPU trošak je *transijentan* | connect prozor +5 % avg (esp2 34 % vs esp1 29 %);
+| TLS CPU trošak je *transijentan* | connect prozor +6 % avg (esp2 34 % vs esp1 28 %);
   ustaljeno stanje oba *~1 %*.
 | Steady-state TLS ~*besplatan* | esp2 samo ~2 % skok na 30 s po (šifrovanom) publish-u;
   potvrđuje command-RTT +~1 ms (link:08-rezultati-i-analiza.adoc[08]).
@@ -178,11 +178,14 @@ python3 cap_serial.py /dev/ttyUSB1 40 esp2.log reset   # esp2 (FT2232 UART)
 # CPU time-series preko MQTT (oba čvora, na 5 s)
 mosquitto_sub -h 192.168.0.10 -p 1883 -u <user> -P <pass> -t 'home/+/diag/state' -F '%I %t %p'
 
-# light-toggle load test na esp1 preko HA REST API-ja (indukuje opterećenje)
-for i in $(seq 1 200); do for n in 1 2 3 4; do
-  curl -s -H "Authorization: Bearer <HA_TOKEN>" -X POST \
-    http://192.168.0.10:8123/api/services/switch/turn_on \
-    -d "{\"entity_id\":\"switch.esp1_lights_light$n\"}"; done; done
+# light-toggle load test na esp1 preko HA REST API-ja (~45 s, ~1312 komandi)
+H="Authorization: Bearer <HA_TOKEN>"; end=$(( $(date +%s) + 45 ))
+while [ $(date +%s) -lt $end ]; do
+  for s in turn_on turn_off; do for n in 1 2 3 4; do
+    curl -s -H "$H" -X POST \
+      http://192.168.0.10:8123/api/services/switch/$s \
+      -d "{\"entity_id\":\"switch.esp1_lights_light$n\"}"; done; done
+done
 ----
 
 '''

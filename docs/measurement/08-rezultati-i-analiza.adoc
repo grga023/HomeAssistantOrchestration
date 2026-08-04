@@ -28,7 +28,7 @@ Sve četiri metrike, sa TLS troškom izolovanim „unakrsnim oduzimanjem"
 | *TLS handshake* (connect_span, median) | 56 ms | 584 ms | *+528 ms* (jednokratno)
 | *Veličina PUBLISH-a na žici* (uparen) | 45 B | 74 B | *+29 B*
 | *Command RTT* (mean) | 158,7 ms | 159,9 ms | *+1,2 ms*
-| *Command RTT* (p95) | 182 ms | 190 ms | *+8 ms* — *< 200 ms ✓*
+| *Command RTT* (p95) | 182,1 ms | 189,6 ms | *+7,5 ms* — *< 200 ms ✓*
 |===
 
 Kratko: TLS unosi *merljivo* opterećenje na memoriju (+33 KB), na jednokratno
@@ -157,7 +157,8 @@ Analiza pcap-a (`pcap_analyze.py`) potvrđuje suštinu rada:
 ----
 +
 Vidljivi su i `home/lights/light1/set`, `homeassistant/switch/lights/light1/config`,
-`{"installed_version":"1.0.0",...}`, pa čak i naš test payload
+`{"installed_version":"1.0.0",...}` (snimak je iz *merne faze*, firmver v1.0.0 —
+protokolarni brojevi ne zavise od verzije aplikacije), pa čak i naš test payload
 `test/measXXXXXXXX...`.
 
 * *8883 (MQTTS) — potpuno neprozirno.* Nakon handshake-a, sav saobraćaj su
@@ -291,6 +292,10 @@ Za intelektualnu poštenost rada:
   re-asocijacije) može biti brži. Unakrsno oduzimanje ublažava ovaj efekat.
 * *TLS 1.2 na uređaju* (mbedTLS), ne 1.3 — svi „device" brojevi su za TLS 1.2 /
   `ECDHE-RSA-AES256-GCM-SHA384`.
+* *Hardverska heterogenost.* esp1 je WROOM (ESP32-D0WDQ6), esp2 je WROVER
+  (ESP32-D0WD-V3, sa PSRAM-om); jezgra i takt su identični (dual-core LX6 @
+  240 MHz), pa memorijski/CPU zaključci stoje jer +33 KB RAM i +6 % CPU u
+  connect prozoru daleko prevazilaze bilo koju razliku između samih čipova.
 * *Broker autentifikacija* (`pbkdf2` + `http` backend) dodaje promenljivu CONNACK
   latenciju, *zajedničku obema kanalima* — zato ne kvari poređenje.
 
@@ -301,6 +306,8 @@ Svi ulazi za ponavljanje su u repozitorijumu:
 * skripte: `meas_capture.py`, `rtt.py`, `m3_driver.py`, `pcap_analyze.py`,
   `plot_results.py`;
 * sirovi podaci: `data/meas_esp1.csv`, `data/meas_esp2.csv` (po 30 ciklusa);
+* RTT tabela prikazuje *agregate* (n=100 po kanalu: mean/median/p95); sirovi RTT
+  uzorci nisu commit-ovani — reprodukuju se skriptom `rtt.py`;
 * agregat + grafikoni: `results.csv`, `fig-*.png`;
 * postupak: link:07-okruzenje-i-izvodjenje.adoc[07 — Okruženje i izvođenje].
 

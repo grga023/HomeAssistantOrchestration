@@ -36,7 +36,7 @@ Cilj rada je bio da se izgradi modularan, proširiv sistem u kome:
 . novi uređaji i entiteti se dodaju po ustaljenom obrascu, i
 . firmver se može ažurirati *daljinski (OTA)* bez fizičkog pristupa uređaju.
 
-Pored funkcionalnog dela, projekat sadrži i *mernu studiju* (dokumenti 01–10)
+Pored funkcionalnog dela, projekat sadrži i *mernu studiju* (dokumenti 01–11)
 koja poredi performanse običnog MQTT-a i MQTTS/TLS varijante na ograničenom
 hardveru ESP32 — što je i motiv za zadržavanje baš dve ploče (`esp1_lights` kao
 „plain" referenca i `esp2_temperature` kao TLS predmet analize).
@@ -75,7 +75,7 @@ otkriva uređaje putem mehanizma *MQTT Discovery*.
 
 === Softverski stek
 
-* *ESP-IDF 5.4.0* (čist C), bez Arduino sloja
+* *ESP-IDF 5.5.0* (čist C), bez Arduino sloja
 * *PlatformIO* (`framework = espidf`), toolchain espressif32
 * *FreeRTOS* (nativni, deo ESP-IDF-a) za konkurentne zadatke
 * *esp-mqtt* za MQTT klijent, *esp_wifi* (station režim) za mrežu
@@ -212,6 +212,14 @@ Glavni doprinos ovog rada, detaljno opisan u <<ota-impl>>.
 | OTA (po ploči) | `home/<board>/ota/set`, `home/<board>/ota/install` | `home/<board>/ota/state` (JSON)
 | Dostupnost | – | `home/<board>/status` (retained, preko LWT)
 |===
+
+[NOTE]
+====
+*Izvedeni build (v3.0.0)* na čvoru B *nema* grejač ni vlažnost — samo *4 simulirana
+temperaturna senzora* (+ LCD i diag). Tabele iznad prikazuju *prvobitni per-ploča
+obrazac* (DHT22 + grejač); stvarna odstupanja su dokumentovana u
+link:07-okruzenje-i-izvodjenje.adoc[07] i link:10-realni-podaci-uredjaja.adoc[10].
+====
 
 === Obrazac po ploči
 
@@ -427,7 +435,7 @@ docs/measurement/          merna studija plain-vs-TLS (AsciiDoc)
 [[word-izvoz]]
 == Izvoz u Word
 
-Celokupna dokumentacija (00–10) se sklapa u jedan `.docx` jednom komandom — vidi
+Celokupna dokumentacija (00–11) se sklapa u jedan `.docx` jednom komandom — vidi
 `docs/measurement/build-docx.sh` i uputstvo u link:index.adoc[indeksu].
 
 '''
