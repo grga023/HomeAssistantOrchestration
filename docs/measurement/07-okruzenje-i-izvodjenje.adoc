@@ -70,7 +70,7 @@ WROVER-KIT-u zauzet LCD signalom (MOSI). Ova izmena *ne utiče na merni deo*: me
 kod („MEAS") živi u deljenom `mqtt_wrap.c` i identičan je na oba čvora; TLS je i
 dalje jedina razlika između esp1 i esp2. Jedina praktična posledica je za
 METRIKU 4 (command-RTT), gde je za TLS-kanal korišćen esp1 uređaj sa klijentom na
-8883 (vidi <<_metrika_4_command_rtt>> i link:08-rezultati-i-analiza.adoc[08]).
+8883 (vidi <<metrika4>> i link:08-rezultati-i-analiza.adoc[08]).
 ====
 
 == Softver i verzije
@@ -324,6 +324,7 @@ python sanitize_pcap.py mqtt_thesis.pcap mqtt_capture <mqtt-user>=homeuser <mqtt
 python pcap_analyze.py mqtt_capture.pcapng --esp1 192.168.0.11 --esp2 192.168.0.12
 ----
 
+[#metrika4]
 === METRIKA 4 — command RTT (n=100 po kanalu)
 
 [source,bash]

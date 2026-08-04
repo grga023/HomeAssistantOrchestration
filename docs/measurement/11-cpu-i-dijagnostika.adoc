@@ -38,6 +38,7 @@ Idle taskovi (`IDLE0`/`IDLE1`) su vezani za svoje jezgro; njihov udeo u interval
 „nezauzeto", pa je `100 − idle%` iskorišćenost tog jezgra. `cpu_avg` je prosek dva
 jezgra. Metod je *jedinično-nezavisan* (odnos), pa nije bitna rezolucija sata.
 
+[#connect]
 == CPU pri povezivanju (Wi-Fi + MQTT/TLS handshake)
 
 Prvi uzorak posle boot-a hvata prozor povezivanja. Iz `MEAS: <board>,cpu,load,...`
@@ -136,7 +137,7 @@ CPU u promilima kumulativno na boot-u). Izbor ključnih taskova (`data/cpu_tasks
 
 Nijedan task nema kritično malo steka (najmanji je `ipc` ~500 reči = 2 KB head-room).
 esp2 ima *jedan task više* (TLS) i nešto niži idle-udeo tokom boot-a (jer TLS
-handshake troši CPU) — konzistentno sa <<_cpu_pri_povezivanju_wi_fi_mqtt_tls_handshake>>.
+handshake troši CPU) — konzistentno sa <<connect>>.
 
 == Home Assistant integracija
 
