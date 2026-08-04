@@ -1,0 +1,131 @@
+= 06 — Reprodukcija rezultata i uvoz snimka u Wireshark
+:toc: left
+:toclevels: 3
+:sectnums:
+:icons: font
+:experimental:
+
+link:index.adoc[← indeks] | link:05-runbook.adoc[← 05 Runbook] | link:07-okruzenje-i-izvodjenje.adoc[07 Okruženje i izvođenje →]
+
+Praktičan vodič: kako iz priloženih artefakata ponovo dobiti sve brojeve i
+grafikone, i kako *otvoriti priloženi snimak u Wireshark-u*. Za same rezultate
+gledaj link:08-rezultati-i-analiza.adoc[08], a za dubinsku analizu paketa
+link:09-wireshark-analiza.adoc[09].
+
+[NOTE]
+====
+Svi brojevi u dokumentaciji su *stvarno izmereni* (vidi
+link:07-okruzenje-i-izvodjenje.adoc[07]). Ovaj dokument ne sadrži placeholder
+vrednosti — samo komande kojima se rezultati reprodukuju iz priloženih podataka
+(`data/*.csv`, `results.csv`, `mqtt_capture.pcapng`).
+====
+
+== Priloženi artefakti
+
+[cols="2,3",options="header"]
+|===
+| Fajl | Šta je
+
+| `data/meas_esp1.csv`, `data/meas_esp2.csv` | Sirovi izmereni podaci, po 30 boot-ciklusa po čvoru (heap/handshake/RTT).
+| `results.csv` | Agregat (mean/p95) korišćen za grafikone.
+| `mqtt_capture.pcapng` | *Stvarni* mrežni snimak (plain 1883 + TLS 8883), Wireshark-ready. Kredencijali su *sanitizovani* (vidi <<sanitizacija>>).
+| `plot_results.py` | Pravi `fig-*.png` iz `results.csv`.
+| `pcap_analyze.py` | Analiza snimka (scapy): veličine, handshake, dokaz enkripcije.
+| `wireshark_analyze.sh` | Ista analiza kroz `tshark` (Wireshark CLI).
+| `sanitize_pcap.py` | Skripta kojom je sirovi snimak očišćen od kredencijala.
+|===
+
+== Reprodukcija grafikona
+
+[source,bash]
+----
+pip install matplotlib
+python3 plot_results.py     # čita results.csv -> fig-heap/handshake/rtt/packet.png
+----
+
+Grafikoni su colorblind-safe (plava = plain, narandžasta = TLS), 200 dpi.
+
+== Reprodukcija brojeva iz snimka
+
+Bez Wireshark-a (samo Python/scapy):
+
+[source,bash]
+----
+pip install scapy
+python3 pcap_analyze.py mqtt_capture.pcapng
+----
+
+Ili kroz `tshark` (Wireshark CLI):
+
+[source,bash]
+----
+./wireshark_analyze.sh mqtt_capture.pcapng
+----
+
+Ponovno pokretanje celog merenja (od hardvera) opisano je u
+link:07-okruzenje-i-izvodjenje.adoc[07] i link:05-runbook.adoc[05].
+
+== Uvoz i pregled snimka u Wireshark-u
+
+`mqtt_capture.pcapng` se otvara direktno: *File → Open → mqtt_capture.pcapng*
+(ili dvoklik). Snimak sadrži 126 paketa: esp1 na *1883 (plain)* i esp2 na
+*8883 (TLS)*.
+
+.Korisni koraci i filteri
+[cols="2,3",options="header"]
+|===
+| U Wireshark-u | Šta pokazuje
+
+| `Statistics → Protocol Hierarchy` | Udeo TCP/TLS/MQTT bajtova po sloju.
+| `Statistics → Conversations → TCP` | Po-konekciji: paketi/bajtovi 1883 vs 8883.
+| Filter `tcp.port == 1883` | Ceo plain MQTT saobraćaj (esp1).
+| Desni klik na 1883 paket → `Decode As… → MQTT` | Ako Wireshark ne prepozna MQTT automatski.
+| Desni klik → `Follow → TCP Stream` (na 1883) | *Čitljiv* topic, payload i kredencijali (vidi dole).
+| Filter `tls.handshake.type == 2` | `ServerHello` — pregovorena verzija + cipher suite.
+| Filter `tls.record.content_type == 23` | Opaque `Application Data` na 8883 (šifrovano).
+|===
+
+.Šta ćeš videti u „Follow TCP Stream" (dokaz)
+[TIP]
+====
+* Na *1883* (esp1, plain): u `CONNECT` paketu se golim okom vide korisničko ime
+  i lozinka, topici i payload-i, npr.
++
+[source]
+----
+....MQTT....ESP32_02F600..home/lights/status..offline..homeuser..N7kQ2pX9
+                                                        ^^^^^^^^   ^^^^^^^^
+                                              username + password u cleartext-u
+----
+* Na *8883* (esp2, TLS): posle handshake-a samo `Application Data` — nema
+  nijednog čitljivog MQTT tokena.
+====
+
+[#sanitizacija]
+== Sanitizacija snimka (bezbednost)
+
+Sirovi snimak je stvaran, pa je `CONNECT` na 1883 sadržao *prave* broker
+kredencijale u čistom tekstu — što je upravo ranjivost koju rad demonstrira, ali
+se ne sme objaviti. Zato je priloženi `mqtt_capture.pcapng` propušten kroz
+`sanitize_pcap.py`, koji zamenjuje samo kredencijalne bajtove demo vrednostima
+*iste dužine* (`homeuser` / `N7kQ2pX9`) i preračunava IP/TCP checksum-e —
+*sve ostalo (veličine, handshake, tajminzi) ostaje netaknuto*, pa su svi merni
+brojevi identični originalu.
+
+[source,bash]
+----
+# sirovi snimak -> sanitizovani pcapng (bez pravih kredencijala)
+python3 sanitize_pcap.py mqtt_thesis.pcap mqtt_capture
+----
+
+[WARNING]
+====
+Sirovi `*.pcap` je u `.gitignore` i *ne commit-uje se*. U repozitorijum ide samo
+sanitizovani `mqtt_capture.pcapng`. Pošto sanitizacija štiti samo *objavljeni* artefakt (git istorija može i dalje
+sadržati ranije vrednosti), preporuka je da se *promeni broker lozinka* na
+produkciji.
+====
+
+'''
+
+Nazad na link:index.adoc[indeks].

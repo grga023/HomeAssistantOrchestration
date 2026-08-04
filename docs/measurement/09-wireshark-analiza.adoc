@@ -9,16 +9,16 @@ link:index.adoc[← indeks] | link:08-rezultati-i-analiza.adoc[← 08 Rezultati 
 
 [NOTE]
 ====
-Ovaj dokument je *dubinska analiza istog snimka* (`mqtt_thesis.pcap`) koji je
-korišćen za METRIKU 3 u link:08-rezultati-i-analiza.adoc[08]. Dok 08 daje
-zbirne brojeve, ovde se ide *paket po paket* — TLS handshake se rastavlja na
-poruke, a „Follow TCP Stream" se koristi kao *direktan vizuelni dokaz* da plain
-MQTT curi kredencijale, a MQTTS ne.
+Ovaj dokument je *dubinska analiza stvarnog snimka* koji je korišćen za METRIKU 3
+u link:08-rezultati-i-analiza.adoc[08]. Dok 08 daje zbirne brojeve, ovde se ide
+*paket po paket* — TLS handshake se rastavlja na poruke, a „Follow TCP Stream" se
+koristi kao *direktan vizuelni dokaz* da plain MQTT curi kredencijale, a MQTTS ne.
 
-Svi brojevi su izvučeni iz *stvarnog snimka* (126 paketa, snimljeno na brokeru,
-`tcpdump -i wlan0 'tcp port 1883 or tcp port 8883'`). Snimak *nije* u
-repozitorijumu jer sadrži lozinke u čistom tekstu (vidi <<stream>>); reprodukuje
-se postupkom iz link:07-okruzenje-i-izvodjenje.adoc[07] i skriptama
+Snimak je *priložen* u repozitorijumu kao `mqtt_capture.pcapng` (126 paketa) i
+otvara se direktno u Wireshark-u (uputstvo: link:06-reprodukcija-wireshark.adoc[06]).
+Kredencijali su *sanitizovani* (zamenjeni demo vrednostima *iste dužine*), pa su
+svi merni brojevi identični originalu, a prave lozinke se ne objavljuju; sirovi
+`mqtt_thesis.pcap` je u `.gitignore`. Brojevi su izvučeni skriptama
 link:pcap_analyze.py[`pcap_analyze.py`] / link:wireshark_analyze.sh[`wireshark_analyze.sh`].
 ====
 
@@ -123,7 +123,7 @@ Isečci iz TCP toka na 1883 (kontrolni znaci zamenjeni tačkom):
 [source]
 ----
 # MQTT CONNECT — klijent id, will-topic, will-msg, KORISNIČKO IME i LOZINKA:
-....MQTT....ESP32_02F600..home/lights/status..offline..mqttuser..mqttpass
+....MQTT....ESP32_02F600..home/lights/status..offline..homeuser..N7kQ2pX9
                                                         ^^^^^^^^   ^^^^^^^^
                                               username + password, CLEARTEXT
 
@@ -140,7 +140,7 @@ Isečci iz TCP toka na 1883 (kontrolni znaci zamenjeni tačkom):
 ----
 
 Automatska pretraga (`pcap_analyze.py`) našla je *6 uzoraka* sa čitljivim MQTT
-tokenima na 1883; kritično, `mqttuser`/`mqttpass` su vidljivi u `CONNECT` paketu.
+tokenima na 1883; kritično, `homeuser`/`N7kQ2pX9` su vidljivi u `CONNECT` paketu.
 
 === 8883 (MQTTS) — potpuno neprozirno
 
@@ -160,7 +160,7 @@ curenja. Kredencijali, topici i payload-i su enkriptovani (AES-256-GCM).
 [IMPORTANT]
 ====
 Ovo je *izmerena, a ne teorijska* ranjivost: bilo ko sa pristupom mreži može
-pasivnim `tcpdump`-om pročitati `mqttuser`/`mqttpass` sa 1883 i preuzeti kontrolu
+pasivnim `tcpdump`-om pročitati `homeuser`/`N7kQ2pX9` sa 1883 i preuzeti kontrolu
 nad celim Smart Home sistemom (svi `.../set` topici su takođe vidljivi). MQTTS
 (8883) to u potpunosti eliminiše — što je i suština rada.
 ====
@@ -207,16 +207,19 @@ Snimanje na brokeru (Raspberry Pi), zatim analiza bilo kojim od tri alata:
 # 1) snimanje na brokeru dok m3_driver.py generiše uparen saobraćaj (vidi 07)
 sudo tcpdump -i wlan0 -w mqtt_thesis.pcap 'tcp port 1883 or tcp port 8883'
 
-# 2a) Wireshark GUI:  File → Open → mqtt_thesis.pcap
+# 1b) sanitizuj za deljenje: ukloni prave kredencijale -> mqtt_capture.pcapng
+python3 sanitize_pcap.py mqtt_thesis.pcap mqtt_capture
+
+# 2a) Wireshark GUI:  File → Open → mqtt_capture.pcapng
 #     Statistics → Protocol Hierarchy / Conversations
 #     desni klik na 1883 paket → Decode As… → MQTT
 #     desni klik → Follow → TCP Stream   (uporedi 1883 vs 8883)
 
 # 2b) tshark (CLI) — sve sekcije odjednom:
-./wireshark_analyze.sh mqtt_thesis.pcap
+./wireshark_analyze.sh mqtt_capture.pcapng
 
 # 2c) Python/scapy (bez tshark-a) — brojevi iz ovog dokumenta:
-python3 pcap_analyze.py mqtt_thesis.pcap
+python3 pcap_analyze.py mqtt_capture.pcapng
 ----
 
 == Zaključak
@@ -225,7 +228,7 @@ python3 pcap_analyze.py mqtt_thesis.pcap
 |===
 | Nalaz | Dokaz iz snimka
 
-| Plain MQTT *curi kredencijale* | `mqttuser`/`mqttpass` čitljivi u `CONNECT` na 1883
+| Plain MQTT *curi kredencijale* | `homeuser`/`N7kQ2pX9` čitljivi u `CONNECT` na 1883
   (Follow TCP Stream); + svi topici, HA config i payload-i.
 | MQTTS *sve krije* | 25 `Application Data` zapisa, 0 čitljivih tokena; pregovoreno
   `TLS 1.2 / ECDHE-RSA-AES256-GCM-SHA384` sa forward secrecy.

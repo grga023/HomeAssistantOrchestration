@@ -58,10 +58,10 @@ link:01-overview.adoc[01].)
   → flash → snimanje → analiza.
 | Praktično izvođenje
 
-| link:06-results-template.adoc[06 — Šablon rezultata]
-| Prazne tabele za izmerene brojeve + gotovi grafikoni (plain vs TLS) i mesta za
-  Wireshark snimke.
-| Poglavlje „Rezultati"
+| link:06-reprodukcija-wireshark.adoc[06 — Reprodukcija i uvoz u Wireshark]
+| Kako iz priloženih artefakata (`data/*.csv`, `results.csv`, `mqtt_capture.pcapng`)
+  reprodukovati sve brojeve i grafikone, i kako *otvoriti snimak u Wireshark-u*.
+| Poglavlje „Reprodukcija"
 
 | link:07-okruzenje-i-izvodjenje.adoc[07 — Okruženje i izvođenje]
 | „Materijali i metode": tačan hardver, verzije, stvarna broker/PKI/TLS
@@ -75,7 +75,7 @@ link:01-overview.adoc[01].)
 
 | link:09-wireshark-analiza.adoc[09 — Wireshark analiza]
 | Dubinska analiza paketa istog snimka: TLS handshake dissection, „Follow TCP
-  Stream" dokaz (plain curi `mqttuser`/`mqttpass`, MQTTS ne), uparen +29 B po poruci.
+  Stream" dokaz (plain curi kredencijale u čistom tekstu, MQTTS ne), uparen +29 B po poruci.
 | Poglavlje „Analiza mrežnog saobraćaja"
 |===
 
@@ -102,6 +102,14 @@ link:01-overview.adoc[01].)
 
 | link:pcap_analyze.py[`pcap_analyze.py`]
 | Analiza pcap-a (scapy): veličine, handshake, dokaz enkripcije (3. merenje).
+
+| link:mqtt_capture.pcapng[`mqtt_capture.pcapng`]
+| *Stvarni* mrežni snimak (plain 1883 + TLS 8883), Wireshark-ready. Kredencijali
+  sanitizovani demo vrednostima (vidi `sanitize_pcap.py`).
+
+| link:sanitize_pcap.py[`sanitize_pcap.py`]
+| Čisti sirovi snimak od pravih kredencijala (zamena istom dužinom + checksum),
+  pravi `mqtt_capture.pcapng`.
 
 | link:wireshark_analyze.sh[`wireshark_analyze.sh`]
 | tshark (Wireshark CLI) analiza istog pcap-a: protocol hierarchy, `ServerHello`

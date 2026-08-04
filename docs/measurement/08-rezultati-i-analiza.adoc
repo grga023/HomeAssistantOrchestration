@@ -151,7 +151,7 @@ Analiza pcap-a (`pcap_analyze.py`) potvrđuje suštinu rada:
 +
 [source]
 ----
-....MQTT....ESP32_02F600..home/lights/status..offline..mqttuser..mqttpass
+....MQTT....ESP32_02F600..home/lights/status..offline..homeuser..N7kQ2pX9
                                                         ^^^^^^^^   ^^^^^^^^
                                               korisničko ime + lozinka, cleartext
 ----
@@ -167,7 +167,7 @@ Vidljivi su i `home/lights/light1/set`, `homeassistant/switch/lights/light1/conf
 [IMPORTANT]
 ====
 Ovo je konkretna, izmerena ranjivost plain MQTT-a: *bilo ko na mreži može
-pasivnim snimanjem pročitati `mqttuser`/`mqttpass`* i preuzeti kontrolu nad
+pasivnim snimanjem pročitati `homeuser`/`N7kQ2pX9`* i preuzeti kontrolu nad
 sistemom. MQTTS to eliminiše — što je i poenta uvođenja TLS sloja.
 ====
 
@@ -239,7 +239,7 @@ ____
   TLS *ne* obara odziv ispod granice iz hipoteze.
 
 | ✓ Sigurnost *drastično* veća
-| Na 1883 su `mqttuser`/`mqttpass` + svi payload-i *čitljivi golim okom*; na 8883
+| Na 1883 su `homeuser`/`N7kQ2pX9` + svi payload-i *čitljivi golim okom*; na 8883
   je sve *opaque* (AES-256-GCM, ECDHE forward secrecy, verifikovan lanac).
 
 | ✓ Bez narušavanja UX-a
@@ -304,9 +304,11 @@ Svi ulazi za ponavljanje su u repozitorijumu:
 * agregat + grafikoni: `results.csv`, `fig-*.png`;
 * postupak: link:07-okruzenje-i-izvodjenje.adoc[07 — Okruženje i izvođenje].
 
-pcap (`mqtt_thesis.pcap`) *nije* u repozitorijumu jer sadrži kredencijale u
-čistom tekstu (vidi <<dokaz>>); reprodukuje
-se komandom iz 07.
+Sanitizovani snimak (`mqtt_capture.pcapng` — kredencijali zamenjeni demo
+vrednostima iste dužine, pa su svi merni brojevi identični originalu) *jeste* u
+repozitorijumu i uvozi se direktno u Wireshark (vidi
+link:06-reprodukcija-wireshark.adoc[06]). Sirovi `mqtt_thesis.pcap` sa *pravim*
+kredencijalima se *ne* commit-uje (vidi <<dokaz>>).
 
 '''
 

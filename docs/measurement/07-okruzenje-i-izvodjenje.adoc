@@ -5,7 +5,7 @@
 :icons: font
 :experimental:
 
-link:index.adoc[← indeks] | link:06-results-template.adoc[← 06 Šablon] | link:08-rezultati-i-analiza.adoc[08 Rezultati i analiza →]
+link:index.adoc[← indeks] | link:06-reprodukcija-wireshark.adoc[← 06 Reprodukcija] | link:08-rezultati-i-analiza.adoc[08 Rezultati i analiza →]
 
 [NOTE]
 ====
@@ -263,12 +263,14 @@ Sirovi podaci (bez tajni) su sačuvani kao artefakti:
 `data/meas_esp1.csv`, `data/meas_esp2.csv` (po 30 boot-ciklusa).
 
 [WARNING]
-.pcap se NE commit-uje
+.sirovi pcap se NE commit-uje; sanitizovani DA
 ====
-Snimak `mqtt_thesis.pcap` *namerno nije* u repozitorijumu (dodat u `.gitignore`):
-plain 1883 CONNECT paket sadrži `mqttuser`/`mqttpass` u *čistom tekstu* — što je
-upravo ranjivost koju rad demonstrira. Nalazi iz pcap-a (veličine, dokaz
-enkripcije) su u link:08-rezultati-i-analiza.adoc[08], bez izlaganja kredencijala.
+Sirovi snimak `mqtt_thesis.pcap` *namerno nije* u repozitorijumu (dodat u
+`.gitignore`): plain 1883 CONNECT paket sadrži prave broker kredencijale u
+*čistom tekstu* — što je upravo ranjivost koju rad demonstrira. U repozitorijum
+ide samo *sanitizovana* verzija `mqtt_capture.pcapng` (kredencijali zamenjeni
+demo vrednostima iste dužine, `sanitize_pcap.py`), pa je Wireshark-ready bez
+izlaganja tajni. Vidi link:06-reprodukcija-wireshark.adoc[06].
 ====
 
 == Postupak izvođenja (korak po korak)
@@ -316,8 +318,10 @@ ssh -p 22222 root@192.168.0.10 \
 
 # na PC-u, tokom snimanja: generiši saobraćaj (reset + upareni publish)
 python m3_driver.py
-# analiza:
-python pcap_analyze.py mqtt_thesis.pcap --esp1 192.168.0.11 --esp2 192.168.0.12
+# sanitizuj za deljenje (ukloni prave kredencijale) -> mqtt_capture.pcapng
+python sanitize_pcap.py mqtt_thesis.pcap mqtt_capture
+# analiza (radi na oba; sanitizovani je Wireshark-ready i commit-uje se):
+python pcap_analyze.py mqtt_capture.pcapng --esp1 192.168.0.11 --esp2 192.168.0.12
 ----
 
 === METRIKA 4 — command RTT (n=100 po kanalu)
