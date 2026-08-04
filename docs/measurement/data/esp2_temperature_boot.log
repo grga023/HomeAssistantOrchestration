@@ -10,7 +10,7 @@ load:0x40078000,len:15996
 load:0x40080400,len:3860
 entry 0x40080630
 I (29) boot: ESP-IDF 5.5.0 2nd stage bootloader
-I (29) boot: compile time Aug  4 2026 18:05:30
+I (29) boot: compile time Aug  4 2026 19:38:15
 I (29) boot: Multicore bootloader
 I (30) boot: chip revision: v1.0
 I (33) boot.esp32: SPI Speed      : 40MHz
@@ -38,9 +38,9 @@ I (502) cpu_start: Pro cpu start user code
 I (502) cpu_start: cpu freq: 160000000 Hz
 I (502) app_init: Application information:
 I (502) app_init: Project name:     HomeAssistantOrchestration
-I (508) app_init: App version:      1.0.0
-I (512) app_init: Compile time:     Aug  4 2026 18:04:12
-I (517) app_init: ELF file SHA256:  4aabf6ba2...
+I (508) app_init: App version:      2.0.0
+I (511) app_init: Compile time:     Aug  4 2026 19:34:54
+I (517) app_init: ELF file SHA256:  efd447bb6...
 I (521) app_init: ESP-IDF:          5.5.0
 I (525) efuse_init: Min chip rev:     v0.0
 I (528) efuse_init: Max chip rev:     v3.99 
@@ -79,53 +79,113 @@ I (1207) wifi_init: tcp mss: 1440
 I (1207) wifi_init: WiFi IRAM OP enabled
 I (1207) wifi_init: WiFi RX IRAM OP enabled
 I (1217) phy_init: phy_version 4860,6b7a6e5,Feb  6 2025,14:47:07
-I (1297) wifi:mode : sta (fc:f5:c4:45:05:f4)
+I (1287) wifi:mode : sta (fc:f5:c4:45:05:f4)
 I (1297) wifi:enable tsf
 I (1297) wifi: connecting to <WIFI_SSID>
 I (1307) wifi:new:<11,0>, old:<1,0>, ap:<255,255>, sta:<11,0>, prof:1, snd_ch_cfg:0x0
-I (1317) wifi:state: init -> auth (0xb0)
-I (1327) wifi:state: auth -> assoc (0x0)
+I (1307) wifi:state: init -> auth (0xb0)
+I (1317) wifi:state: auth -> assoc (0x0)
 I (1327) wifi:state: assoc -> run (0x10)
 I (1347) wifi:connected with <WIFI_SSID>, aid = 6, channel 11, BW20, bssid = <ROUTER_BSSID>
-I (1347) wifi:security: WPA2-PSK, phy: bgn, rssi: -50
+I (1347) wifi:security: WPA2-PSK, phy: bgn, rssi: -53
 I (1347) wifi:pm start, type: 1
 
 I (1347) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
 I (1357) wifi:<ba-del>idx:1, tid:0
-I (1357) wifi:dp: 2, bi: 102400, li: 4, scale listen interval from 307200 us to 409600 us
-I (1367) wifi:AP's beacon interval = 102400 us, DTIM period = 2
-I (1377) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
-I (1397) wifi:<ba-add>idx:1 (ifx:0, <ROUTER_BSSID>), tid:0, ssn:0, winSize:64
-I (1877) wifi:<ba-del>idx:0, tid:7
-I (1877) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
-I (2487) wifi:<ba-del>idx:0, tid:7
-I (2487) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
-I (2667) esp_netif_handlers: sta ip: 192.168.0.12, mask: 255.255.255.0, gw: 192.168.0.1
-I (2667) wifi: got IP 192.168.0.12
-I (2667) MEAS: temperature,tlscfg,in_out_dyn,16384,4096,0
-I (2667) MEAS: temperature,heap,entry,223036,223036,110592
-I (2677) MEAS: temperature,heap,pre_start,219920,219920,110592
-I (2677) MEAS: temperature,time,start_to_before,321,0,
-I (2897) wifi:<ba-del>idx:0, tid:7
-I (2897) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
-I (3357) wifi:<ba-del>idx:0, tid:7
-I (3357) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
-I (3447) MEAS: temperature,time,connect_span,770973,770,
-I (3447) MEAS: temperature,time,connect_total,771294,771,
-I (3447) MEAS: temperature,heap,connected,178388,178388,110592
-I (3457) MEAS: temperature,heapdelta,retained,41532,,
-I (3457) mqtt: connected
-I (3487) climate: connected: published 4 temperature sensors
-I (3917) wifi:<ba-del>idx:0, tid:7
-I (3917) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
-I (4527) wifi:<ba-del>idx:0, tid:7
-I (4537) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
-I (4937) wifi:<ba-del>idx:0, tid:7
-I (4947) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
-I (5337) esp-x509-crt-bundle: Certificate validated
-I (5557) wifi:<ba-del>idx:0, tid:7
-I (5557) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
-I (5967) wifi:<ba-del>idx:0, tid:7
-I (5967) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
-E (6407) ota: manifest: empty body
-I (8457) MEAS: temperature,heap,low_water_5s,135116,,
+I (1357) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (1367) wifi:<ba-add>idx:1 (ifx:0, <ROUTER_BSSID>), tid:0, ssn:0, winSize:64
+I (1387) wifi:dp: 2, bi: 102400, li: 4, scale listen interval from 307200 us to 409600 us
+I (1387) wifi:AP's beacon interval = 102400 us, DTIM period = 2
+I (1897) wifi:<ba-del>idx:1, tid:0
+I (1907) wifi:<ba-add>idx:1 (ifx:0, <ROUTER_BSSID>), tid:0, ssn:2, winSize:64
+I (1907) wifi:<ba-del>idx:0, tid:7
+I (1907) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (2317) wifi:<ba-del>idx:0, tid:7
+I (2317) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (2697) esp_netif_handlers: sta ip: 192.168.0.12, mask: 255.255.255.0, gw: 192.168.0.1
+I (2697) wifi: got IP 192.168.0.12
+I (2697) MEAS: temperature,tlscfg,in_out_dyn,16384,4096,0
+I (2697) MEAS: temperature,heap,entry,223040,223040,110592
+I (2707) MEAS: temperature,heap,pre_start,219932,219932,110592
+I (2707) MEAS: temperature,time,start_to_before,1681,1,
+I (2927) wifi:<ba-del>idx:0, tid:7
+I (2927) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (3337) wifi:<ba-del>idx:0, tid:7
+I (3337) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (3597) MEAS: temperature,time,connect_span,887804,887,
+I (3597) MEAS: temperature,time,connect_total,889485,889,
+I (3597) MEAS: temperature,heap,connected,178196,178196,110592
+I (3607) MEAS: temperature,heapdelta,retained,41736,,
+I (3607) mqtt: connected
+I (3637) climate: connected: published 4 temperature sensors
+I (3947) wifi:<ba-del>idx:0, tid:7
+I (3947) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (4357) wifi:<ba-del>idx:0, tid:7
+I (4357) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (4967) wifi:<ba-del>idx:0, tid:7
+I (4977) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (5477) esp-x509-crt-bundle: Certificate validated
+I (5587) wifi:<ba-del>idx:0, tid:7
+I (5587) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (5997) wifi:<ba-del>idx:0, tid:7
+I (6007) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (6427) wifi:<ba-del>idx:0, tid:7
+I (6427) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+E (6507) ota: manifest: empty body
+I (7017) wifi:<ba-del>idx:0, tid:7
+I (7027) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (7637) wifi:<ba-del>idx:0, tid:7
+I (7637) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (8047) wifi:<ba-del>idx:0, tid:7
+I (8047) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (8607) MEAS: temperature,heap,low_water_5s,135820,,
+I (8657) wifi:<ba-del>idx:0, tid:7
+I (8657) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (9067) wifi:<ba-del>idx:0, tid:7
+I (9077) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (9677) wifi:<ba-del>idx:0, tid:7
+I (9687) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (10097) wifi:<ba-del>idx:0, tid:7
+I (10097) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (10707) wifi:<ba-del>idx:0, tid:7
+I (10707) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (11117) wifi:<ba-del>idx:0, tid:7
+I (11117) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (11727) wifi:<ba-del>idx:0, tid:7
+I (11737) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (12347) wifi:<ba-del>idx:0, tid:7
+I (12347) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (12757) wifi:<ba-del>idx:0, tid:7
+I (12757) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (13367) wifi:<ba-del>idx:0, tid:7
+I (13367) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (13777) wifi:<ba-del>idx:0, tid:7
+I (13787) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (14387) wifi:<ba-del>idx:0, tid:7
+I (14397) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (14907) wifi:<ba-del>idx:0, tid:7
+I (14907) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (15417) wifi:<ba-del>idx:0, tid:7
+I (15417) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (15827) wifi:<ba-del>idx:0, tid:7
+I (15827) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (16437) wifi:<ba-del>idx:0, tid:7
+I (16447) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (16857) wifi:<ba-del>idx:0, tid:7
+I (16857) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (17467) wifi:<ba-del>idx:0, tid:7
+I (17467) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (18077) wifi:<ba-del>idx:0, tid:7
+I (18077) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (18487) wifi:<ba-del>idx:0, tid:7
+I (18487) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (19107) wifi:<ba-del>idx:0, tid:7
+I (19107) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (19507) wifi:<ba-del>idx:0, tid:7
+I (19517) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (20127) wifi:<ba-del>idx:0, tid:7
+I (20127) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (20537) wifi:<ba-del>idx:0, tid:7
+I (20537) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (21157) wifi:<ba-del>idx:0, tid:7
+I (21157) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64

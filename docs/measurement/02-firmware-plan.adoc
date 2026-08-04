@@ -146,8 +146,8 @@ endif()
 ----
 #define MQTT_URI      "mqtt://192.168.1.10:1883"    /* esp1: plain baseline */
 #define MQTT_URI_TLS  "mqtts://192.168.1.10:8883"   /* esp2: MQTTS (TLS) */
-#define MQTT_USER     "mqttuser"
-#define MQTT_PASSWORD "mqttpass"
+#define MQTT_USER     "homeuser"
+#define MQTT_PASSWORD "N7kQ2pX9"
 ----
 
 IP mora biti isti kao u SAN-u server sertifikata (vidi link:03-broker-pki-tls.adoc[03]).

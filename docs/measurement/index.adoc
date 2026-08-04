@@ -136,8 +136,8 @@ link:01-overview.adoc[01].)
 | `data/esp_hw_info.txt`, `data/pi_system.txt`, `data/mosquitto_broker.log`
 | esptool hardver readout, HAOS/Pi sistem info, i Mosquitto konfiguracija + log konekcija (TLS cipher).
 
-| `data/mqtt_discovery.txt`, `data/mqtt_states.txt`
-| 10 HA Discovery config poruka i retained stanje (uživo).
+| `data/mqtt_discovery.txt`, `data/mqtt_states.txt`, `data/temp_timeseries.csv`
+| 10 HA Discovery config poruka, retained stanje, i temperaturni vremenski niz (uživo, v2.0.0).
 
 | link:cap_serial.py[`cap_serial.py`]
 | Snima ESP konzolu preko serijskog porta (reset + capture boot loga).
@@ -161,9 +161,9 @@ link:01-overview.adoc[01].)
 |===
 | Stavka | Status
 
-| Dokumentacija + metodologija + šablon rezultata | ✅ napisano
+| Dokumentacija + metodologija + reprodukcija | ✅ napisano
 | RPi skripte (gen-certs, mosquitto conf, rtt.py, plot_results.py) | ✅ napisano
-| OTA (MQTT → HTTPS/GitHub Releases, `esp_crt_bundle`, dual-OTA + rollback) | ✅ implementirano
+| OTA (MQTT → HTTPS/GitHub Releases, `esp_crt_bundle`, dual-OTA + rollback) | ✅ implementirano (redirect nalaz: link:10-realni-podaci-uredjaja.adoc[10])
 | TLS izmene firmvera (mqtt_wrap.c, CMake, secrets, platformio.ini) | ✅ implementirano
 | `components/common/certs/ca.crt` | ✅ generisan + ugrađen (real CA)
 | Prikupljanje podataka (heap/handshake/pcap/RTT) | ✅ *izvedeno* (vidi link:08-rezultati-i-analiza.adoc[08])

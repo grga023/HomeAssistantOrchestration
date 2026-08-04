@@ -178,7 +178,7 @@ sudo chmod 640 /etc/mosquitto/certs/server.key
 sudo chmod 644 /etc/mosquitto/certs/ca.crt /etc/mosquitto/certs/server.crt
 
 # MQTT korisnik (mora da se poklapa sa secrets.h MQTT_USER/MQTT_PASSWORD)
-sudo mosquitto_passwd -c /etc/mosquitto/passwd mqttuser   # traži lozinku
+sudo mosquitto_passwd -c /etc/mosquitto/passwd homeuser   # traži lozinku
 
 sudo systemctl restart mosquitto
 sudo ss -tlnp | grep -E ':1883|:8883'   # oba porta moraju da slušaju
@@ -189,8 +189,8 @@ journalctl -u mosquitto -e               # proveri cert/permission greške
 
 [source,bash]
 ----
-mosquitto_sub -h 192.168.1.10 -p 8883 --cafile ca.crt -u mqttuser -P mqttpass -t 'test/#' -v
-mosquitto_pub -h 192.168.1.10 -p 8883 --cafile ca.crt -u mqttuser -P mqttpass -t 'test/x' -m hi
+mosquitto_sub -h 192.168.1.10 -p 8883 --cafile ca.crt -u homeuser -P N7kQ2pX9 -t 'test/#' -v
+mosquitto_pub -h 192.168.1.10 -p 8883 --cafile ca.crt -u homeuser -P N7kQ2pX9 -t 'test/x' -m hi
 ----
 
 Ako ovo prođe, TLS na brokeru radi — greške tražiš na hostu, ne na uređaju.
@@ -198,7 +198,7 @@ Ako ovo prođe, TLS na brokeru radi — greške tražiš na hostu, ne na uređaj
 == Home Assistant
 
 HA i Mosquitto su na istom RPi-ju. HA se povezuje na broker preko *plain 1883*
-(loopback `127.0.0.1`) sa istim `mqttuser/mqttpass` — TLS nije potreban za lokalni
+(loopback `127.0.0.1`) sa istim `homeuser/N7kQ2pX9` — TLS nije potreban za lokalni
 loopback.
 
 [source]
@@ -206,8 +206,8 @@ loopback.
 Settings → Devices & Services → MQTT → Configure
   Broker:   127.0.0.1
   Port:     1883
-  Username: mqttuser
-  Password: mqttpass
+  Username: homeuser
+  Password: N7kQ2pX9
 ----
 
 [TIP]

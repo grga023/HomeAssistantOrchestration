@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
-"""Sanitize the real MQTTS-overhead capture for public sharing.
+"""Sanitize a raw MQTT capture for public sharing.
 
-Replaces the real broker credentials (username/password that leak in cleartext
-on the plain 1883 channel) with realistic-looking DEMO values of identical
-length, so the artifact still demonstrates cleartext-credential exposure without
-publishing the user's actual password. Recomputes IP/TCP checksums for the
-modified packets and preserves original capture timestamps.
+Replaces cleartext credential bytes (which leak on the plain 1883 channel) with
+DEMO values of IDENTICAL length, so the artifact still demonstrates the
+cleartext-credential exposure without publishing the real secret. Recomputes
+IP/TCP checksums for the modified packets and preserves capture timestamps.
+Redactions are passed as OLD=NEW pairs, so the real secrets are never hardcoded.
 
 Writes pcapng (Wireshark-native) when supported, else classic pcap (.cap).
+
+usage: sanitize_pcap.py <src.pcap> <out_base> OLD=NEW [OLD=NEW ...]
+  e.g. sanitize_pcap.py mqtt_thesis.pcap mqtt_capture <mqtt-user>=homeuser <mqtt-pass>=N7kQ2pX9
 """
 import sys
 
@@ -16,11 +19,11 @@ from scapy.all import rdpcap, wrpcap, IP, TCP, Raw
 SRC = sys.argv[1]
 OUT_BASE = sys.argv[2]  # without extension
 
-# same-length replacements (8 bytes each) -> no MQTT length-field edits needed
-REPL = {
-    b"mqttpass": b"N7kQ2pX9",   # real broker password -> demo password
-    b"mqttuser": b"homeuser",   # real broker username -> demo username
-}
+# OLD=NEW redactions from the CLI (same length -> no MQTT length-field edits).
+REPL = {}
+for _pair in sys.argv[3:]:
+    _old, _new = _pair.split("=", 1)
+    REPL[_old.encode()] = _new.encode()
 
 pkts = rdpcap(SRC)
 modified = 0
@@ -77,9 +80,9 @@ except Exception:
 print(f"packets: {len(out)}, modified (cred bytes): {modified}")
 print(f"wrote: {wrote}")
 
-# verification: no real creds must remain; demo creds must be present
+# verification: every OLD must be gone, every NEW must be present
 blob = open(wrote, "rb").read()
-for secret in (b"mqttpass", b"mqttuser"):
-    assert secret not in blob, f"LEAK: {secret!r} still present!"
-assert b"N7kQ2pX9" in blob and b"homeuser" in blob, "demo creds missing"
-print("verify: real creds ABSENT, demo creds present  -> OK")
+for _old, _new in REPL.items():
+    assert _old not in blob, f"LEAK: {_old!r} still present!"
+    assert _new in blob, f"replacement {_new!r} missing"
+print("verify: redacted tokens ABSENT, replacements present  -> OK")

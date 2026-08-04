@@ -17,11 +17,11 @@ Zahteva: pip install "paho-mqtt>=2.0"
 
 Primeri:
   # esp1 (plain, port 1883)
-  python3 rtt.py --host 192.168.1.10 --port 1883 -u mqttuser -P mqttpass \
+  python3 rtt.py --host 192.168.1.10 --port 1883 -u homeuser -P N7kQ2pX9 \
       --set home/lights/light1/set --state home/lights/light1/state -n 100
 
   # esp2 (puna TLS deonica, port 8883)
-  python3 rtt.py --host 192.168.1.10 --port 8883 -u mqttuser -P mqttpass \
+  python3 rtt.py --host 192.168.1.10 --port 8883 -u homeuser -P N7kQ2pX9 \
       --cafile broker/ca.crt \
       --set home/temperature/heater/set --state home/temperature/heater/state -n 100
 """

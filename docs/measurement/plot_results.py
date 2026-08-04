@@ -9,9 +9,10 @@ rad, sa colorblind-safe paletom (validirano: plava=plain, narandžasta=TLS):
   fig-handshake.png  vreme konekcije/handshake (ms): plain vs TLS (JEDNOKRATNO)
   fig-rtt.png        command RTT (ms): plain vs TLS, sa linijom 200 ms (hipoteza)
   fig-packet.png     veličina poruke na žici (B): plain vs TLS
+  fig-timeseries.png esp2: 4 simulirana senzora (°C) kroz vreme (uživo, v2.0.0)
 
-results.csv trenutno sadrži OČEKIVANE (placeholder) vrednosti da vidiš izgled;
-zameni ih svojim izmerenim brojevima.
+results.csv sadrži REALNE izmerene vrednosti (vidi 08-rezultati-i-analiza);
+data/temp_timeseries.csv su uživo snimljena očitavanja 4 senzora sa esp2.
 
 Zahteva: pip install matplotlib
 Upotreba: python3 plot_results.py [results.csv] [--out-dir .]
@@ -156,6 +157,31 @@ def fig_packet(res, out):
     plt.close(fig)
 
 
+def fig_timeseries(path, out):
+    """Uživo snimljena 4 temperaturna senzora sa esp2 (v2.0.0), na 30 s."""
+    import csv as _csv
+    ts, series = [], {f"t{i}": [] for i in range(1, 5)}
+    with open(path, newline="", encoding="utf-8") as f:
+        for r in _csv.DictReader(f):
+            ts.append(float(r["elapsed_s"]) / 60.0)
+            for i in range(1, 5):
+                series[f"t{i}"].append(float(r[f"t{i}"]))
+    colors = [PLAIN, TLS, "#3fa34d", "#8b5cf6"]
+    fig, ax = plt.subplots(figsize=(6.4, 4))
+    for i, key in enumerate(("t1", "t2", "t3", "t4")):
+        ax.plot(ts, series[key], marker="o", ms=4, lw=1.8,
+                color=colors[i], label=f"S{i + 1}", zorder=3)
+    _style_axis(ax)
+    ax.set_xlabel("vreme [min]")
+    ax.set_ylabel("temperatura [°C]")
+    ax.set_title("esp2 — 4 simulirana senzora (uživo, v2.0.0, na 30 s)",
+                 color=INK, fontsize=12, fontweight="bold", pad=12)
+    ax.legend(loc="upper right", frameon=False, ncol=4, fontsize=9)
+    fig.tight_layout()
+    fig.savefig(out, dpi=200)
+    plt.close(fig)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("csv", nargs="?", default="results.csv")
@@ -174,7 +200,14 @@ def main():
     fig_handshake(res, f"{d}/fig-handshake.png")
     fig_rtt(res,       f"{d}/fig-rtt.png")
     fig_packet(res,    f"{d}/fig-packet.png")
-    print("Napravljeno: fig-heap.png, fig-handshake.png, fig-rtt.png, fig-packet.png")
+    made = "fig-heap.png, fig-handshake.png, fig-rtt.png, fig-packet.png"
+
+    import os
+    ts_csv = "data/temp_timeseries.csv"
+    if os.path.exists(ts_csv):
+        fig_timeseries(ts_csv, f"{d}/fig-timeseries.png")
+        made += ", fig-timeseries.png"
+    print("Napravljeno: " + made)
 
 
 if __name__ == "__main__":

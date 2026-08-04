@@ -13,7 +13,7 @@ load:0x40078000,len:15996
 load:0x40080400,len:3860
 entry 0x40080630
 I (29) boot: ESP-IDF 5.5.0 2nd stage bootloader
-I (29) boot: compile time Aug  4 2026 16:08:25
+I (29) boot: compile time Aug  4 2026 19:31:25
 I (29) boot: Multicore bootloader
 I (30) boot: chip revision: v0.0
 I (33) boot.esp32: SPI Speed      : 40MHz
@@ -41,9 +41,9 @@ I (491) cpu_start: Pro cpu start user code
 I (491) cpu_start: cpu freq: 160000000 Hz
 I (491) app_init: Application information:
 I (491) app_init: Project name:     HomeAssistantOrchestration
-I (497) app_init: App version:      1.0.0
-I (500) app_init: Compile time:     Aug  4 2026 16:07:28
-I (506) app_init: ELF file SHA256:  b1009d644...
+I (497) app_init: App version:      2.0.0
+I (501) app_init: Compile time:     Aug  4 2026 19:29:37
+I (506) app_init: ELF file SHA256:  2cc5c3189...
 I (510) app_init: ESP-IDF:          5.5.0
 I (514) efuse_init: Min chip rev:     v0.0
 I (517) efuse_init: Max chip rev:     v3.99 
@@ -91,39 +91,39 @@ E (986) phy_init: store_cal_data_to_nvs_handle: store calibration data failed(0x
 I (986) wifi:mode : sta (30:ae:a4:02:f6:00)
 I (986) wifi:enable tsf
 I (996) wifi: connecting to <WIFI_SSID>
-W (1386) wifi:wifi_nvs_set fail, index=13 ret=4357
+W (1396) wifi:wifi_nvs_set fail, index=13 ret=4357
 
-I (1386) wifi:new:<11,0>, old:<1,0>, ap:<255,255>, sta:<11,0>, prof:1, snd_ch_cfg:0x0
-I (1386) wifi:state: init -> auth (0xb0)
-I (1396) wifi:state: auth -> assoc (0x0)
-I (1406) wifi:state: assoc -> run (0x10)
-I (1426) wifi:connected with <WIFI_SSID>, aid = 5, channel 11, BW20, bssid = <ROUTER_BSSID>
-I (1426) wifi:security: WPA2-PSK, phy: bgn, rssi: -51
-W (1566) wifi:wifi_nvs_set fail, index=13 ret=4357
+I (1396) wifi:new:<11,0>, old:<1,0>, ap:<255,255>, sta:<11,0>, prof:1, snd_ch_cfg:0x0
+I (1396) wifi:state: init -> auth (0xb0)
+I (1416) wifi:state: auth -> assoc (0x0)
+I (1416) wifi:state: assoc -> run (0x10)
+I (1436) wifi:connected with <WIFI_SSID>, aid = 5, channel 11, BW20, bssid = <ROUTER_BSSID>
+I (1436) wifi:security: WPA2-PSK, phy: bgn, rssi: -57
+W (1576) wifi:wifi_nvs_set fail, index=13 ret=4357
 
-I (1566) wifi:pm start, type: 1
+I (1576) wifi:pm start, type: 1
 
-I (1566) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
-I (1576) wifi:<ba-del>idx:1, tid:0
-I (1576) wifi:dp: 2, bi: 102400, li: 4, scale listen interval from 307200 us to 409600 us
+I (1576) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
+I (1586) wifi:<ba-del>idx:1, tid:0
+I (1586) wifi:dp: 2, bi: 102400, li: 4, scale listen interval from 307200 us to 409600 us
 I (1586) wifi:AP's beacon interval = 102400 us, DTIM period = 2
-I (1586) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
-I (1596) wifi:<ba-add>idx:1 (ifx:0, <ROUTER_BSSID>), tid:0, ssn:0, winSize:64
-I (1926) wifi:<ba-del>idx:1, tid:0
-I (1926) wifi:<ba-del>idx:0, tid:7
-I (1926) wifi:<ba-add>idx:1 (ifx:0, <ROUTER_BSSID>), tid:0, ssn:1, winSize:64
-I (1936) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
-I (2926) esp_netif_handlers: sta ip: 192.168.0.11, mask: 255.255.255.0, gw: 192.168.0.1
-I (2926) wifi: got IP 192.168.0.11
-I (2926) MEAS: lights,tlscfg,plain,0,0,0
-I (2926) MEAS: lights,heap,entry,226924,226924,110592
-I (2936) MEAS: lights,heap,pre_start,223796,223796,110592
-I (2936) MEAS: lights,time,start_to_before,345,0,
-I (3586) MEAS: lights,time,connect_span,645963,645,
-I (3586) MEAS: lights,time,connect_total,646308,646,
-I (3586) MEAS: lights,heap,connected,216292,216292,110592
-I (3586) MEAS: lights,heapdelta,retained,7504,,
-I (3586) mqtt: connected
-I (5586) esp-x509-crt-bundle: Certificate validated
-E (6606) ota: manifest: empty body
-I (8586) MEAS: lights,heap,low_water_5s,173228,,
+I (1596) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (1606) wifi:<ba-add>idx:1 (ifx:0, <ROUTER_BSSID>), tid:0, ssn:0, winSize:64
+I (2026) wifi:<ba-del>idx:1, tid:0
+I (2036) wifi:<ba-add>idx:1 (ifx:0, <ROUTER_BSSID>), tid:0, ssn:2, winSize:64
+I (2036) wifi:<ba-del>idx:0, tid:7
+I (2036) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (2826) esp_netif_handlers: sta ip: 192.168.0.11, mask: 255.255.255.0, gw: 192.168.0.1
+I (2826) wifi: got IP 192.168.0.11
+I (2826) MEAS: lights,tlscfg,plain,0,0,0
+I (2826) MEAS: lights,heap,entry,226924,226924,110592
+I (2836) MEAS: lights,heap,pre_start,223808,223808,110592
+I (2836) MEAS: lights,time,start_to_before,344,0,
+I (2926) MEAS: lights,time,connect_span,87214,87,
+I (2926) MEAS: lights,time,connect_total,87558,87,
+I (2926) MEAS: lights,heap,connected,216304,216304,110592
+I (2926) MEAS: lights,heapdelta,retained,7504,,
+I (2936) mqtt: connected
+I (4966) esp-x509-crt-bundle: Certificate validated
+E (6026) ota: manifest: empty body
+I (7936) MEAS: lights,heap,low_water_5s,172656,,

@@ -48,7 +48,7 @@ sudo chmod 640 /etc/mosquitto/certs/server.key
 sudo chmod 644 /etc/mosquitto/certs/ca.crt /etc/mosquitto/certs/server.crt
 
 sudo cp thesis.conf /etc/mosquitto/conf.d/thesis.conf
-sudo mosquitto_passwd -c /etc/mosquitto/passwd mqttuser    # poklopi sa secrets.h
+sudo mosquitto_passwd -c /etc/mosquitto/passwd homeuser    # poklopi sa secrets.h
 
 sudo systemctl restart mosquitto
 sudo ss -tlnp | grep -E ':1883|:8883'   # OBA porta moraju da slušaju
@@ -58,7 +58,7 @@ sudo ss -tlnp | grep -E ':1883|:8883'   # OBA porta moraju da slušaju
 
 [source,bash]
 ----
-mosquitto_pub -h 192.168.1.10 -p 8883 --cafile ca.crt -u mqttuser -P mqttpass -t test/x -m hi
+mosquitto_pub -h 192.168.1.10 -p 8883 --cafile ca.crt -u homeuser -P N7kQ2pX9 -t test/x -m hi
 ----
 
 Ako padne — popravi cert/SAN/permisije *sada*, ne na uređaju.

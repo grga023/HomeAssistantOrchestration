@@ -208,7 +208,7 @@ Snimanje na brokeru (Raspberry Pi), zatim analiza bilo kojim od tri alata:
 sudo tcpdump -i wlan0 -w mqtt_thesis.pcap 'tcp port 1883 or tcp port 8883'
 
 # 1b) sanitizuj za deljenje: ukloni prave kredencijale -> mqtt_capture.pcapng
-python3 sanitize_pcap.py mqtt_thesis.pcap mqtt_capture
+python3 sanitize_pcap.py mqtt_thesis.pcap mqtt_capture <mqtt-user>=homeuser <mqtt-pass>=N7kQ2pX9
 
 # 2a) Wireshark GUI:  File → Open → mqtt_capture.pcapng
 #     Statistics → Protocol Hierarchy / Conversations
