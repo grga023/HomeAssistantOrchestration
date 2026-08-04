@@ -5,7 +5,7 @@
 :icons: font
 :experimental:
 
-link:index.adoc[← indeks] | link:04-methodology.adoc[← 04 Metodologija]
+link:index.adoc[← indeks] | link:04-methodology.adoc[← 04 Metodologija] | link:06-reprodukcija-wireshark.adoc[06 Reprodukcija i Wireshark →]
 
 Redosled izvršavanja od nule, kad hardver bude dostupan (Raspberry Pi + 2× ESP32).
 Dok nemaš hardver, ovo služi kao checklist za planiranje.
@@ -191,4 +191,4 @@ Kad IP-SAN/DNS-SAN cert potvrđeno prolazi: prebaci
 
 '''
 
-Sledeće: link:06-reprodukcija-wireshark.adoc[06 — Reprodukcija i uvoz u Wireshark →]
+link:index.adoc[← indeks] | link:04-methodology.adoc[← 04 Metodologija] | link:06-reprodukcija-wireshark.adoc[06 Reprodukcija i Wireshark →]

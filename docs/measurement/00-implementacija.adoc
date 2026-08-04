@@ -5,7 +5,7 @@
 :icons: font
 :experimental:
 
-link:index.adoc[← indeks] | link:01-overview.adoc[01 — Pregled i arhitektura →]
+link:index.adoc[← indeks] | link:01-overview.adoc[01 Pregled i arhitektura →]
 
 [.lead]
 Osnova za master rad. Opisuje arhitekturu, implementaciju i ključne inženjerske
@@ -422,4 +422,4 @@ Celokupna dokumentacija (00–10) se sklapa u jedan `.docx` jednom komandom — 
 
 '''
 
-Sledeće: link:01-overview.adoc[01 — Pregled i arhitektura →]
+link:index.adoc[← indeks] | link:01-overview.adoc[01 Pregled i arhitektura →]

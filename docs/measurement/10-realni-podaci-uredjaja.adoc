@@ -5,7 +5,7 @@
 :icons: font
 :experimental:
 
-link:index.adoc[← indeks] | link:09-wireshark-analiza.adoc[← 09 Wireshark analiza]
+link:index.adoc[← indeks] | link:09-wireshark-analiza.adoc[← 09 Wireshark analiza] | link:11-cpu-i-dijagnostika.adoc[11 CPU i dijagnostika →]
 
 [NOTE]
 ====
@@ -68,18 +68,19 @@ I (64) boot:  1 otadata          OTA data         01 00 0000d000 00002000
 I (77) boot:  3 ota_0            OTA app          00 10 00010000 001b0000
 I (83) boot:  4 ota_1            OTA app          00 11 001c0000 001b0000
 I (491) app_init: Project name:     HomeAssistantOrchestration
-I (497) app_init: App version:      2.0.0
+I (499) app_init: App version:      2.1.0
 I (510) app_init: ESP-IDF:          5.5.0
 I (1426) wifi:connected with <WIFI_SSID>, aid = 5, channel 11, BW20, bssid = <ROUTER_BSSID>
-I (2926) esp_netif_handlers: sta ip: 192.168.0.11, mask: 255.255.255.0, gw: 192.168.0.1
-I (2926) MEAS: lights,heap,entry,226924,226924,110592
-I (3586) MEAS: lights,time,connect_span,87214,87,
-I (3586) MEAS: lights,heapdelta,retained,7504,,
-I (3586) mqtt: connected
+I (2838) esp_netif_handlers: sta ip: 192.168.0.11, mask: 255.255.255.0, gw: 192.168.0.1
+I (2838) MEAS: lights,heap,entry,219376,219376,110592
+I (2888) MEAS: lights,time,connect_span,39468,39,
+I (2908) MEAS: lights,heapdelta,retained,7480,,
+I (2908) mqtt: connected
+I (7848) MEAS: lights,cpu,load,6,52,29        (diag CPU — vidi 11)
 ----
 
 Log potvrđuje *dual-OTA particije* (`ota_0`/`ota_1`, svaka `0x1b0000` = 1,75 MB +
-`otadata`), *ESP-IDF 5.5.0*, i firmver *v2.0.0* na oba čvora.
+`otadata`), *ESP-IDF 5.5.0*, i firmver *v2.1.0* na oba čvora.
 
 [#crossval]
 == Cross-validacija: serijski `MEAS` vs dokumentovani rezultati
@@ -92,12 +93,12 @@ dokumentovanim prosekom (n=30) iz link:08-rezultati-i-analiza.adoc[08]:
 |===
 | Metrika | Serijski `MEAS` (1 boot) | Dokumentovano (n=30) | Slaganje
 
-| Zadržani heap — esp1 (plain) | *7 504 B* | 7 526 B (mean) | ✓
-| Zadržani heap — esp2 (TLS) | *41 736 B* | 41 628 B (mean) | ✓
-| *TLS heap trošak* (esp2−esp1) | *34 232 B (33,4 KB)* | +33,3 KB | ✓
+| Zadržani heap — esp1 (plain) | *7 480 B* | 7 526 B (mean) | ✓
+| Zadržani heap — esp2 (TLS) | *41 128 B* | 41 628 B (mean) | ✓
+| *TLS heap trošak* (esp2−esp1) | *33 648 B (32,9 KB)* | +33,3 KB | ✓
 | TLS baferi (mbedTLS IN/OUT) | `in_out_dyn,16384,4096` | 16384+4096 (objašnjenje +33 KB) | ✓
-| connect_span — esp1 | 87 ms | 161 ms mean / 56 ms median¹ | ✓
-| connect_span — esp2 | 887 ms | 693 ms mean¹ | ~
+| connect_span — esp1 | 39 ms | 161 ms mean / 56 ms median¹ | ✓
+| connect_span — esp2 | 1010 ms | 693 ms mean¹ | ~
 |===
 
 ¹ Jedan *hladni boot* (uključuje Wi-Fi asocijaciju) je pri vrhu distribucije; zato
@@ -264,4 +265,4 @@ mosquitto_sub -h 192.168.0.10 -p 1883 -u <user> -P <pass> \
 
 '''
 
-Nazad na link:index.adoc[indeks].
+link:index.adoc[← indeks] | link:09-wireshark-analiza.adoc[← 09 Wireshark analiza] | link:11-cpu-i-dijagnostika.adoc[11 CPU i dijagnostika →]

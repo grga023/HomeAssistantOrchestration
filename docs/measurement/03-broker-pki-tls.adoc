@@ -5,7 +5,7 @@
 :icons: font
 :experimental:
 
-link:index.adoc[← indeks] | link:02-firmware-plan.adoc[← 02 Firmware]
+link:index.adoc[← indeks] | link:02-firmware-plan.adoc[← 02 Plan izmena firmvera] | link:04-methodology.adoc[04 Metodologija →]
 
 Ovaj dokument pokriva stranu Raspberry Pi-ja: kako TLS provera *radi*, kako se
 generišu sertifikati (OpenSSL), i kako se Mosquitto podešava sa dva porta.
@@ -229,4 +229,4 @@ HA opslužuju i esp1 (1883) i esp2 (8883) — a poređenje je pošteno.
 
 '''
 
-Sledeće: link:04-methodology.adoc[04 — Metodologija merenja →]
+link:index.adoc[← indeks] | link:02-firmware-plan.adoc[← 02 Plan izmena firmvera] | link:04-methodology.adoc[04 Metodologija →]

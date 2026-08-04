@@ -5,7 +5,7 @@
 :icons: font
 :experimental:
 
-link:index.adoc[← indeks] | link:07-okruzenje-i-izvodjenje.adoc[← 07 Okruženje i izvođenje]
+link:index.adoc[← indeks] | link:07-okruzenje-i-izvodjenje.adoc[← 07 Okruženje i izvođenje] | link:09-wireshark-analiza.adoc[09 Wireshark analiza →]
 
 [NOTE]
 ====
@@ -312,4 +312,4 @@ kredencijalima se *ne* commit-uje (vidi <<dokaz>>).
 
 '''
 
-Nazad na link:index.adoc[indeks] | link:09-wireshark-analiza.adoc[09 — Wireshark analiza →]
+link:index.adoc[← indeks] | link:07-okruzenje-i-izvodjenje.adoc[← 07 Okruženje i izvođenje] | link:09-wireshark-analiza.adoc[09 Wireshark analiza →]

@@ -128,4 +128,4 @@ produkciji.
 
 '''
 
-Nazad na link:index.adoc[indeks].
+link:index.adoc[← indeks] | link:05-runbook.adoc[← 05 Runbook] | link:07-okruzenje-i-izvodjenje.adoc[07 Okruženje i izvođenje →]

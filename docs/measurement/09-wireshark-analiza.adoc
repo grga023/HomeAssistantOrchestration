@@ -5,7 +5,7 @@
 :icons: font
 :experimental:
 
-link:index.adoc[← indeks] | link:08-rezultati-i-analiza.adoc[← 08 Rezultati i analiza]
+link:index.adoc[← indeks] | link:08-rezultati-i-analiza.adoc[← 08 Rezultati i analiza] | link:10-realni-podaci-uredjaja.adoc[10 Realni podaci →]
 
 [NOTE]
 ====
@@ -45,6 +45,19 @@ Ista analiza se reprodukuje na tri načina, svi daju iste brojeve:
   `tshark` binarija; brojevi u tabelama ispod su iz ove skripte.
 |===
 
+.Wireshark prikazi u ovom dokumentu
+[NOTE]
+====
+Slike `ws-*.png` su *verne rekonstrukcije* Wireshark pogleda, generisane iz *istog
+snimka* (`mqtt_capture.pcapng`) skriptom `make_ws_figs.py`, jer GUI Wireshark /
+`tshark` u ovom okruženju nisu dostupni. Sve vrednosti (paketi, veličine, tokovi,
+cipher) su *doslovno iz snimka* — identične onome što bi Wireshark prikazao.
+====
+
+Pregled celog snimka (packet list) — zeleno = MQTT (1883), plavo = TLS (8883):
+
+image::ws-packetlist.png[Wireshark packet list iz mqtt_capture.pcapng,width=760]
+
 == Hijerarhija protokola i konverzacije
 
 `Statistics → Protocol Hierarchy` (agregirano po portu; payload = TCP-payload bajtovi,
@@ -59,6 +72,8 @@ bez Ethernet/IP/TCP zaglavlja):
 | — samo uređaj esp1 (192.168.0.11) | — | 3 053 B | baseline
 | — samo uređaj esp2 (192.168.0.12) | — | 6 791 B | ~2,2× baseline-a
 |===
+
+image::ws-hierarchy.png[Statistics: Protocol Hierarchy (mqtt_capture.pcapng),width=560]
 
 .Zašto je TLS strana „teža" u snimku
 [NOTE]
@@ -106,6 +121,8 @@ simetrična šifra *AES-256-GCM*, integritet *SHA-384*. Ovo se poklapa sa `opens
 s_client` izlazom iz link:07-okruzenje-i-izvodjenje.adoc[07] (`Verify return code: 0`).
 ====
 
+image::ws-serverhello.png[Packet details: TLS Server Hello — verzija + cipher suite,width=680]
+
 Ukupan handshake saobraćaj na 8883 u snimku: *~6 041 B (26 `Handshake` zapisa,
 uklj. retransmisije/duplirani blok)* — to je *jednokratna* cena po konekciji, ista
 ona koja u METRICI 2 daje ~0,53 s (link:08-rezultati-i-analiza.adoc[08]).
@@ -142,6 +159,8 @@ Isečci iz TCP toka na 1883 (kontrolni znaci zamenjeni tačkom):
 Automatska pretraga (`pcap_analyze.py`) našla je *6 uzoraka* sa čitljivim MQTT
 tokenima na 1883; kritično, `homeuser`/`N7kQ2pX9` su vidljivi u `CONNECT` paketu.
 
+image::ws-stream-1883.png[Follow TCP Stream 1883: cleartext MQTT + kredencijali (crveno=klijent),width=720]
+
 === 8883 (MQTTS) — potpuno neprozirno
 
 Isti „Follow TCP Stream" na 8883, nakon handshake-a, sadrži *samo* TLS
@@ -164,6 +183,8 @@ pasivnim `tcpdump`-om pročitati `homeuser`/`N7kQ2pX9` sa 1883 i preuzeti kontro
 nad celim Smart Home sistemom (svi `.../set` topici su takođe vidljivi). MQTTS
 (8883) to u potpunosti eliminiše — što je i suština rada.
 ====
+
+image::ws-stream-8883.png[Follow TCP Stream 8883: samo opaque TLS Application Data,width=720]
 
 [#publish]
 == Uparen PUBLISH — TLS overhead po poruci
@@ -242,4 +263,4 @@ merljiv ali prihvatljiv trošak.*
 
 '''
 
-Nazad na link:index.adoc[indeks] | link:10-realni-podaci-uredjaja.adoc[10 — Realni podaci sa uređaja →]
+link:index.adoc[← indeks] | link:08-rezultati-i-analiza.adoc[← 08 Rezultati i analiza] | link:10-realni-podaci-uredjaja.adoc[10 Realni podaci →]

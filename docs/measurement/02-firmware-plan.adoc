@@ -5,7 +5,7 @@
 :icons: font
 :experimental:
 
-link:index.adoc[← indeks] | link:01-overview.adoc[← 01 Pregled]
+link:index.adoc[← indeks] | link:01-overview.adoc[← 01 Pregled i arhitektura] | link:03-broker-pki-tls.adoc[03 Broker, PKI i TLS →]
 
 Ovaj dokument opisuje *tačno* šta se menja u firmveru da bi `esp2_temperature`
 komunicirao preko MQTTS-a, dok obe ploče i dalje builduju i `esp1_lights`
@@ -319,4 +319,4 @@ kao dokaz ekvivalencije.
 
 '''
 
-Sledeće: link:03-broker-pki-tls.adoc[03 — Broker, PKI i TLS →]
+link:index.adoc[← indeks] | link:01-overview.adoc[← 01 Pregled i arhitektura] | link:03-broker-pki-tls.adoc[03 Broker, PKI i TLS →]

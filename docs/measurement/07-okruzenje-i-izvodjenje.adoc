@@ -5,7 +5,7 @@
 :icons: font
 :experimental:
 
-link:index.adoc[← indeks] | link:06-reprodukcija-wireshark.adoc[← 06 Reprodukcija] | link:08-rezultati-i-analiza.adoc[08 Rezultati i analiza →]
+link:index.adoc[← indeks] | link:06-reprodukcija-wireshark.adoc[← 06 Reprodukcija i Wireshark] | link:08-rezultati-i-analiza.adoc[08 Rezultati i analiza →]
 
 [NOTE]
 ====
@@ -349,4 +349,4 @@ python plot_results.py results.csv --out-dir .
 
 '''
 
-Rezultati i njihova analiza: link:08-rezultati-i-analiza.adoc[08 — Rezultati i analiza →]
+link:index.adoc[← indeks] | link:06-reprodukcija-wireshark.adoc[← 06 Reprodukcija i Wireshark] | link:08-rezultati-i-analiza.adoc[08 Rezultati i analiza →]

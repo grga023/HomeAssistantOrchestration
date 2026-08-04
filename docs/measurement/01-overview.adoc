@@ -5,7 +5,7 @@
 :icons: font
 :experimental:
 
-link:index.adoc[← nazad na indeks]
+link:index.adoc[← indeks] | link:00-implementacija.adoc[← 00 Dokumentacija implementacije] | link:02-firmware-plan.adoc[02 Plan izmena firmvera →]
 
 == Cilj i hipoteza rada
 
@@ -162,4 +162,4 @@ esp2 build. OTA i merni (TLS) deo su nezavisni.
 
 '''
 
-Sledeće: link:02-firmware-plan.adoc[02 — Plan izmena firmvera →]
+link:index.adoc[← indeks] | link:00-implementacija.adoc[← 00 Dokumentacija implementacije] | link:02-firmware-plan.adoc[02 Plan izmena firmvera →]

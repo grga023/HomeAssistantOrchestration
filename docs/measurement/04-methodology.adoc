@@ -5,7 +5,7 @@
 :icons: font
 :experimental:
 
-link:index.adoc[← indeks] | link:03-broker-pki-tls.adoc[← 03 Broker/PKI/TLS]
+link:index.adoc[← indeks] | link:03-broker-pki-tls.adoc[← 03 Broker, PKI i TLS] | link:05-runbook.adoc[05 Runbook →]
 
 Srž mernog dela rada. Četiri merenja, tačni ESP-IDF API-ji, format izlaza, i
 brojevi koje očekujemo.
@@ -313,4 +313,4 @@ server cert, mbedTLS IN=16384/OUT=4096, `DYNAMIC_BUFFER` off.
 
 '''
 
-Sledeće: link:05-runbook.adoc[05 — Runbook (korak po korak) →]
+link:index.adoc[← indeks] | link:03-broker-pki-tls.adoc[← 03 Broker, PKI i TLS] | link:05-runbook.adoc[05 Runbook →]
