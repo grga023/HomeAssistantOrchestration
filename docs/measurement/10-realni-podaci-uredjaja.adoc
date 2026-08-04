@@ -68,19 +68,19 @@ I (64) boot:  1 otadata          OTA data         01 00 0000d000 00002000
 I (77) boot:  3 ota_0            OTA app          00 10 00010000 001b0000
 I (83) boot:  4 ota_1            OTA app          00 11 001c0000 001b0000
 I (491) app_init: Project name:     HomeAssistantOrchestration
-I (499) app_init: App version:      2.1.0
+I (499) app_init: App version:      3.0.0
 I (510) app_init: ESP-IDF:          5.5.0
 I (1426) wifi:connected with <WIFI_SSID>, aid = 5, channel 11, BW20, bssid = <ROUTER_BSSID>
 I (2838) esp_netif_handlers: sta ip: 192.168.0.11, mask: 255.255.255.0, gw: 192.168.0.1
 I (2838) MEAS: lights,heap,entry,219376,219376,110592
-I (2888) MEAS: lights,time,connect_span,39468,39,
+I (2958) MEAS: lights,time,connect_span,46243,46,
 I (2908) MEAS: lights,heapdelta,retained,7480,,
 I (2908) mqtt: connected
-I (7848) MEAS: lights,cpu,load,6,52,29        (diag CPU — vidi 11)
+I (7908) MEAS: lights,cpu,load,7,50,28        (diag CPU — vidi 11)
 ----
 
 Log potvrđuje *dual-OTA particije* (`ota_0`/`ota_1`, svaka `0x1b0000` = 1,75 MB +
-`otadata`), *ESP-IDF 5.5.0*, i firmver *v2.1.0* na oba čvora.
+`otadata`), *ESP-IDF 5.5.0*, i firmver *v3.0.0* na oba čvora.
 
 [#crossval]
 == Cross-validacija: serijski `MEAS` vs dokumentovani rezultati
@@ -94,11 +94,11 @@ dokumentovanim prosekom (n=30) iz link:08-rezultati-i-analiza.adoc[08]:
 | Metrika | Serijski `MEAS` (1 boot) | Dokumentovano (n=30) | Slaganje
 
 | Zadržani heap — esp1 (plain) | *7 480 B* | 7 526 B (mean) | ✓
-| Zadržani heap — esp2 (TLS) | *41 128 B* | 41 628 B (mean) | ✓
-| *TLS heap trošak* (esp2−esp1) | *33 648 B (32,9 KB)* | +33,3 KB | ✓
+| Zadržani heap — esp2 (TLS) | *41 356 B* | 41 628 B (mean) | ✓
+| *TLS heap trošak* (esp2−esp1) | *33 876 B (33,1 KB)* | +33,3 KB | ✓
 | TLS baferi (mbedTLS IN/OUT) | `in_out_dyn,16384,4096` | 16384+4096 (objašnjenje +33 KB) | ✓
-| connect_span — esp1 | 39 ms | 161 ms mean / 56 ms median¹ | ✓
-| connect_span — esp2 | 1010 ms | 693 ms mean¹ | ~
+| connect_span — esp1 | 46 ms | 161 ms mean / 56 ms median¹ | ✓
+| connect_span — esp2 | 790 ms | 693 ms mean¹ | ~
 |===
 
 ¹ Jedan *hladni boot* (uključuje Wi-Fi asocijaciju) je pri vrhu distribucije; zato
@@ -184,8 +184,8 @@ home/lights/status online
 home/lights/light1/state OFF   (… light2/3/4 OFF)
 home/temperature/status online
 home/temperature/sensor/state {"t1":20.4,"t2":23.7,"t3":17.5,"t4":26.7}
-home/lights/ota/state         {"installed_version":"2.0.0","latest_version":"2.0.0"}
-home/temperature/ota/state    {"installed_version":"2.0.0","latest_version":"2.0.0"}
+home/lights/ota/state         {"installed_version":"3.0.0","latest_version":"3.0.0"}
+home/temperature/ota/state    {"installed_version":"3.0.0","latest_version":"3.0.0"}
 ----
 
 Četiri temperature su *simulirane* (random-walk oko početnih vrednosti, vidi
@@ -193,9 +193,11 @@ home/temperature/ota/state    {"installed_version":"2.0.0","latest_version":"2.0
 su realan izlaz uređaja u trenutku snimanja.
 
 [NOTE]
-.Firmver na čvorovima je v2.0.0
+.Firmver na čvorovima je v3.0.0
 ====
-Oba čvora su nadograđena na *v2.0.0* (vidi <<ota>>) i objavljuju `installed_version:2.0.0`.
+Čvorovi su prošli *v1.0.0 → v2.0.0 → v3.0.0* (sve USB flash; OTA redirect nalaz je u
+<<ota>>). Trenutno oba objavljuju `installed_version:3.0.0`; v3.0.0 dodaje CPU/diag
+(link:11-cpu-i-dijagnostika.adoc[11]).
 ====
 
 [#ota]
@@ -226,20 +228,23 @@ USB-a* (`pio run -e <env> -t upload`, hash verifikovan); popravka OTA redirect-a
 (pratiti `Location`) je zaseban zadatak.
 ====
 
-Rezultat je verifikovan uživo — oba čvora sada prijavljuju v2.0.0:
+Flash na v2.0.0 je tada verifikovan uživo. Čvorovi su kasnije (opet USB-om)
+nadograđeni na *v3.0.0* (CPU/diag, link:11-cpu-i-dijagnostika.adoc[11]) — trenutno
+prijavljuju:
 
 [source]
 ----
-home/lights/ota/state       {"installed_version":"2.0.0","latest_version":"2.0.0"}
-home/temperature/ota/state  {"installed_version":"2.0.0","latest_version":"2.0.0"}
+home/lights/ota/state       {"installed_version":"3.0.0","latest_version":"3.0.0"}
+home/temperature/ota/state  {"installed_version":"3.0.0","latest_version":"3.0.0"}
 ----
 
-== Temperaturni vremenski niz (uživo, v2.0.0)
+== Temperaturni vremenski niz (uživo, v3.0.0)
 
-U v2.0.0 esp2 objavljuje 4 simulirane temperature *na svakih 30 s* (random walk).
-Snimljeno je 13 uzoraka uživo sa brokera (`data/temp_timeseries.csv`):
+esp2 objavljuje 4 simulirane temperature *na svakih 30 s* (random walk; identično
+ponašanje v2.0.0→v3.0.0). Snimljeno je 13 uzoraka uživo sa brokera
+(`data/temp_timeseries.csv`):
 
-image::fig-timeseries.png[esp2: 4 senzora kroz vreme (uživo, v2.0.0),width=560]
+image::fig-timeseries.png[esp2: 4 senzora kroz vreme (uživo, v3.0.0),width=560]
 
 Svaki senzor kreće iz svoje početne trake i lagano „šeta" (korak ±0,5 °C, ograničen
 na 15–30 °C, vidi `climate.c`); LCD prikazuje iste vrednosti obojene po opsegu. Ovo

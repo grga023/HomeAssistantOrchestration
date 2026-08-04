@@ -13,7 +13,7 @@ load:0x40078000,len:15996
 load:0x40080400,len:3860
 entry 0x40080630
 I (29) boot: ESP-IDF 5.5.0 2nd stage bootloader
-I (29) boot: compile time Aug  4 2026 19:31:25
+I (29) boot: compile time Aug  4 2026 23:34:29
 I (29) boot: Multicore bootloader
 I (30) boot: chip revision: v0.0
 I (33) boot.esp32: SPI Speed      : 40MHz
@@ -28,102 +28,142 @@ I (70) boot:  2 phy_init         RF data          01 01 0000f000 00001000
 I (77) boot:  3 ota_0            OTA app          00 10 00010000 001b0000
 I (83) boot:  4 ota_1            OTA app          00 11 001c0000 001b0000
 I (90) boot: End of partition table
-I (93) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=32bb8h (207800) map
-I (172) esp_image: segment 1: paddr=00042be0 vaddr=3ff80000 size=00020h (    32) load
-I (172) esp_image: segment 2: paddr=00042c08 vaddr=3ffb0000 size=03f8ch ( 16268) load
-I (182) esp_image: segment 3: paddr=00046b9c vaddr=40080000 size=0947ch ( 38012) load
-I (198) esp_image: segment 4: paddr=00050020 vaddr=400d0020 size=aa7f4h (698356) map
-I (437) esp_image: segment 5: paddr=000fa81c vaddr=4008947c size=0eb60h ( 60256) load
-I (472) boot: Loaded app from partition at offset 0x10000
-I (472) boot: Disabling RNG early entropy source...
-I (483) cpu_start: Multicore app
-I (491) cpu_start: Pro cpu start user code
-I (491) cpu_start: cpu freq: 160000000 Hz
-I (491) app_init: Application information:
-I (491) app_init: Project name:     HomeAssistantOrchestration
-I (497) app_init: App version:      2.0.0
-I (501) app_init: Compile time:     Aug  4 2026 19:29:37
-I (506) app_init: ELF file SHA256:  2cc5c3189...
-I (510) app_init: ESP-IDF:          5.5.0
-I (514) efuse_init: Min chip rev:     v0.0
-I (517) efuse_init: Max chip rev:     v3.99 
-I (521) efuse_init: Chip rev:         v0.0
-I (526) heap_init: Initializing. RAM available for dynamic allocation:
-I (532) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
-I (537) heap_init: At 3FFB88F0 len 00027710 (157 KiB): DRAM
-I (542) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
-I (547) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
-I (553) heap_init: At 40097FDC len 00008024 (32 KiB): IRAM
-I (560) spi_flash: detected chip: gd
-I (561) spi_flash: flash io: dio
-I (566) main_task: Started on CPU0
-I (576) main_task: Calling app_main()
-E (576) mqtt_client: Client was not initialized
-E (576) mqtt_client: Client was not initialized
-E (576) mqtt_client: Client was not initialized
-E (576) mqtt_client: Client was not initialized
-I (676) wifi:wifi driver task: 3ffc0af8, prio:23, stack:6656, core=0
-I (696) wifi:wifi firmware version: f3dbad7
-I (696) wifi:wifi certification version: v7.0
-I (696) wifi:config NVS flash: enabled
-I (696) wifi:config nano formatting: disabled
-I (706) wifi:Init data frame dynamic rx buffer num: 32
-I (706) wifi:Init static rx mgmt buffer num: 5
-I (716) wifi:Init management short buffer num: 32
-I (716) wifi:Init dynamic tx buffer num: 32
-I (726) wifi:Init static rx buffer size: 1600
-I (726) wifi:Init static rx buffer num: 10
-I (726) wifi:Init dynamic rx buffer num: 32
-I (736) wifi_init: rx ba win: 6
-I (736) wifi_init: accept mbox: 6
-I (736) wifi_init: tcpip mbox: 32
-I (746) wifi_init: udp mbox: 6
-I (746) wifi_init: tcp mbox: 6
-I (746) wifi_init: tcp tx win: 5760
-I (756) wifi_init: tcp rx win: 5760
-I (756) wifi_init: tcp mss: 1440
-I (756) wifi_init: WiFi IRAM OP enabled
-I (766) wifi_init: WiFi RX IRAM OP enabled
-I (766) phy_init: phy_version 4860,6b7a6e5,Feb  6 2025,14:47:07
-W (776) phy_init: failed to load RF calibration data (0x1102), falling back to full calibration
-I (846) phy_init: Saving new calibration data due to checksum failure or outdated calibration data, mode(2)
-E (986) phy_init: store_cal_data_to_nvs_handle: store calibration data failed(0x1105)
-I (986) wifi:mode : sta (30:ae:a4:02:f6:00)
-I (986) wifi:enable tsf
-I (996) wifi: connecting to <WIFI_SSID>
-W (1396) wifi:wifi_nvs_set fail, index=13 ret=4357
+I (93) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=330f0h (209136) map
+I (172) esp_image: segment 1: paddr=00043118 vaddr=3ff80000 size=00020h (    32) load
+I (172) esp_image: segment 2: paddr=00043140 vaddr=3ffb0000 size=03fach ( 16300) load
+I (182) esp_image: segment 3: paddr=000470f4 vaddr=40080000 size=08f24h ( 36644) load
+I (198) esp_image: segment 4: paddr=00050020 vaddr=400d0020 size=aaee4h (700132) map
+I (437) esp_image: segment 5: paddr=000faf0c vaddr=40088f24 size=0f978h ( 63864) load
+I (474) boot: Loaded app from partition at offset 0x10000
+I (474) boot: Disabling RNG early entropy source...
+I (485) cpu_start: Multicore app
+I (493) cpu_start: Pro cpu start user code
+I (493) cpu_start: cpu freq: 160000000 Hz
+I (493) app_init: Application information:
+I (493) app_init: Project name:     HomeAssistantOrchestration
+I (499) app_init: App version:      3.0.0
+I (503) app_init: Compile time:     Aug  5 2026 00:14:05
+I (508) app_init: ELF file SHA256:  55f639017...
+I (512) app_init: ESP-IDF:          5.5.0
+I (516) efuse_init: Min chip rev:     v0.0
+I (520) efuse_init: Max chip rev:     v3.99 
+I (524) efuse_init: Chip rev:         v0.0
+I (528) heap_init: Initializing. RAM available for dynamic allocation:
+I (534) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
+I (539) heap_init: At 3FFB8AD0 len 00027530 (157 KiB): DRAM
+I (544) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
+I (550) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
+I (555) heap_init: At 4009889C len 00007764 (29 KiB): IRAM
+I (562) spi_flash: detected chip: gd
+I (564) spi_flash: flash io: dio
+I (568) main_task: Started on CPU0
+I (578) main_task: Calling app_main()
+E (578) mqtt_client: Client was not initialized
+E (578) mqtt_client: Client was not initialized
+E (578) mqtt_client: Client was not initialized
+E (578) mqtt_client: Client was not initialized
+I (678) wifi:wifi driver task: 3ffc16dc, prio:23, stack:6656, core=0
+I (698) wifi:wifi firmware version: f3dbad7
+I (698) wifi:wifi certification version: v7.0
+I (698) wifi:config NVS flash: enabled
+I (698) wifi:config nano formatting: disabled
+I (708) wifi:Init data frame dynamic rx buffer num: 32
+I (708) wifi:Init static rx mgmt buffer num: 5
+I (718) wifi:Init management short buffer num: 32
+I (718) wifi:Init dynamic tx buffer num: 32
+I (728) wifi:Init static rx buffer size: 1600
+I (728) wifi:Init static rx buffer num: 10
+I (728) wifi:Init dynamic rx buffer num: 32
+I (738) wifi_init: rx ba win: 6
+I (738) wifi_init: accept mbox: 6
+I (738) wifi_init: tcpip mbox: 32
+I (748) wifi_init: udp mbox: 6
+I (748) wifi_init: tcp mbox: 6
+I (748) wifi_init: tcp tx win: 5760
+I (758) wifi_init: tcp rx win: 5760
+I (758) wifi_init: tcp mss: 1440
+I (758) wifi_init: WiFi IRAM OP enabled
+I (768) wifi_init: WiFi RX IRAM OP enabled
+I (768) phy_init: phy_version 4860,6b7a6e5,Feb  6 2025,14:47:07
+W (778) phy_init: failed to load RF calibration data (0x1102), falling back to full calibration
+I (848) phy_init: Saving new calibration data due to checksum failure or outdated calibration data, mode(2)
+E (988) phy_init: store_cal_data_to_nvs_handle: store calibration data failed(0x1105)
+I (988) wifi:mode : sta (30:ae:a4:02:f6:00)
+I (988) wifi:enable tsf
+I (998) wifi: connecting to <WIFI_SSID>
+W (1398) wifi:wifi_nvs_set fail, index=13 ret=4357
 
-I (1396) wifi:new:<11,0>, old:<1,0>, ap:<255,255>, sta:<11,0>, prof:1, snd_ch_cfg:0x0
-I (1396) wifi:state: init -> auth (0xb0)
-I (1416) wifi:state: auth -> assoc (0x0)
-I (1416) wifi:state: assoc -> run (0x10)
-I (1436) wifi:connected with <WIFI_SSID>, aid = 5, channel 11, BW20, bssid = <ROUTER_BSSID>
-I (1436) wifi:security: WPA2-PSK, phy: bgn, rssi: -57
-W (1576) wifi:wifi_nvs_set fail, index=13 ret=4357
+I (1398) wifi:new:<11,0>, old:<1,0>, ap:<255,255>, sta:<11,0>, prof:1, snd_ch_cfg:0x0
+I (1398) wifi:state: init -> auth (0xb0)
+I (1408) wifi:state: auth -> assoc (0x0)
+I (1418) wifi:state: assoc -> run (0x10)
+I (1438) wifi:connected with <WIFI_SSID>, aid = 5, channel 11, BW20, bssid = <ROUTER_BSSID>
+I (1438) wifi:security: WPA2-PSK, phy: bgn, rssi: -50
+W (1588) wifi:wifi_nvs_set fail, index=13 ret=4357
 
-I (1576) wifi:pm start, type: 1
+I (1588) wifi:pm start, type: 1
 
-I (1576) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
-I (1586) wifi:<ba-del>idx:1, tid:0
-I (1586) wifi:dp: 2, bi: 102400, li: 4, scale listen interval from 307200 us to 409600 us
-I (1586) wifi:AP's beacon interval = 102400 us, DTIM period = 2
-I (1596) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
-I (1606) wifi:<ba-add>idx:1 (ifx:0, <ROUTER_BSSID>), tid:0, ssn:0, winSize:64
-I (2026) wifi:<ba-del>idx:1, tid:0
-I (2036) wifi:<ba-add>idx:1 (ifx:0, <ROUTER_BSSID>), tid:0, ssn:2, winSize:64
-I (2036) wifi:<ba-del>idx:0, tid:7
-I (2036) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
-I (2826) esp_netif_handlers: sta ip: 192.168.0.11, mask: 255.255.255.0, gw: 192.168.0.1
-I (2826) wifi: got IP 192.168.0.11
-I (2826) MEAS: lights,tlscfg,plain,0,0,0
-I (2826) MEAS: lights,heap,entry,226924,226924,110592
-I (2836) MEAS: lights,heap,pre_start,223808,223808,110592
-I (2836) MEAS: lights,time,start_to_before,344,0,
-I (2926) MEAS: lights,time,connect_span,87214,87,
-I (2926) MEAS: lights,time,connect_total,87558,87,
-I (2926) MEAS: lights,heap,connected,216304,216304,110592
-I (2926) MEAS: lights,heapdelta,retained,7504,,
-I (2936) mqtt: connected
-I (4966) esp-x509-crt-bundle: Certificate validated
-E (6026) ota: manifest: empty body
-I (7936) MEAS: lights,heap,low_water_5s,172656,,
+I (1588) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
+I (1598) wifi:<ba-del>idx:1, tid:0
+I (1598) wifi:dp: 2, bi: 102400, li: 4, scale listen interval from 307200 us to 409600 us
+I (1598) wifi:AP's beacon interval = 102400 us, DTIM period = 2
+I (1618) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (1618) wifi:<ba-add>idx:1 (ifx:0, <ROUTER_BSSID>), tid:0, ssn:0, winSize:64
+I (2098) wifi:<ba-del>idx:1, tid:0
+I (2108) wifi:<ba-del>idx:0, tid:7
+I (2108) wifi:<ba-add>idx:1 (ifx:0, <ROUTER_BSSID>), tid:0, ssn:2, winSize:64
+I (2108) wifi:<ba-add>idx:0 (ifx:0, <ROUTER_BSSID>), tid:7, ssn:2, winSize:64
+I (2898) esp_netif_handlers: sta ip: 192.168.0.11, mask: 255.255.255.0, gw: 192.168.0.1
+I (2898) wifi: got IP 192.168.0.11
+I (2898) diag: sampling every 5000 ms (core 0)
+I (2898) MEAS: lights,tlscfg,plain,0,0,0
+I (2898) MEAS: lights,heap,entry,219376,219376,110592
+I (2908) MEAS: lights,heap,pre_start,215640,215640,110592
+I (2908) MEAS: lights,time,start_to_before,368,0,
+I (2928) MEAS: lights,cpu,load,0,0,0
+I (2928) MEAS: lights,heap,live,218944,214524,110592
+I (2928) MEAS: lights,wifi,rssi,-57,,
+I (2928) MEAS: lights,rtos,tasks,11,,
+I (2928) MEAS: lights,task,diag,3232,0,
+I (2938) MEAS: lights,task,main,1468,31,
+I (2938) MEAS: lights,task,IDLE1,1028,430,
+I (2938) MEAS: lights,task,IDLE0,920,293,
+I (2948) MEAS: lights,task,tiT,2220,1,
+I (2948) MEAS: lights,task,Tmr Svc,1536,0,
+I (2958) MEAS: lights,task,ipc1,508,67,
+I (2958) MEAS: lights,time,connect_span,46243,46,
+I (2958) MEAS: lights,time,connect_total,46611,46,
+I (2968) MEAS: lights,heap,connected,208160,208160,110592
+I (2968) MEAS: lights,heapdelta,retained,7480,,
+I (2978) mqtt: connected
+I (2978) MEAS: lights,task,wifi,3608,172,
+I (2978) MEAS: lights,task,esp_timer,3312,0,
+I (2988) MEAS: lights,task,sys_evt,756,0,
+I (2988) MEAS: lights,task,ipc0,500,1,
+I (4888) esp-x509-crt-bundle: Certificate validated
+E (5828) ota: manifest: empty body
+I (7908) MEAS: lights,cpu,load,7,50,28
+I (7908) MEAS: lights,heap,live,207372,165784,110592
+I (7908) MEAS: lights,wifi,rssi,-59,,
+I (7908) MEAS: lights,rtos,tasks,12,,
+I (7978) MEAS: lights,heap,low_water_5s,165784,,
+I (12908) MEAS: lights,cpu,load,2,1,1
+I (12908) MEAS: lights,heap,live,207372,165784,110592
+I (12908) MEAS: lights,wifi,rssi,-55,,
+I (12908) MEAS: lights,rtos,tasks,12,,
+I (17908) MEAS: lights,cpu,load,2,1,1
+I (17908) MEAS: lights,heap,live,207372,165784,110592
+I (17908) MEAS: lights,wifi,rssi,-57,,
+I (17908) MEAS: lights,rtos,tasks,12,,
+I (22908) MEAS: lights,cpu,load,2,1,1
+I (22908) MEAS: lights,heap,live,207372,165784,110592
+I (22908) MEAS: lights,wifi,rssi,-60,,
+I (22908) MEAS: lights,rtos,tasks,12,,
+I (27908) MEAS: lights,cpu,load,2,1,1
+I (27908) MEAS: lights,heap,live,207372,165784,110592
+I (27908) MEAS: lights,wifi,rssi,-59,,
+I (27908) MEAS: lights,rtos,tasks,12,,
+I (32908) MEAS: lights,cpu,load,2,1,1
+I (32908) MEAS: lights,heap,live,207392,165784,110592
+I (32908) MEAS: lights,wifi,rssi,-57,,
+I (32908) MEAS: lights,rtos,tasks,12,,

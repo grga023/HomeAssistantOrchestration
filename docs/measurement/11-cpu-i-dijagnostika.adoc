@@ -1,0 +1,189 @@
+= 11 — CPU load i runtime dijagnostika (oba ESP-a)
+:toc: left
+:toclevels: 3
+:sectnums:
+:icons: font
+:experimental:
+
+link:index.adoc[← indeks] | link:10-realni-podaci-uredjaja.adoc[← 10 Realni podaci]
+
+[NOTE]
+====
+Peta merna dimenzija, dodata u firmveru *v3.0.0*: *iskorišćenost procesora (CPU
+load)* po jezgru na oba čvora, plus heap/RSSI/task dijagnostika. Novi
+`diag` modul (`components/common/src/diag.c`) uzorkuje FreeRTOS run-time statistiku
+na svakih 5 s, ispisuje `MEAS` linije i objavljuje `home/<board>/diag/state`; četiri
+senzora (CPU %, slobodan heap, RSSI, uptime) se *sami pojave u Home Assistant-u*
+preko MQTT Discovery. Svi brojevi ovde su *uživo izmereni* na v3.0.0.
+
+Artefakti: `data/esp1_lights_boot.log`, `data/esp2_temperature_boot.log` (MEAS
+`cpu,load` + `task` linije), `data/cpu_timeseries_esp1.csv`,
+`data/cpu_timeseries_esp2.csv`, `data/cpu_tasks.csv`; grafik `fig-cpu.png`.
+====
+
+== Metodologija (kako se meri CPU load)
+
+FreeRTOS run-time statistika (`CONFIG_FREERTOS_GENERATE_RUN_TIME_STATS`, sat =
+`esp_timer`) broji koliko je *runtime*-a dobio svaki task. `diag` modul na svakih
+5 s pozove `uxTaskGetSystemState()` i računa *intervalni* (ne od-boot-a) load po
+jezgru iz *idle* taskova:
+
+[source]
+----
+per_core   = Σ(runtime svih taskova, Δ interval) / broj_jezgara     (= trajanje intervala)
+load[core] = 100 · (1 − idle_delta[core] / per_core)                (%)
+----
+
+Idle taskovi (`IDLE0`/`IDLE1`) su vezani za svoje jezgro; njihov udeo u intervalu je
+„nezauzeto", pa je `100 − idle%` iskorišćenost tog jezgra. `cpu_avg` je prosek dva
+jezgra. Metod je *jedinično-nezavisan* (odnos), pa nije bitna rezolucija sata.
+
+== CPU pri povezivanju (Wi-Fi + MQTT/TLS handshake)
+
+Prvi uzorak posle boot-a hvata prozor povezivanja. Iz `MEAS: <board>,cpu,load,...`
+(dva hladna boot-a, prozor ~2,5–7,5 s) — *prosek* dva jezgra:
+
+[cols="3,2,2,2",options="header"]
+|===
+| Prozor „connect" (avg) | esp1 (plain) | esp2 (MQTTS/TLS) | Δ (TLS)
+
+| boot A | 29 % | 34 % | +5
+| boot B | 28 % | 34 % | +6
+|===
+
+Per-core podela *varira* od boot-a do boot-a (handshake „padne" na trenutno slobodno
+jezgro — u boot-u A razlika je na app-jezgru `52→60 %`, u boot-u B na net-jezgru
+`7→18 %`), pa je *prosek* robustan signal.
+
+.TLS handshake je merljiv CPU „šiljak"
+[TIP]
+====
+Tokom povezivanja esp2 (TLS) troši *~34 %* prosečnog CPU-a naspram *~28–29 %* za esp1
+(plain) — razlika je *ECDHE + RSA-2048 verifikacija + parsiranje sertifikata*
+(`esp-x509-crt-bundle: Certificate validated` u boot logu). Šiljak je *jednokratan*
+(po konekciji), traje delić sekunde i usrednjen je preko 5 s prozora — trenutni pik
+je viši. Poklapa se sa METRIKOM 2 (handshake ~0,53 s, link:08-rezultati-i-analiza.adoc[08]).
+====
+
+== CPU u ustaljenom stanju (idle)
+
+Posle povezivanja, oba čvora padaju na *~1 %* proseka (jezgro 0 ~2 %, jezgro 1 ~1 %):
+
+[cols="3,2,2",options="header"]
+|===
+| Ustaljeno stanje | esp1 (plain) | esp2 (MQTTS/TLS)
+
+| `cpu_avg` (median) | *1 %* | *1 %*
+| pik u idle-u | 2 % | 2 % (na 30 s)
+| slobodan heap (`heap_free`) | 207 392 B | 169 360 B
+| min heap (`heap_min`) | 165 784 B | 118 488 B
+| RSSI | −57 dBm | −54 dBm
+| tasks | 12 | 13 (+1 TLS)
+|===
+
+Na `fig-cpu.png` se vidi da esp2 (TLS) ima *pravilne ~2 % skokove na svakih 30 s* —
+to je AES-256-GCM enkripcija temperaturnog `PUBLISH`-a. esp1 (plain, bez periodičnog
+publish-a) je ravan. *Zaključak: TLS u ustaljenom stanju košta zanemarljivo* — po
+poruci samo hardverski-ubrzana simetrična operacija (reda µs), isto što METRIKA 4
+(command-RTT +~1 ms) pokazuje.
+
+== CPU pod opterećenjem — light-toggle test (esp1)
+
+Da se izmeri CPU pri stvarnom radu, preko Home Assistant REST API-ja poslato je
+*1312 `switch` komandi za ~45 s* (~29 komandi/s) na esp1 (paljenje/gašenje 4 svetla u
+petlji). esp1 ih je sve obradio i vratio stanje:
+
+image::fig-cpu.png[CPU load kroz vreme: esp1 light-toggle test vs esp2 idle,width=620]
+
+[cols="3,2",options="header"]
+|===
+| esp1 (plain) tokom testa | Vrednost
+
+| baseline (idle) | ~1 %
+| *pod opterećenjem (avg)* | *~14 %* (pik 15 %)
+| jezgro 0 (mreža/MQTT) | *~23 %*
+| slobodan heap (min u testu) | 204 288 B (pad ~3 KB, *bez curenja*)
+| oporavak posle testa | ~1 % (odmah)
+|===
+
+.Šta ovo pokazuje
+[TIP]
+====
+Obrada MQTT komandi (mreža → parsiranje topica → GPIO → publish state) je *glavni*
+potrošač CPU-a, i pada na *jezgro 0* (networking core, `RTOS_CORE_NET`). I na ~29
+komandi/s esp1 ostaje na ~14 % — ogromna rezerva. Heap je stabilan (bez curenja),
+oporavak trenutan. TLS ovde nije faktor (esp1 je plain); poenta je da je *sam sistem*
+daleko od CPU-zasićenja.
+====
+
+== Task tabela (stack head-room + CPU po tasku)
+
+Iz `MEAS: <board>,task,...` (stack „high-water" u rečima = najmanje slobodno ikad;
+CPU u promilima kumulativno na boot-u). Izbor ključnih taskova (`data/cpu_tasks.csv`):
+
+[cols="2,2,2,2,2",options="header"]
+|===
+| Task | esp1 stack | esp1 ‰ | esp2 stack | esp2 ‰
+
+| `wifi` | 3608 | 172 | 3612 | 49
+| `IDLE0` | 920 | 293 | 912 | 398
+| `IDLE1` | 1028 | 430 | 1036 | 488
+| `main` | 1468 | 31 | 1444 | 48
+| `diag` | 3232 | 0 | 3236 | 0
+| `tiT` (lwIP) | 2220 | 1 | 2212 | 1
+| `ipc0`/`ipc1` | 500/508 | 1/67 | 500/508 | 1/8
+|===
+
+Nijedan task nema kritično malo steka (najmanji je `ipc` ~500 reči = 2 KB head-room).
+esp2 ima *jedan task više* (TLS) i nešto niži idle-udeo tokom boot-a (jer TLS
+handshake troši CPU) — konzistentno sa <<_cpu_pri_povezivanju_wi_fi_mqtt_tls_handshake>>.
+
+== Home Assistant integracija
+
+`diag_on_connect()` objavi 4 retained Discovery config-a po čvoru, pa se *8 senzora*
+samo pojavi u HA (bez ručne konfiguracije):
+
+[source]
+----
+sensor.esp1_lights_cpu        1 %      sensor.esp2_temperature_cpu        2 %
+sensor.esp1_lights_heap_free  207392 B sensor.esp2_temperature_heap_free  169360 B
+sensor.esp1_lights_rssi       -57 dBm  sensor.esp2_temperature_rssi       -54 dBm
+sensor.esp1_lights_uptime     107 s    sensor.esp2_temperature_uptime     67 s
+----
+
+== Zaključak
+
+[cols="1,4",options="header"]
+|===
+| Nalaz | Dokaz
+
+| TLS CPU trošak je *transijentan* | connect prozor +5 % avg (esp2 34 % vs esp1 29 %);
+  ustaljeno stanje oba *~1 %*.
+| Steady-state TLS ~*besplatan* | esp2 samo ~2 % skok na 30 s po (šifrovanom) publish-u;
+  potvrđuje command-RTT +~1 ms (link:08-rezultati-i-analiza.adoc[08]).
+| Glavni CPU driver je *obrada komandi* | esp1 pod 29 kom/s → ~14 % (jezgro 0 ~23 %),
+  bez curenja heap-a, trenutan oporavak.
+| Velika CPU rezerva | oba čvora daleko od zasićenja; stack head-room svuda zdrav.
+|===
+
+== Reprodukcija
+
+[source,bash]
+----
+# serijski (MEAS cpu,load + task dump na boot-u)
+python3 cap_serial.py /dev/ttyUSB2 40 esp1.log reset   # esp1 (CP2102)
+python3 cap_serial.py /dev/ttyUSB1 40 esp2.log reset   # esp2 (FT2232 UART)
+
+# CPU time-series preko MQTT (oba čvora, na 5 s)
+mosquitto_sub -h 192.168.0.10 -p 1883 -u <user> -P <pass> -t 'home/+/diag/state' -F '%I %t %p'
+
+# light-toggle load test na esp1 preko HA REST API-ja (indukuje opterećenje)
+for i in $(seq 1 200); do for n in 1 2 3 4; do
+  curl -s -H "Authorization: Bearer <HA_TOKEN>" -X POST \
+    http://192.168.0.10:8123/api/services/switch/turn_on \
+    -d "{\"entity_id\":\"switch.esp1_lights_light$n\"}"; done; done
+----
+
+'''
+
+link:index.adoc[← indeks] | link:10-realni-podaci-uredjaja.adoc[← 10 Realni podaci]

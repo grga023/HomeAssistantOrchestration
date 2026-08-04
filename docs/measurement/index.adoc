@@ -92,6 +92,11 @@ link:01-overview.adoc[01].)
 | Uživo prikupljeni konzolni logovi ESP-ova, esptool hardver, broker/HA podaci i
   MQTT stanje sa sva tri uređaja; serijski `MEAS` *nezavisno potvrđuje* merenja.
 | Poglavlje „Validacija / Realni podaci"
+
+| link:11-cpu-i-dijagnostika.adoc[11 — CPU load i dijagnostika]
+| Per-core CPU load oba čvora (idle, TLS handshake, light-toggle load test),
+  stack head-room, heap/RSSI, i HA diag senzori (firmver v3.0.0).
+| Poglavlje „CPU / Dijagnostika"
 |===
 
 == Skripte i artefakti (spremne za izvršavanje)
@@ -143,10 +148,16 @@ link:01-overview.adoc[01].)
 | esptool hardver readout, HAOS/Pi sistem info, i Mosquitto konfiguracija + log konekcija (TLS cipher).
 
 | `data/mqtt_discovery.txt`, `data/mqtt_states.txt`, `data/temp_timeseries.csv`
-| 10 HA Discovery config poruka, retained stanje, i temperaturni vremenski niz (uživo, v2.0.0).
+| 18 HA Discovery config poruka, retained stanje, i temperaturni vremenski niz (uživo, v3.0.0).
+
+| `data/cpu_timeseries_esp1.csv`, `data/cpu_timeseries_esp2.csv`, `data/cpu_tasks.csv`
+| CPU load kroz vreme (oba čvora, uživo) + per-task stack/CPU tabela (v3.0.0).
 
 | link:cap_serial.py[`cap_serial.py`]
 | Snima ESP konzolu preko serijskog porta (reset + capture boot loga).
+
+| link:make_ws_figs.py[`make_ws_figs.py`]
+| Renderuje Wireshark prikaze (`ws-*.png`) iz `mqtt_capture.pcapng` (scapy).
 |===
 
 == Ključne odluke (dogovoreno)
@@ -179,13 +190,13 @@ link:01-overview.adoc[01].)
 
 == Izvoz u Word (master-rad.docx)
 
-Cela dokumentacija (poglavlja 00–10) sklapa se u jedan `.docx` dokument jednom
+Cela dokumentacija (poglavlja 00–11) sklapa se u jedan `.docx` dokument jednom
 komandom, pogodan za dalju obradu master rada:
 
 [source,shell]
 ----
 cd docs/measurement
-./build-docx.sh            # pravi master-rad.docx (00–10, redom)
+./build-docx.sh            # pravi master-rad.docx (00–11, redom)
 ----
 
 Skripta koristi Asciidoctor (DocBook) + Pandoc; zavisnosti i detalji su u

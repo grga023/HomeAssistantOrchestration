@@ -1,0 +1,24 @@
+# Per-task stack head-room (words) + cumulative CPU (permille) at boot — from diag MEAS
+# board,task,stack_hwm_words,cpu_permille
+lights,diag,3232,0
+lights,main,1468,31
+lights,IDLE1,1028,430
+lights,IDLE0,920,293
+lights,tiT,2220,1
+lights,Tmr Svc,1536,0
+lights,ipc1,508,67
+lights,wifi,3608,172
+lights,esp_timer,3312,0
+lights,sys_evt,756,0
+lights,ipc0,500,1
+temperature,diag,3236,0
+temperature,main,1444,48
+temperature,IDLE1,1036,488
+temperature,IDLE0,912,398
+temperature,tiT,2212,1
+temperature,Tmr Svc,1544,0
+temperature,ipc1,508,8
+temperature,wifi,3612,49
+temperature,esp_timer,3320,0
+temperature,sys_evt,764,0
+temperature,ipc0,500,1

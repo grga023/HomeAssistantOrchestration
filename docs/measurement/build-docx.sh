@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# build-docx.sh — sklapa celu dokumentaciju (poglavlja 00–10) u jedan Word
+# build-docx.sh — sklapa celu dokumentaciju (poglavlja 00–11) u jedan Word
 # dokument (master-rad.docx).
 #
 # Lanac: Asciidoctor (-> self-contained HTML5) -> Pandoc (-> .docx).
@@ -37,7 +37,7 @@ for tool in asciidoctor pandoc; do
   fi
 done
 
-# --- redosled poglavlja (00..10), index se NE uključuje ----------------------
+# --- redosled poglavlja (00..11), index se NE uključuje ----------------------
 CHAPTERS=(
   00-implementacija.adoc
   01-overview.adoc
@@ -50,6 +50,7 @@ CHAPTERS=(
   08-rezultati-i-analiza.adoc
   09-wireshark-analiza.adoc
   10-realni-podaci-uredjaja.adoc
+  11-cpu-i-dijagnostika.adoc
 )
 
 # --- generiši master.adoc sa include-ovima -----------------------------------

@@ -9,7 +9,7 @@ rad, sa colorblind-safe paletom (validirano: plava=plain, narandžasta=TLS):
   fig-handshake.png  vreme konekcije/handshake (ms): plain vs TLS (JEDNOKRATNO)
   fig-rtt.png        command RTT (ms): plain vs TLS, sa linijom 200 ms (hipoteza)
   fig-packet.png     veličina poruke na žici (B): plain vs TLS
-  fig-timeseries.png esp2: 4 simulirana senzora (°C) kroz vreme (uživo, v2.0.0)
+  fig-timeseries.png esp2: 4 simulirana senzora (°C) kroz vreme (uživo, v3.0.0)
 
 results.csv sadrži REALNE izmerene vrednosti (vidi 08-rezultati-i-analiza);
 data/temp_timeseries.csv su uživo snimljena očitavanja 4 senzora sa esp2.
@@ -158,7 +158,7 @@ def fig_packet(res, out):
 
 
 def fig_timeseries(path, out):
-    """Uživo snimljena 4 temperaturna senzora sa esp2 (v2.0.0), na 30 s."""
+    """Uživo snimljena 4 temperaturna senzora sa esp2 (v3.0.0), na 30 s."""
     import csv as _csv
     ts, series = [], {f"t{i}": [] for i in range(1, 5)}
     with open(path, newline="", encoding="utf-8") as f:
@@ -174,9 +174,50 @@ def fig_timeseries(path, out):
     _style_axis(ax)
     ax.set_xlabel("vreme [min]")
     ax.set_ylabel("temperatura [°C]")
-    ax.set_title("esp2 — 4 simulirana senzora (uživo, v2.0.0, na 30 s)",
+    ax.set_title("esp2 — 4 simulirana senzora (uživo, v3.0.0, na 30 s)",
                  color=INK, fontsize=12, fontweight="bold", pad=12)
     ax.legend(loc="upper right", frameon=False, ncol=4, fontsize=9)
+    fig.tight_layout()
+    fig.savefig(out, dpi=200)
+    plt.close(fig)
+
+
+def fig_cpu(out):
+    """CPU load over time: esp1 (plain) with the light-toggle load test vs esp2
+    (TLS) idle. Reads data/cpu_timeseries_esp{1,2}.csv."""
+    import csv as _csv
+    import os
+
+    def load(p):
+        if not os.path.exists(p):
+            return None
+        e, a = [], []
+        with open(p, newline="", encoding="utf-8") as f:
+            for r in _csv.DictReader(f):
+                e.append(float(r["elapsed_s"]) / 60.0)
+                a.append(float(r["cpu_avg"]))
+        return e, a
+
+    d1 = load("data/cpu_timeseries_esp1.csv")
+    d2 = load("data/cpu_timeseries_esp2.csv")
+    if not d1 or not d2:
+        return
+    fig, ax = plt.subplots(figsize=(6.8, 4))
+    # shade the esp1 load window (contiguous samples with cpu_avg > 5 %)
+    spike = [x for x, y in zip(*d1) if y > 5]
+    if spike:
+        ax.axvspan(min(spike), max(spike), color="#ffe6cc", zorder=0,
+                   label="light-toggle test (esp1)")
+    ax.plot(d1[0], d1[1], color=PLAIN, lw=1.8, marker="o", ms=3,
+            label="esp1 (plain) avg", zorder=3)
+    ax.plot(d2[0], d2[1], color=TLS, lw=1.8, marker="o", ms=3,
+            label="esp2 (TLS) avg", zorder=3)
+    _style_axis(ax)
+    ax.set_xlabel("vreme [min]")
+    ax.set_ylabel("CPU load [%]")
+    ax.set_title("CPU load kroz vreme (uživo, v3.0.0)",
+                 color=INK, fontsize=12, fontweight="bold", pad=12)
+    ax.legend(loc="upper right", frameon=False, fontsize=9)
     fig.tight_layout()
     fig.savefig(out, dpi=200)
     plt.close(fig)
@@ -207,6 +248,9 @@ def main():
     if os.path.exists(ts_csv):
         fig_timeseries(ts_csv, f"{d}/fig-timeseries.png")
         made += ", fig-timeseries.png"
+    if os.path.exists("data/cpu_timeseries_esp1.csv"):
+        fig_cpu(f"{d}/fig-cpu.png")
+        made += ", fig-cpu.png"
     print("Napravljeno: " + made)
 
 

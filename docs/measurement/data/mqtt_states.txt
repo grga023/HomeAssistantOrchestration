@@ -3,7 +3,9 @@ home/lights/light1/state OFF
 home/lights/light2/state OFF
 home/lights/light3/state OFF
 home/lights/light4/state OFF
-home/lights/ota/state {"installed_version":"2.0.0","latest_version":"2.0.0"}
+home/lights/ota/state {"installed_version":"3.0.0","latest_version":"3.0.0"}
+home/lights/diag/state {"cpu0":2,"cpu1":1,"cpu_avg":1,"heap_free":207392,"heap_min":165784,"heap_largest":110592,"rssi":-57,"uptime_s":107,"tasks":12}
 home/temperature/status online
-home/temperature/sensor/state {"t1":20.4,"t2":23.7,"t3":17.5,"t4":26.7}
-home/temperature/ota/state {"installed_version":"2.0.0","latest_version":"2.0.0"}
+home/temperature/sensor/state {"t1":21.6,"t2":23.1,"t3":20.0,"t4":26.5}
+home/temperature/ota/state {"installed_version":"3.0.0","latest_version":"3.0.0"}
+home/temperature/diag/state {"cpu0":3,"cpu1":2,"cpu_avg":2,"heap_free":169360,"heap_min":118488,"heap_largest":110592,"rssi":-54,"uptime_s":67,"tasks":13}

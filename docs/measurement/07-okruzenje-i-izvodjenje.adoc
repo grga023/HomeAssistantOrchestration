@@ -90,7 +90,7 @@ METRIKU 4 (command-RTT), gde je za TLS-kanal korišćen esp1 uređaj sa klijento
 | Python scapy | 2.7.0 | Analiza pcap-a (`pcap_analyze.py`).
 | Python matplotlib | 3.x | Generisanje grafikona (`plot_results.py`).
 | tcpdump | 4.99.6 | Snimanje saobraćaja na brokeru (kroz add-on kontejner).
-| Firmware verzija | `2.0.0` | Iz `version.txt` (ista na oba čvora; ulazi u `sw_version`).
+| Firmware verzija | `3.0.0` | Iz `version.txt` (ista na oba čvora; ulazi u `sw_version`).
 |===
 
 == Mrežna topologija i adrese
