@@ -50,7 +50,7 @@ jobs:
           # render every .adoc in docs/, preserving relative directories under _site
           find docs -name '*.adoc' -print0 | while IFS= read -r -d '' file; do
             rel="${file#docs/}"
-            outdir="_site/$(dirname \"$rel\")"
+            outdir="_site/$(dirname -- "$rel")"
             mkdir -p "$outdir"
             asciidoctor -a source-highlighter=rouge -a toc=left -D "$outdir" "$file"
           done
@@ -64,11 +64,14 @@ jobs:
           # ensure a root index exists: prefer _site/index.html if generated, otherwise redirect to measurement
           if [ ! -f _site/index.html ]; then
             if [ -f _site/measurement/index.html ]; then
-              printf '<!doctype html><meta http-equiv="refresh" content="0; url=./measurement/index.html">\n' > _site/index.html
+              printf '%s\n' '<!doctype html><meta http-equiv="refresh" content="0; url=./measurement/index.html">' > _site/index.html
             else
-              printf '<!doctype html><html><body><h1>Documentation</h1><ul>\n' > _site/index.html
-              find _site -maxdepth 2 -type f -name 'index.html' -printf '<li><a href="%P">%P</a></li>\n' >> _site/index.html || true
-              printf '</ul></body></html>' >> _site/index.html
+              printf '%s\n' '<!doctype html><html><body><h1>Documentation</h1><ul>' > _site/index.html
+              while IFS= read -r html; do
+                rel="${html#_site/}"
+                printf '<li><a href="%s">%s</a></li>\n' "$rel" "$rel"
+              done < <(find _site -maxdepth 2 -type f -name 'index.html' | sort) >> _site/index.html
+              printf '%s\n' '</ul></body></html>' >> _site/index.html
             fi
           fi
 
