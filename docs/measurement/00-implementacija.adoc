@@ -16,7 +16,7 @@ firmvera.
 [NOTE]
 ====
 Ovaj dokument je *implementacioni deo* rada; *merni deo* (MQTT vs MQTTS/TLS) je u
-dokumentima link:01-overview.adoc[01]–link:10-realni-podaci-uredjaja.adoc[10].
+dokumentima link:01-overview.adoc[01]–link:11-cpu-i-dijagnostika.adoc[11].
 Za izvoz celokupne dokumentacije u Word vidi <<word-izvoz>>.
 ====
 
@@ -332,10 +332,20 @@ void ota_confirm_running_image(void);         /* otkaži rollback ako radi      
   kompromis za demonstracioni/akademski kontekst i naznačeno je kao pravac daljeg
   rada.
 
+[NOTE]
+====
+*Praktično ograničenje (izmereno):* OTA sa GitHub Releases trenutno *pada* jer
+`.../releases/latest/download/<asset>` radi višestruki 302 redirect ka potpisanom
+`githubusercontent.com` URL-u, koji on-device `esp_https_ota` / `fetch_manifest` *ne
+prati* (`ESP_FAIL` odnosno `manifest: empty body`). Zato se za sada firmver fleš-uje
+preko USB-a; puni nalaz i rešenje su u link:10-realni-podaci-uredjaja.adoc[10].
+Popravka (pratiti `Location` zaglavlje) je pravac daljeg rada.
+====
+
 == Merna studija: MQTT vs MQTTS/TLS
 
 Uporedo sa funkcionalnim sistemom, izvedena je merna studija (detaljno u
-dokumentima link:01-overview.adoc[01]–link:10-realni-podaci-uredjaja.adoc[10])
+dokumentima link:01-overview.adoc[01]–link:11-cpu-i-dijagnostika.adoc[11])
 koja kvantifikuje cenu TLS-a na ESP32. Poređenje je između *esp1* (plain MQTT,
 port 1883) i *esp2* (MQTTS/TLS, port 8883). Realno izmereni rezultati (avgust
 2026, živi hardver — vidi link:08-rezultati-i-analiza.adoc[08]):
