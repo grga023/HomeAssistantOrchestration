@@ -9,9 +9,13 @@ Prateća dokumentacija za praktični deo master rada:
 *„Analiza implementacije enkriptiranog MQTT protokola (MQTTS) u okviru Smart Home
 sustava"*.
 
-Ovaj skup dokumenata opisuje kako se u postojeći firmware (pure C, ESP-IDF)
-dodaje TLS sloj na jedan čvor i kako se mere tri (odnosno četiri) tražena
-opterećenja u odnosu na plain MQTT.
+Ovaj skup dokumenata je *tekući, realni izveštaj o implementaciji i merenjima* —
+ne prazan plan. Arhitektura, TLS izmene u firmware-u, broker/PKI konfiguracija i
+realni rezultati su već urađeni i verifikovani na živom hardveru.
+
+Dokumenti 01–09 pokrivaju: od teorijskog pregleda i implementacionog plana, preko
+reproducibilnog runbook-a, do stvarnih rezultata i Wireshark dokazivanja
+kriptovanog saobraćaja.
 
 [IMPORTANT]
 ====

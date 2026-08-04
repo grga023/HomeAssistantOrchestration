@@ -11,8 +11,10 @@ Dok nemaš hardver, ovo služi kao checklist za planiranje.
 
 [IMPORTANT]
 ====
-Firmware izmene iz link:02-firmware-plan.adoc[02] *još nisu primenjene*. Koraci
-5–8 uključuju te izmene — uradi ih (ili mi reci da ih uradim) pre builda esp2.
+Firmware izmene iz link:02-firmware-plan.adoc[02] su *već primenjene* u ovom
+repozitorijumu. Ovaj dokument služi kao *verifikacioni/reproducibilni checklist*:
+koraci 5–8 su važeći ako ponovo proveravaš instalaciju ili vršiš rebuild na novom
+stroju; ne označavaju da je nešto još „u planu".
 ====
 
 == Preduslovi
@@ -20,7 +22,7 @@ Firmware izmene iz link:02-firmware-plan.adoc[02] *još nisu primenjene*. Koraci
 * Raspberry Pi sa Mosquitto 2.x + Home Assistant.
 * 2× ESP32 (WROOM-32 / `esp32dev`), USB kablovi.
 * PlatformIO (VS Code) na dev mašini.
-* Poznat *IP RPi-ja* (ovde placeholder `192.168.1.10` — zameni svuda).
+* Poznat *IP RPi-ja* (ovde je dat primer `192.168.1.10` — zameni svuda sa stvarnim IP-jem).
 
 == Korak 1 — PKI (sertifikati)
 
