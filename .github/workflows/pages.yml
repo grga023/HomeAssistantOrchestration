@@ -46,22 +46,31 @@ jobs:
 
       - name: Render AsciiDoc -> HTML
         run: |
-          mkdir -p _site/measurement
-          asciidoctor -a source-highlighter=rouge -a toc=left \
-            -D _site/measurement docs/measurement/*.adoc
-          # bring generated figures alongside the HTML (referenced relatively)
-          cp docs/measurement/fig-*.png _site/measurement/ 2>/dev/null || true
-          # publish data + scripts + broker files so the download links resolve
-          cp docs/measurement/results.csv docs/measurement/*.py docs/measurement/*.sh _site/measurement/ 2>/dev/null || true
-          mkdir -p _site/measurement/data _site/measurement/broker
-          cp docs/measurement/data/* _site/measurement/data/ 2>/dev/null || true
-          cp docs/measurement/broker/* _site/measurement/broker/ 2>/dev/null || true
-          # source cross-links point to *.adoc; rewrite them to *.html
-          sed -i -E 's/(href="[^"]*)\.adoc"/\1.html"/g; s/(href="[^"]*)\.adoc#/\1.html#/g' \
-            _site/measurement/*.html
-          # root -> the docs index
-          printf '<!doctype html><meta http-equiv="refresh" content="0; url=./measurement/index.html">\n' \
-            > _site/index.html
+          mkdir -p _site
+          # render every .adoc in docs/, preserving relative directories under _site
+          find docs -name '*.adoc' -print0 | while IFS= read -r -d '' file; do
+            rel="${file#docs/}"
+            outdir="_site/$(dirname \"$rel\")"
+            mkdir -p "$outdir"
+            asciidoctor -a source-highlighter=rouge -a toc=left -D "$outdir" "$file"
+          done
+
+          # copy non-adoc assets (images, csv, scripts, md files) into _site
+          rsync -a --exclude='*.adoc' docs/ _site/ || true
+
+          # rewrite .adoc links to .html in all generated HTML
+          find _site -name '*.html' -exec sed -i -E 's/(href="[^"]*)\.adoc"/\1.html"/g; s/(href="[^"]*)\.adoc#/\1.html#/g' {} +
+
+          # ensure a root index exists: prefer _site/index.html if generated, otherwise redirect to measurement
+          if [ ! -f _site/index.html ]; then
+            if [ -f _site/measurement/index.html ]; then
+              printf '<!doctype html><meta http-equiv="refresh" content="0; url=./measurement/index.html">\n' > _site/index.html
+            else
+              printf '<!doctype html><html><body><h1>Documentation</h1><ul>\n' > _site/index.html
+              find _site -maxdepth 2 -type f -name 'index.html' -printf '<li><a href="%P">%P</a></li>\n' >> _site/index.html || true
+              printf '</ul></body></html>' >> _site/index.html
+            fi
+          fi
 
       - uses: actions/upload-pages-artifact@v3
         with:
