@@ -23,3 +23,11 @@ CONFIG_MBEDTLS_DYNAMIC_BUFFER=n
 CONFIG_ESP_TASK_WDT_EN=y
 CONFIG_ESP_TASK_WDT_TIMEOUT_S=30
 CONFIG_ESP_TASK_WDT_PANIC=y
+
+# Diagnostics (diag.c): per-task + per-core run-time stats so we can measure CPU
+# load. Run-time clock defaults to esp_timer. Applies to both boards equally, so
+# the TLS cross-subtraction is unaffected.
+CONFIG_FREERTOS_USE_TRACE_FACILITY=y
+CONFIG_FREERTOS_GENERATE_RUN_TIME_STATS=y
+CONFIG_FREERTOS_USE_STATS_FORMATTING_FUNCTIONS=y
+CONFIG_FREERTOS_VTASKLIST_INCLUDE_COREID=y

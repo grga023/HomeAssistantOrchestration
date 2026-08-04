@@ -1,6 +1,7 @@
 #include "mqtt_wrap.h"
 #include "secrets.h"
 #include "ota.h"
+#include "diag.h"
 
 #include <string.h>
 #include <stdio.h>
@@ -101,6 +102,8 @@ static void mqtt_event_handler(void *args, esp_event_base_t base,
          * (cancels the pending rollback); then advertise the update entity. */
         ota_confirm_running_image();
         ota_on_connect();
+        /* Diagnostics: advertise CPU/heap/RSSI/uptime sensors (idempotent). */
+        diag_on_connect();
     } break;
     case MQTT_EVENT_DISCONNECTED:
         s_connected = false;
@@ -127,6 +130,7 @@ void mqtt_start(const char *board, mqtt_msg_cb on_msg, mqtt_conn_cb on_conn) {
     s_on_conn = on_conn;
     snprintf(s_avail_topic, sizeof(s_avail_topic), "home/%s/status", board);
     ota_start(board);
+    diag_start(board);
 
     /* MEAS: post-WiFi baseline, same starting point on both nodes. */
     strlcpy(s_board, board, sizeof s_board);

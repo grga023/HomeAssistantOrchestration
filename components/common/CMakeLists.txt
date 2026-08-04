@@ -5,6 +5,7 @@ idf_component_register(
         "src/ha_discovery.c"
         "src/app_rtos.c"
         "src/ota.c"
+        "src/diag.c"
     INCLUDE_DIRS
         "include"
     REQUIRES
