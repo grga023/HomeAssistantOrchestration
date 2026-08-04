@@ -75,6 +75,14 @@ jobs:
             fi
           fi
 
+      - name: Build Word document (master-rad.docx, best-effort)
+        run: |
+          sudo apt-get update -y && sudo apt-get install -y pandoc
+          chmod +x docs/measurement/build-docx.sh
+          # publish the assembled .docx for download from Pages
+          docs/measurement/build-docx.sh "$PWD/_site/master-rad.docx" \
+            || echo "docx build failed (non-fatal)"
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site

@@ -3,6 +3,7 @@
 :toclevels: 3
 :sectnums:
 :icons: font
+:experimental:
 
 link:index.adoc[← indeks] | link:04-methodology.adoc[← 04 Metodologija]
 
@@ -187,3 +188,7 @@ Kad IP-SAN/DNS-SAN cert potvrđeno prolazi: prebaci
 * [ ] `esp1_meas.csv` + `esp2_meas.csv`
 * [ ] `mqtt_thesis.pcap`
 * [ ] RTT rezultati (esp1, esp2)
+
+'''
+
+Sledeće: link:06-reprodukcija-wireshark.adoc[06 — Reprodukcija i uvoz u Wireshark →]

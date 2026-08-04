@@ -242,4 +242,4 @@ merljiv ali prihvatljiv trošak.*
 
 '''
 
-Nazad na link:index.adoc[indeks].
+Nazad na link:index.adoc[indeks] | link:10-realni-podaci-uredjaja.adoc[10 — Realni podaci sa uređaja →]

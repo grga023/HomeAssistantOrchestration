@@ -312,4 +312,4 @@ kredencijalima se *ne* commit-uje (vidi <<dokaz>>).
 
 '''
 
-Nazad na link:index.adoc[indeks].
+Nazad na link:index.adoc[indeks] | link:09-wireshark-analiza.adoc[09 — Wireshark analiza →]

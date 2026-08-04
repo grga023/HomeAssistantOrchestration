@@ -3,6 +3,7 @@
 :toclevels: 3
 :sectnums:
 :icons: font
+:experimental:
 
 link:index.adoc[← indeks] | link:02-firmware-plan.adoc[← 02 Firmware]
 

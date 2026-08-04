@@ -3,6 +3,7 @@
 :toclevels: 3
 :sectnums:
 :icons: font
+:experimental:
 
 link:index.adoc[← nazad na indeks]
 
