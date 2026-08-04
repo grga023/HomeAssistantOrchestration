@@ -1,0 +1,18 @@
+ESP hardware readout (esptool flash_id / chip detect), captured live.
+
+=== esp1_lights  (USB: Silicon Labs CP2102) ===
+Chip:      ESP32-D0WDQ6  (revision v0.0)
+Features:  WiFi, BT, Dual Core, Coding Scheme None
+Crystal:   40 MHz
+MAC:       30:ae:a4:02:f6:00      (-> MQTT client id ESP32_02F600)
+Flash:     4 MB, chip "gd" (GigaDevice), SPI DIO @ 40 MHz
+Role:      plain MQTT baseline, 192.168.0.11, port 1883
+
+=== esp2_temperature  (USB: FTDI FT2232 dual, WROVER-KIT V4.1) ===
+Chip:      ESP32-D0WD  (revision v1.0)
+Features:  WiFi, BT, Dual Core, 240MHz, VRef calibration in efuse, Coding Scheme None
+Crystal:   40 MHz
+MAC:       fc:f5:c4:45:05:f4      (-> MQTT client id ESP32_4505F4)
+Flash:     4 MB, chip "generic", SPI DIO @ 40 MHz
+LCD:       ILI9341 (detected: "display: LCD ID=0x00000000 -> ILI9341")
+Role:      MQTTS/TLS, 192.168.0.12, port 8883

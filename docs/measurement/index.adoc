@@ -81,6 +81,11 @@ link:01-overview.adoc[01].)
 | Dubinska analiza paketa istog snimka: TLS handshake dissection, „Follow TCP
   Stream" dokaz (plain curi kredencijale u čistom tekstu, MQTTS ne), uparen +29 B po poruci.
 | Poglavlje „Analiza mrežnog saobraćaja"
+
+| link:10-realni-podaci-uredjaja.adoc[10 — Realni podaci sa uređaja]
+| Uživo prikupljeni konzolni logovi ESP-ova, esptool hardver, broker/HA podaci i
+  MQTT stanje sa sva tri uređaja; serijski `MEAS` *nezavisno potvrđuje* merenja.
+| Poglavlje „Validacija / Realni podaci"
 |===
 
 == Skripte i artefakti (spremne za izvršavanje)
@@ -124,6 +129,18 @@ link:01-overview.adoc[01].)
 
 | `data/meas_esp1.csv`, `data/meas_esp2.csv`
 | Sirovi izmereni podaci (po 30 boot-ciklusa po čvoru).
+
+| `data/esp1_lights_boot.log`, `data/esp2_temperature_boot.log`
+| Uživo snimljeni konzolni (UART) boot logovi oba ESP32 čvora.
+
+| `data/esp_hw_info.txt`, `data/pi_system.txt`, `data/mosquitto_broker.log`
+| esptool hardver readout, HAOS/Pi sistem info, i Mosquitto konfiguracija + log konekcija (TLS cipher).
+
+| `data/mqtt_discovery.txt`, `data/mqtt_states.txt`
+| 10 HA Discovery config poruka i retained stanje (uživo).
+
+| link:cap_serial.py[`cap_serial.py`]
+| Snima ESP konzolu preko serijskog porta (reset + capture boot loga).
 |===
 
 == Ključne odluke (dogovoreno)

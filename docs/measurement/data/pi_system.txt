@@ -1,0 +1,80 @@
+########## HOST / OS ##########
+Linux pihome 6.18.34-haos-raspi #1 SMP PREEMPT Thu Jul 30 12:12:02 UTC 2026 aarch64 HAOS
+
+NAME="Home Assistant OS"
+VERSION="18.2 (RaspberryPi 4 64bit)"
+ID=haos
+VERSION_ID=18.2
+PRETTY_NAME="Home Assistant OS 18.2"
+CPE_NAME=cpe:2.3:o:home-assistant:haos:18.2:*:production:*:*:*:rpi4-64:*
+HOME_URL=https://www.home-assistant.io/
+VARIANT="Home Assistant OS RaspberryPi 4 64bit"
+VARIANT_ID=rpi4-64
+SUPERVISOR_MACHINE=raspberrypi4-64
+SUPERVISOR_ARCH=aarch64
+
+ 22:02:30 up  5:06,  0 users,  load average: 0.16, 0.22, 0.26
+########## PI HARDWARE ##########
+processor	: 0
+processor	: 1
+processor	: 2
+processor	: 3
+Revision	: d03114
+Model		: Raspberry Pi 4 Model B Rev 1.4
+SoC temp (mC):
+48686
+########## MEM / DISK ##########
+               total        used        free      shared  buff/cache   available
+Mem:           7.6Gi       1.0Gi       5.2Gi       1.7Mi       1.6Gi       6.7Gi
+Swap:          2.5Gi          0B       2.5Gi
+
+Filesystem                Size      Used Available Use% Mounted on
+/dev/root               193.1M    193.1M         0 100% /
+devtmpfs                  3.8G         0      3.8G   0% /dev
+tmpfs                     3.8G         0      3.8G   0% /dev/shm
+tmpfs                     1.5G      1.4M      1.5G   0% /run
+tmpfs                     1.5G      1.4M      1.5G   0% /etc/machine-id
+tmpfs                     1.0M         0      1.0M   0% /run/credentials/systemd-journald.service
+tmpfs                     1.0M         0      1.0M   0% /run/credentials/systemd-network-generator.service
+tmpfs                     1.0M         0      1.0M   0% /run/credentials/systemd-udev-load-credentials.service
+tmpfs                     1.0M         0      1.0M   0% /run/credentials/systemd-tmpfiles-setup-dev-early.service
+tmpfs                     1.0M         0      1.0M   0% /run/credentials/systemd-tmpfiles-setup-dev.service
+/dev/mmcblk0p1           31.9M      8.5M     23.4M  27% /mnt/boot
+/dev/mmcblk0p7           84.5M     95.0K     77.7M   0% /mnt/overlay
+/dev/mmcblk0p7           84.5M     95.0K     77.7M   0% /etc/default
+/dev/mmcblk0p7           84.5M     95.0K     77.7M   0% /etc/dropbear
+########## DOCKER CONTAINERS ##########
+NAMES                    IMAGE                                                           STATUS
+app_core_matter_server   homeassistant/aarch64-addon-matter-server:9.1.1                 Up 5 hours (healthy)
+app_core_mosquitto       homeassistant/aarch64-addon-mosquitto:7.1.0                     Up 5 hours
+hassio_multicast         ghcr.io/home-assistant/aarch64-hassio-multicast:2026.02.0       Up 5 hours
+hassio_audio             ghcr.io/home-assistant/aarch64-hassio-audio:2026.02.0           Up 5 hours
+hassio_dns               ghcr.io/home-assistant/aarch64-hassio-dns:2026.02.0             Up 5 hours
+hassio_cli               ghcr.io/home-assistant/aarch64-hassio-cli:2026.06.0             Up 5 hours
+homeassistant            ghcr.io/home-assistant/raspberrypi4-64-homeassistant:2026.7.4   Up 5 hours
+hassio_observer          ghcr.io/home-assistant/aarch64-hassio-observer:2026.02.0        Up 5 hours
+hassio_supervisor        ghcr.io/home-assistant/aarch64-hassio-supervisor:latest         Up 5 hours
+########## LISTENING PORTS ##########
+LISTEN 0      128          0.0.0.0:8123       0.0.0.0:*    users:(("python3",pid=3605,fd=9))                       
+LISTEN 0      511        127.0.0.1:5580       0.0.0.0:*    users:(("MainThread",pid=3225,fd=33))                   
+LISTEN 0      511      172.30.32.1:5580       0.0.0.0:*    users:(("MainThread",pid=3225,fd=32))                   
+LISTEN 0      4096         0.0.0.0:4357       0.0.0.0:*    users:(("docker-proxy",pid=1091,fd=8))                  
+LISTEN 0      4096         0.0.0.0:111        0.0.0.0:*    users:(("rpcbind",pid=561,fd=5),("systemd",pid=1,fd=38))
+LISTEN 0      4096         0.0.0.0:8884       0.0.0.0:*    users:(("docker-proxy",pid=2664,fd=8))                  
+LISTEN 0      4096         0.0.0.0:8883       0.0.0.0:*    users:(("docker-proxy",pid=2636,fd=8))                  
+LISTEN 0      4096       127.0.0.1:18554      0.0.0.0:*    users:(("go2rtc",pid=3648,fd=7))                        
+LISTEN 0      4096         0.0.0.0:5355       0.0.0.0:*    users:(("systemd-resolve",pid=540,fd=12))               
+LISTEN 0      4096         0.0.0.0:1884       0.0.0.0:*    users:(("docker-proxy",pid=2608,fd=8))                  
+LISTEN 0      4096         0.0.0.0:1883       0.0.0.0:*    users:(("docker-proxy",pid=2580,fd=8))                  
+LISTEN 0      1000         0.0.0.0:22222      0.0.0.0:*    users:(("dropbear",pid=669,fd=3))                       
+LISTEN 0      4096               *:18555            *:*    users:(("go2rtc",pid=3648,fd=9))                        
+LISTEN 0      128             [::]:8123          [::]:*    users:(("python3",pid=3605,fd=8))                       
+LISTEN 0      4096            [::]:4357          [::]:*    users:(("docker-proxy",pid=1098,fd=8))                  
+LISTEN 0      4096            [::]:111           [::]:*    users:(("rpcbind",pid=561,fd=7),("systemd",pid=1,fd=40))
+LISTEN 0      4096            [::]:8884          [::]:*    users:(("docker-proxy",pid=2672,fd=8))                  
+LISTEN 0      4096            [::]:8883          [::]:*    users:(("docker-proxy",pid=2642,fd=8))                  
+LISTEN 0      4096            [::]:5355          [::]:*    users:(("systemd-resolve",pid=540,fd=14))               
+LISTEN 0      511                *:50190            *:*    users:(("MainThread",pid=3225,fd=29))                   
+LISTEN 0      4096            [::]:1884          [::]:*    users:(("docker-proxy",pid=2615,fd=8))                  
+LISTEN 0      4096            [::]:1883          [::]:*    users:(("docker-proxy",pid=2587,fd=8))                  
+LISTEN 0      1000            [::]:22222         [::]:*    users:(("dropbear",pid=669,fd=4))                       

@@ -1,0 +1,107 @@
+########## MOSQUITTO VERSION ##########
+1785873917: mosquitto version 2.1.2 terminating
+mosquitto version 2.1.2
+########## MOSQUITTO ADDON CONFIG ##########
+--- /etc/mosquitto/mosquitto.conf ---
+user root
+
+log_dest stdout
+
+
+log_type error
+log_type warning
+log_type notice
+log_type information
+
+log_timestamp_format %Y-%m-%d %H:%M:%S
+persistence true
+persistence_location /data/
+
+# Limits
+# max_queued_messages is effectively the upper limit of
+# the number of entities on Home Assistant if startup
+# is busy and cannot read messages fast enough
+max_queued_messages 8192
+
+# Authentication plugin
+auth_plugin /usr/share/mosquitto/go-auth.so
+# Restore pre-7.0 behaviour: allow '/' in client ids and usernames.
+# The addon's ACL file does not use pattern substitution (%c/%u), so
+# mosquitto 2.1's broker-side rejection of +, #, / is not needed here.
+auth_plugin_deny_special_chars false
+auth_opt_backends files,http
+auth_opt_hasher pbkdf2
+auth_opt_cache true
+auth_opt_auth_cache_seconds 300
+auth_opt_auth_jitter_seconds 30
+auth_opt_acl_cache_seconds 300
+auth_opt_acl_jitter_seconds 30
+auth_opt_log_level error
+
+# HTTP backend for the authentication plugin
+auth_opt_files_password_path /etc/mosquitto/pw
+auth_opt_files_acl_path /etc/mosquitto/acl
+
+# HTTP backend for the authentication plugin
+auth_opt_http_host 127.0.0.1
+auth_opt_http_port 80
+auth_opt_http_getuser_uri /authentication
+auth_opt_http_superuser_uri /superuser
+auth_opt_http_aclcheck_uri /acl
+
+
+
+listener 1883
+protocol mqtt
+
+listener 1884
+protocol websockets
+
+
+
+# Follow SSL listener if a certificate exists
+listener 8883
+protocol mqtt
+
+cafile /ssl/server.crt
+
+certfile /ssl/server.crt
+keyfile /ssl/server.key
+require_certificate false
+
+listener 8884
+protocol websockets
+
+cafile /ssl/server.crt
+
+certfile /ssl/server.crt
+keyfile /ssl/server.key
+require_certificate false
+
+
+--- /data/*.conf ---
+--- /share/mosquitto/*.conf ---
+########## MOSQUITTO BROKER LOGS (curated: ESP connects + TLS cipher) ##########
+# (Home Assistant's MQTT integration reconnects from 172.30.32.2 every ~2 min; trimmed.)
+2026-08-04 20:57:55: New connection from 192.168.0.12:50063 on port 8883.
+2026-08-04 20:57:56: New client connected from 192.168.0.12:50063 as ESP32_4505F4 (p4, c1, k120, u'homeuser').
+2026-08-04 20:57:56: Client ESP32_4505F4 negotiated TLSv1.2 cipher ECDHE-RSA-AES256-GCM-SHA384
+2026-08-04 20:58:01: New connection from 192.168.0.12:49372 on port 8883.
+2026-08-04 20:58:02: Client ESP32_4505F4 [192.168.0.12:50063] disconnected: session taken over.
+2026-08-04 20:58:02: New client connected from 192.168.0.12:49372 as ESP32_4505F4 (p4, c1, k120, u'homeuser').
+2026-08-04 20:58:02: Client ESP32_4505F4 negotiated TLSv1.2 cipher ECDHE-RSA-AES256-GCM-SHA384
+2026-08-04 20:58:12: New connection from 192.168.0.11:50724 on port 1883.
+2026-08-04 20:58:12: New client connected from 192.168.0.11:50724 as ESP32_02F600 (p4, c1, k120, u'homeuser').
+2026-08-04 21:13:19: New connection from 192.168.0.12:51598 on port 8883.
+2026-08-04 21:13:20: Client ESP32_4505F4 [192.168.0.12:49372] disconnected: session taken over.
+2026-08-04 21:13:20: New client connected from 192.168.0.12:51598 as ESP32_4505F4 (p4, c1, k120, u'homeuser').
+2026-08-04 21:13:20: Client ESP32_4505F4 negotiated TLSv1.2 cipher ECDHE-RSA-AES256-GCM-SHA384
+2026-08-04 22:02:05: New connection from 192.168.0.11:57784 on port 1883.
+2026-08-04 22:02:05: Client ESP32_02F600 [192.168.0.11:50724] disconnected: session taken over.
+2026-08-04 22:02:05: New client connected from 192.168.0.11:57784 as ESP32_02F600 (p4, c1, k120, u'homeuser').
+2026-08-04 22:02:33: New connection from 192.168.0.11:60878 on port 1883.
+2026-08-04 22:02:33: Client ESP32_02F600 [192.168.0.11:57784] disconnected: session taken over.
+2026-08-04 22:02:33: New client connected from 192.168.0.11:60878 as ESP32_02F600 (p4, c1, k120, u'homeuser').
+2026-08-04 22:03:46: New connection from 192.168.0.11:58614 on port 1883.
+2026-08-04 22:03:46: Client ESP32_02F600 [192.168.0.11:60878] disconnected: session taken over.
+2026-08-04 22:03:46: New client connected from 192.168.0.11:58614 as ESP32_02F600 (p4, c1, k120, u'homeuser').

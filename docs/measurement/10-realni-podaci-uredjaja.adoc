@@ -1,0 +1,223 @@
+= 10 — Realni podaci sa uređaja (konzolni logovi, broker, MQTT)
+:toc: left
+:toclevels: 3
+:sectnums:
+:icons: font
+:experimental:
+
+link:index.adoc[← indeks] | link:09-wireshark-analiza.adoc[← 09 Wireshark analiza]
+
+[NOTE]
+====
+Ovaj dokument sadrži *sirove, uživo prikupljene* podatke sa *sva tri fizička
+uređaja* u sistemu — dva ESP32 čvora i Raspberry Pi broker/HA host — kao dokaz da
+su merenja iz link:08-rezultati-i-analiza.adoc[08] realna. Ključni nalaz:
+*konzolni (serijski) log firmvera sam ispisuje `MEAS` linije* koje se poklapaju sa
+dokumentovanim rezultatima, a TLS cipher se *nezavisno potvrđuje* i iz brokera i iz
+Wireshark snimka (link:09-wireshark-analiza.adoc[09]).
+
+Sirovi artefakti su u `data/`: `esp1_lights_boot.log`, `esp2_temperature_boot.log`,
+`esp_hw_info.txt`, `mosquitto_broker.log`, `pi_system.txt`, `mqtt_discovery.txt`,
+`mqtt_states.txt`. Privatni podaci (Wi-Fi SSID, BSSID rutera) i kredencijali su
+redigovani (`<WIFI_SSID>`, `<ROUTER_BSSID>`, `homeuser`).
+====
+
+== Kako su podaci prikupljeni
+
+[cols="2,2,3",options="header"]
+|===
+| Uređaj | Pristup | Alat
+
+| *esp1_lights* (ESP32 DevKit) | USB serijski `/dev/ttyUSB2` (CP2102) | `cap_serial.py` (reset + capture @115200), `esptool`
+| *esp2_temperature* (WROVER-KIT V4.1) | USB serijski `/dev/ttyUSB1` (FT2232, UART kanal) | `cap_serial.py`, `esptool`
+| *Raspberry Pi* (broker + HA) | SSH `:22222` (HAOS add-on), MQTT | `ssh`, `docker logs`, `mosquitto_sub`
+|===
+
+== Hardver (esptool, uživo očitano)
+
+[cols="2,3,3",options="header"]
+|===
+| | esp1_lights | esp2_temperature
+
+| Čip | ESP32-D0WDQ6, rev *v0.0* | ESP32-D0WD, rev *v1.0*
+| Osobine | WiFi, BT, Dual Core | WiFi, BT, Dual Core, 240MHz, *VRef calibration*
+| Kristal | 40 MHz | 40 MHz
+| MAC | `30:ae:a4:02:f6:00` | `fc:f5:c4:45:05:f4`
+| MQTT client id | `ESP32_02F600` | `ESP32_4505F4`
+| Flash | 4 MB (GigaDevice) | 4 MB (generic)
+| Ekran | — | *ILI9341* (`display: LCD ID=0x00000000 -> ILI9341`)
+| USB most | Silicon Labs CP2102 | FTDI FT2232 (dual: JTAG + UART)
+|===
+
+MAC adrese se *poklapaju* sa client id-jevima i sa MAC-ovima iz Wireshark snimka
+(link:09-wireshark-analiza.adoc[09]) — isti fizički uređaji.
+
+== Boot log (ESP-IDF) — izvod
+
+Isečak iz `data/esp1_lights_boot.log` (pun boot: ROM → 2. stepen → app → Wi-Fi →
+MQTT). Isti oblik i za esp2.
+
+[source]
+----
+I (29) boot: ESP-IDF 5.5.0 2nd stage bootloader
+I (30) boot: chip revision: v0.0
+I (40) boot.esp32: SPI Flash Size : 4MB
+I (48) boot: Partition Table:
+I (57) boot:  0 nvs              WiFi data        01 02 00009000 00004000
+I (64) boot:  1 otadata          OTA data         01 00 0000d000 00002000
+I (77) boot:  3 ota_0            OTA app          00 10 00010000 001b0000
+I (83) boot:  4 ota_1            OTA app          00 11 001c0000 001b0000
+I (491) app_init: Project name:     HomeAssistantOrchestration
+I (497) app_init: App version:      1.0.0
+I (510) app_init: ESP-IDF:          5.5.0
+I (1426) wifi:connected with <WIFI_SSID>, aid = 5, channel 11, BW20, bssid = <ROUTER_BSSID>
+I (2926) esp_netif_handlers: sta ip: 192.168.0.11, mask: 255.255.255.0, gw: 192.168.0.1
+I (2926) MEAS: lights,heap,entry,226924,226924,110592
+I (3586) MEAS: lights,time,connect_span,645963,645,
+I (3586) MEAS: lights,heapdelta,retained,7504,,
+I (3586) mqtt: connected
+----
+
+Log potvrđuje *dual-OTA particije* (`ota_0`/`ota_1`, svaka `0x1b0000` = 1,75 MB +
+`otadata`), *ESP-IDF 5.5.0*, i firmver *v1.0.0* na oba čvora.
+
+[#crossval]
+== Cross-validacija: serijski `MEAS` vs dokumentovani rezultati
+
+Firmver sam instrumentira boot i preko UART-a ispisuje `MEAS` linije (isti izvor
+koji `meas_capture.py` parsira). Vrednosti iz *jednog uživo boot-a* poklapaju se sa
+dokumentovanim prosekom (n=30) iz link:08-rezultati-i-analiza.adoc[08]:
+
+[cols="3,2,2,2",options="header"]
+|===
+| Metrika | Serijski `MEAS` (1 boot) | Dokumentovano (n=30) | Slaganje
+
+| Zadržani heap — esp1 (plain) | *7 504 B* | 7 526 B (mean) | ✓
+| Zadržani heap — esp2 (TLS) | *41 532 B* | 41 628 B (mean) | ✓
+| *TLS heap trošak* (esp2−esp1) | *34 028 B (33,2 KB)* | +33,3 KB | ✓
+| TLS baferi (mbedTLS IN/OUT) | `in_out_dyn,16384,4096` | 16384+4096 (objašnjenje +33 KB) | ✓
+| connect_span — esp1 | 645 ms | 161 ms mean / 56 ms median¹ | ~
+| connect_span — esp2 | 770 ms | 693 ms mean | ✓
+|===
+
+¹ Jedan *hladni boot* (uključuje Wi-Fi asocijaciju) je pri vrhu distribucije; zato
+08 koristi median/mean nad 30 ciklusa. Bitno: *TLS heap trošak od 33 KB je
+reprodukovan iz živog loga* i poklapa se do na ~0,1 KB.
+
+== Wi-Fi i modem-sleep (uzrok RTT „poda")
+
+Boot log direktno pokazuje uzrok ~158 ms command-RTT „poda" iz
+link:08-rezultati-i-analiza.adoc[08] — *Wi-Fi power save (modem-sleep)*:
+
+[source]
+----
+I (1347) wifi:security: WPA2-PSK, phy: bgn, rssi: -50
+I (1347) wifi:pm start, type: 1
+I (1367) wifi:AP's beacon interval = 102400 us, DTIM period = 2
+----
+
+`pm start, type: 1` = modem-sleep uključen; downlink komanda čeka na DTIM beacon
+(period 2 × 102,4 ms) — tačno kako 08 objašnjava latenciju. RSSI −50/−51 dBm
+(odličan signal), pa latencija *nije* posledica lošeg linka.
+
+== Broker (Mosquitto) — konekcije i TLS
+
+Iz `data/mosquitto_broker.log` (Mosquitto *2.1.2* na HAOS). Broker *nezavisno
+potvrđuje* isti TLS cipher koji je izmeren u Wireshark snimku:
+
+[source]
+----
+New connection from 192.168.0.12:50063 on port 8883.
+New client connected from 192.168.0.12:50063 as ESP32_4505F4 (p4, c1, k120, u'homeuser').
+Client ESP32_4505F4 negotiated TLSv1.2 cipher ECDHE-RSA-AES256-GCM-SHA384
+New client connected from 192.168.0.11:50724 as ESP32_02F600 (p4, c1, k120, u'homeuser').
+----
+
+* esp2 (192.168.0.12) → *8883, TLSv1.2, `ECDHE-RSA-AES256-GCM-SHA384`* (isti cipher
+  kao u link:09-wireshark-analiza.adoc[09] `ServerHello` — dvostruka potvrda).
+* esp1 (192.168.0.11) → *1883, plain*.
+* Oba: MQTT v3.1.1 (`p4`), clean session (`c1`), keepalive 120 s.
+
+Listeneri iz konfiguracije: `1883` (plain), `1884` (ws), `8883` (TLS),
+`8884` (ws TLS); TLS preko `/ssl/server.crt`.
+
+== Home Assistant OS (Raspberry Pi)
+
+Iz `data/pi_system.txt`:
+
+[cols="2,3",options="header"]
+|===
+| Stavka | Vrednost
+
+| OS | *Home Assistant OS 18.2* (rpi4-64), kernel `6.18.34-haos-raspi`, aarch64
+| Ploča | *Raspberry Pi 4 Model B Rev 1.4*
+| SoC temperatura | *48,7 °C* (`thermal_zone0`)
+| Memorija | 7,6 GiB (1,0 GiB zauzeto), load 0,16
+| HA core | `homeassistant` *2026.7.4*
+| Broker | add-on `mosquitto` *7.1.0* (Mosquitto 2.1.2)
+| Ostali kontejneri | supervisor, matter-server 9.1.1, dns, audio, cli, multicast, observer
+| Otvoreni portovi | 1883, 1884, 8883, 8884 (MQTT), 8123 (HA), 22222 (SSH)
+|===
+
+== MQTT Discovery — auto-kreirane HA entitete
+
+Iz `data/mqtt_discovery.txt` — *10 retained config poruka* koje čvorovi objave na
+`homeassistant/.../config`, pa se entiteti sami pojave u HA:
+
+[cols="2,3",options="header"]
+|===
+| Tip / broj | Entiteti
+
+| `switch` × 4 | `lights/light1..4` (relej svetla)
+| `sensor` × 4 | `temperature/temp1..4` (°C, `device_class: temperature`)
+| `update` × 2 | `lights/firmware`, `temperature/firmware` (OTA „Install" dugme)
+|===
+
+== Live MQTT stanje
+
+Iz `data/mqtt_states.txt` (retained na brokeru, uživo):
+
+[source]
+----
+home/lights/status online
+home/lights/light1/state OFF   (… light2/3/4 OFF)
+home/temperature/status online
+home/temperature/sensor/state {"t1":21.3,"t2":23.5,"t3":19.1,"t4":25.8}
+home/lights/ota/state         {"installed_version":"1.0.0","latest_version":"1.0.0"}
+home/temperature/ota/state    {"installed_version":"1.0.0","latest_version":"1.0.0"}
+----
+
+Četiri temperature su *simulirane* (random-walk oko početnih vrednosti, vidi
+`climate.c`) i objavljuju se kao jedan retained JSON; LCD ih preslikava. Vrednosti
+su realan izlaz uređaja u trenutku snimanja.
+
+[NOTE]
+.Firmver na čvorovima je v1.0.0 (release je v2.0.0)
+====
+Oba čvora trenutno voze *v1.0.0* (`installed_version:1.0.0`). v2.0.0 je objavljen
+kao GitHub Release (OTA manifesti `lights.json`/`temperature.json`); u v2.0.0
+`climate.c` objavljuje temperature *na svakih 30 s* (random walk), dok v1.0.0
+objavljuje na konekciji. OTA nadogradnja na v2.0.0 i puni vremenski niz temperatura
+su naredni korak.
+====
+
+== Reprodukcija
+
+[source,bash]
+----
+# ESP konzola (reset + 40 s boot log) — port po chip-u: CP2102=esp1, FT2232 UART=esp2
+python3 cap_serial.py /dev/ttyUSB2 40 esp1_lights_boot.log reset
+python3 cap_serial.py /dev/ttyUSB1 40 esp2_temperature_boot.log reset
+esptool -p /dev/ttyUSB2 flash_id          # čip, MAC, kristal, flash
+
+# Raspberry Pi (broker + HA), preko HAOS SSH add-on-a
+ssh -p 22222 root@192.168.0.10 'uname -a; docker ps; docker logs app_core_mosquitto --tail 200'
+
+# MQTT stanje + discovery (sa PC-a)
+mosquitto_sub -h 192.168.0.10 -p 1883 -u <user> -P <pass> \
+  -t 'home/#' -t 'homeassistant/#' -v --retained-only -W 5
+----
+
+'''
+
+Nazad na link:index.adoc[indeks].

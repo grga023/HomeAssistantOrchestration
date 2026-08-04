@@ -1,0 +1,9 @@
+home/lights/status online
+home/lights/light1/state OFF
+home/lights/light2/state OFF
+home/lights/light3/state OFF
+home/lights/light4/state OFF
+home/lights/ota/state {"installed_version":"1.0.0","latest_version":"1.0.0"}
+home/temperature/status online
+home/temperature/sensor/state {"t1":21.3,"t2":23.5,"t3":19.1,"t4":25.8}
+home/temperature/ota/state {"installed_version":"1.0.0","latest_version":"1.0.0"}
