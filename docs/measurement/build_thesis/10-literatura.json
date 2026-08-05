@@ -1,0 +1,41 @@
+{
+  "id": "10-literatura",
+  "title": "Literatura",
+  "blocks": [
+    {
+      "type": "h",
+      "level": 1,
+      "text": "Literatura"
+    },
+    {
+      "type": "p",
+      "text": "Popis referenci obuhvata primarne izvore korišćene u ovom radu: normativne specifikacije protokola *Message Queuing Telemetry Transport* (MQTT) i protokola *Transport Layer Security* (TLS), pripadajuće dokumente organizacije *Internet Engineering Task Force* (IETF) i smernice organizacije *National Institute of Standards and Technology* (NIST), zvaničnu dokumentaciju upotrebljenih alata i biblioteka (ESP-IDF, mbedTLS, Mosquitto, Home Assistant, Paho, PlatformIO, Wireshark), kao i pregledne radove o bezbednosti MQTT komunikacije u sistemima *Internet of Things* (IoT). Reference su navedene po IEEE stilu i redosledu prvog pojavljivanja u radu."
+    },
+    {
+      "type": "list",
+      "ordered": true,
+      "items": [
+        "OASIS, \"MQTT Version 3.1.1\", OASIS Standard, 2014. Dostupno na: http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html",
+        "OASIS, \"MQTT Version 5.0\", OASIS Standard, 2019. Dostupno na: https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html",
+        "T. Dierks i E. Rescorla, \"The Transport Layer Security (TLS) Protocol Version 1.2\", RFC 5246, IETF, avgust 2008. Dostupno na: https://www.rfc-editor.org/rfc/rfc5246",
+        "E. Rescorla, \"The Transport Layer Security (TLS) Protocol Version 1.3\", RFC 8446, IETF, avgust 2018. Dostupno na: https://www.rfc-editor.org/rfc/rfc8446",
+        "D. McGrew, \"An Interface and Algorithms for Authenticated Encryption\", RFC 5116, IETF, januar 2008. Dostupno na: https://www.rfc-editor.org/rfc/rfc5116",
+        "K. McKay i D. Cooper, \"Guidelines for the Selection, Configuration, and Use of Transport Layer Security (TLS) Implementations\", NIST Special Publication 800-52 Revision 2, NIST, avgust 2019. Dostupno na: https://doi.org/10.6028/NIST.SP.800-52r2",
+        "M. Dworkin, \"Recommendation for Block Cipher Modes of Operation: Galois/Counter Mode (GCM) and GMAC\", NIST Special Publication 800-38D, NIST, novembar 2007. Dostupno na: https://doi.org/10.6028/NIST.SP.800-38D",
+        "E. Barker, \"Recommendation for Key Management: Part 1 — General\", NIST Special Publication 800-57 Part 1 Revision 5, NIST, maj 2020. Dostupno na: https://doi.org/10.6028/NIST.SP.800-57pt1r5",
+        "M. Fagan, K. N. Megas, K. Scarfone i M. Smith, \"IoT Device Cybersecurity Capability Core Baseline\", NISTIR 8259A, NIST, maj 2020. Dostupno na: https://doi.org/10.6028/NIST.IR.8259A",
+        "Espressif Systems, \"ESP-IDF Programming Guide (v5.5)\", 2025. Dostupno na: https://docs.espressif.com/projects/esp-idf/en/v5.5/",
+        "Espressif Systems, \"ESP32 Technical Reference Manual\", verzija 5.x, 2024. Dostupno na: https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf",
+        "Espressif Systems, \"ESP32 Series Datasheet\", 2024. Dostupno na: https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf",
+        "Mbed TLS, \"Mbed TLS Documentation\", TrustedFirmware.org, 2024. Dostupno na: https://mbed-tls.readthedocs.io/",
+        "Eclipse Foundation, \"Eclipse Mosquitto — An Open Source MQTT Broker (Documentation)\", 2024. Dostupno na: https://mosquitto.org/documentation/",
+        "Home Assistant, \"MQTT Integration and MQTT Discovery\", zvanična dokumentacija, 2026. Dostupno na: https://www.home-assistant.io/integrations/mqtt/",
+        "Eclipse Foundation, \"Eclipse Paho — MQTT Python Client (paho-mqtt)\", 2024. Dostupno na: https://eclipse.dev/paho/index.php?page=clients/python/index.php",
+        "PlatformIO, \"PlatformIO Documentation\", 2024. Dostupno na: https://docs.platformio.org/",
+        "Wireshark Foundation, \"Wireshark User's Guide\", 2024. Dostupno na: https://www.wireshark.org/docs/wsug_html_chunked/",
+        "S. Andy, B. Rahardjo i B. Hanindhito, \"Attack Scenarios and Security Analysis of MQTT Communication Protocol in IoT System\", u zborniku 4th International Conference on Electrical Engineering, Computer Science and Informatics (EECSI), IEEE, 2017. Dostupno na: https://doi.org/10.1109/EECSI.2017.8239179",
+        "M. Singh, M. A. Rajan, V. L. Shivraj i P. Balamuralidhar, \"Secure MQTT for Internet of Things (IoT)\", u zborniku 5th International Conference on Communication Systems and Network Technologies (CSNT), IEEE, 2015, str. 746-751. Dostupno na: https://doi.org/10.1109/CSNT.2015.16"
+      ]
+    }
+  ]
+}

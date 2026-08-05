@@ -1,0 +1,31 @@
+{
+  "id": "08-provera-hipoteze",
+  "title": "Provera hipoteze",
+  "blocks": [
+    {"type": "h", "level": 1, "text": "Provera hipoteze"},
+    {"type": "p", "text": "Ovo poglavlje formalno proverava hipotezu postavljenu na početku rada, oslanjajući se isključivo na vrednosti izmerene u prethodnom poglavlju o rezultatima i analizi. Provera se sprovodi razlaganjem hipoteze na pojedinačne, proverljive tvrdnje, njihovim suočavanjem sa izmerenim dokazima i, na kraju, izvođenjem jednoznačnog suda o tome da li hipoteza opstaje. Poseban naglasak stavlja se na razdvajanje dva kvalitativno različita troška koje transportni sloj bezbednosti unosi, jer se hipoteza odnosi samo na jedan od njih."},
+
+    {"type": "h", "level": 2, "text": "Ponovljena hipoteza"},
+    {"type": "p", "text": "Radi preglednosti provere, hipoteza se navodi u celini, onako kako je izvorno formulisana:"},
+    {"type": "quote", "text": "Uprkos merljivim opterećenjima (RAM, latencija/veličina paketa, vreme handshake-a), degradacija performansi ostaje unutar prihvatljivih granica (odziv < 200 ms) za normalno funkcionisanje Smart Home sistema — bezbednost se drastično povećava bez narušavanja korisničkog iskustva."},
+    {"type": "p", "text": "Hipoteza objedinjuje dve nezavisne tvrdnje koje se moraju proveriti odvojeno. Prva priznaje da enkripcija donosi merljiv trošak i traži samo da degradacija performansi ostane unutar prihvatljivih granica, pri čemu je granica eksplicitno kvantifikovana kao odziv ispod 200 ms. Druga tvrdi da se, po toj ceni, bezbednost drastično povećava, i to bez narušavanja korisničkog iskustva. Provera koja sledi razlaže obe tvrdnje na četiri proverljive stavke."},
+
+    {"type": "h", "level": 2, "text": "Provera po tvrdnjama"},
+    {"type": "p", "text": "Naredna tabela suočava svaku pojedinačnu tvrdnju sadržanu u hipotezi sa odgovarajućim izmerenim dokazom i daje sud o njenoj ispunjenosti. Svi navedeni brojevi preuzeti su iz izmerenih rezultata: n=30 boot-ciklusa po čvoru za memoriju i vreme povezivanja, n=100 po kanalu za odziv, uz snimak od 126 paketa za mrežnu analizu."},
+    {"type": "table", "caption": "Provera pojedinačnih tvrdnji hipoteze naspram izmerenih dokaza", "header": ["Tvrdnja", "Izmereni dokaz", "Ispunjeno"], "rows": [
+      ["Transportni sloj bezbednosti (TLS) unosi merljivo opterećenje", "Zadržani heap +33,3 KB; TLS handshake +528 ms (median, jednokratno po povezivanju); +29 B po PUBLISH-u (+64%); približno 3,1× bajtova po sesiji.", "DA"],
+      ["Odziv sistema ostaje ispod 200 ms", "Odziv po komandi (RTT) p95 = 189,60 ms (MQTTS) i 182,11 ms (plain); srednja razlika +1,19 ms. Oba kanala su ispod 200 ms na p95.", "DA"],
+      ["Bezbednost se drastično povećava", "Na portu 1883 (plain) su kredencijali (korisničko ime homeuser, lozinka N7kQ2pX9) i svi payload-i čitljivi golim okom; na portu 8883 (MQTTS) je sav saobraćaj opaque (AES-256-GCM, ECDHE forward secrecy, verifikovan lanac sertifikata).", "DA"],
+      ["Bez narušavanja korisničkog iskustva", "Dodatnih približno 1 ms po komandi je neprimetno korisniku; jedini vidljiv trošak je približno 0,5 s duže prvo povezivanje, i to jednokratno.", "DA"]
+    ]},
+    {"type": "p", "text": "Sve četiri stavke ispunjene su na osnovu stvarno izmerenih vrednosti. Prva stavka namerno se ne osporava — cilj nije pokazati da TLS nema cenu, već da je ta cena poznata i ograničena; upravo zato je merljivo opterećenje potvrđeno kao istinito, a ne kao neuspeh. Druga stavka je odlučujuća: odziv po komandi u p95 iznosi 189,60 ms na enkriptovanom kanalu, što je unutar granice od 200 ms, dok razlika u srednjoj vrednosti u odnosu na neenkriptovani kanal iznosi svega +1,19 ms. Treća i četvrta stavka zajedno pokazuju da je dobitak u bezbednosti nesrazmerno velik u odnosu na neprimetan gubitak u odzivu."},
+
+    {"type": "h", "level": 2, "text": "Uslovi pod kojima bi hipoteza pala"},
+    {"type": "p", "text": "Hipoteza nije bezuslovno tačna; njena valjanost počiva na jednoj pretpostavci o načinu rada sistema koju je važno eksplicitno navesti. Ključni izmereni trošak transportnog sloja bezbednosti — TLS handshake od približno 0,53 s — plaća se jednokratno, pri svakom uspostavljanju povezivanja. Sve dok se MQTT sesija održava (perzistentna sesija uz keepalive), taj se trošak amortizuje i ne ulazi u odziv po komandi, koji tada obuhvata samo simetričnu AES-GCM operaciju reda mikrosekundi. Da sistem ne održava sesiju, već da se ponovo povezuje pred svaku komandu, svaka komanda bi povlačila nov handshake od približno pola sekunde; u tom scenariju bi p95 odziva sigurno probio granicu od 200 ms i hipoteza bi pala."},
+    {"type": "p", "text": "Taj scenario, međutim, nije primećen u merenju. Sesija je perzistentna, pa se handshake ne ponavlja po poruci, a jedini zabeleženi TLS ispad (maksimum od 398,13 ms) predstavlja izolovan događaj ponovnog povezivanja ili retransmisije, a ne trend — mera koja se koristi za sud (p95) ostaje na 189,60 ms. Uslov pod kojim bi hipoteza pala je, dakle, poznat, ali leži van normalnog režima rada Smart Home sistema."},
+
+    {"type": "h", "level": 2, "text": "Zaključak o hipotezi"},
+    {"type": "p", "text": "Na osnovu suočavanja svih tvrdnji sa izmerenim dokazima, hipoteza je potvrđena. Transportni sloj bezbednosti unosi merljiv, ali ograničen trošak (zadržani heap +33,3 KB, jednokratni handshake približno +0,53 s, +29 B po poruci, približno trostruko više bajtova po sesiji i prolazni porast opterećenja procesora od oko 6% u prozoru povezivanja), dok odziv po komandi ostaje ispod 200 ms (p95 189,60 ms naspram 182,11 ms na neenkriptovanom kanalu, uz srednju razliku od svega +1,19 ms), a bezbednost se drastično povećava."},
+    {"type": "p", "text": "Pri tumačenju ovog zaključka mora se dosledno održati distinkcija između dva troška koja se ne smeju mešati: jednokratnog handshake-a od približno 0,53 s po povezivanju i po-komandnog troška od približno 1 ms u ustaljenom stanju. Granica iz hipoteze — odziv ispod 200 ms — odnosi se isključivo na drugi, po-komandni trošak, koji je izmeren na 189,60 ms u p95. Handshake je zaseban, jednokratni trošak koji korisnik oseti najviše kao neznatno duže prvo uspostavljanje povezivanja i koji ne narušava odziv sistema tokom rada."}
+  ]
+}

@@ -36,3 +36,10 @@ Thumbs.db
 graphify-out/cache/
 graphify-out/.graphify_*
 graphify-out/.node_index.txt
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Word temp / lock files
+~$*

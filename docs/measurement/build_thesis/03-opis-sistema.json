@@ -1,0 +1,78 @@
+{
+  "id": "03-opis-sistema",
+  "title": "Opis sistema",
+  "blocks": [
+    { "type": "h", "level": 1, "text": "Opis sistema" },
+    { "type": "p", "text": "Ovo poglavlje opisuje sistem na nivou arhitekture: kako su čvorovi, broker poruka i centralni kontroler pametne kuće međusobno povezani i kako podaci teku kroz sistem. Detalji pojedinačnih softverskih komponenti i firmverskih modula razmatraju se u narednom poglavlju; ovde je fokus na topologiji, ulogama čvorova, komunikacionim obrascima i bezbednosnom modelu koji zajedno čine okvir za mernu studiju enkriptovanog *MQTT* protokola." },
+
+    { "type": "h", "level": 2, "text": "Arhitektura sistema" },
+    { "type": "p", "text": "Sistem predstavlja demonstracioni model pametne kuće izgrađen oko centralnog kontrolera *Home Assistant*, koji radi na jednopločnom računaru *Raspberry Pi 4 Model B*, i dva mikrokontrolerska čvora zasnovana na *ESP32* koji sa njim komuniciraju isključivo preko protokola *Message Queuing Telemetry Transport (MQTT)*. Mreža je u potpunosti lokalna i ne oslanja se na spoljne (cloud) servise, čime se eliminišu promenljivi činioci van kontrole mernog postupka i obezbeđuje ponovljivost merenja." },
+    { "type": "p", "text": "Centralni čvor objedinjuje dve saradničke usluge. Prva je *Eclipse Mosquitto* broker poruka (verzija 2.1.2, isporučen kao Home Assistant OS dodatak „Mosquitto broker\" 7.1.0), koji posreduje u svakoj razmeni poruka. Druga je sam *Home Assistant* (jezgro 2026.7.4 na operativnom sistemu Home Assistant OS 18.2), koji čvorove predstavlja kao entitete i pruža korisnički interfejs. Broker je čvorište komunikacije: svaka poruka između čvorova i kontrolera prolazi kroz njega, a *MQTT* čini okosnicu sistema po obrascu objavi–pretplati (engl. publish/subscribe), koji učesnike labavo spreže i vremenski razdvaja." },
+    { "type": "p", "text": "Dva *ESP32* čvora su *MQTT* klijenti. Svaki se povezuje na Wi-Fi mrežu u stanicom režimu (engl. station, STA), uspostavlja *MQTT* sesiju sa brokerom i objavljuje svoje stanje i konfiguraciju. Home Assistant ih automatski otkriva mehanizmom *MQTT Discovery* i za njih kreira odgovarajuće entitete. Čvorovi međusobno ne komuniciraju direktno — sva razmena ide preko brokera, čime je sistem centralizovan i lako proširiv." },
+    { "type": "code", "text": "         +--------------------------------+\n         |  Raspberry Pi 4 Model B        |\n         |  Mosquitto broker  :1883 / :8883|\n         |  Home Assistant    (:1883)     |\n         +---------------+----------------+\n                         |  MQTT (okosnica)\n           +-------------+--------------+\n           |                            |\n   plain MQTT :1883             MQTTS :8883 (TLS 1.2)\n           |                            |\n  +--------v--------+          +--------v---------+\n  | ESP32 #1  esp1  |          | ESP32 #2  esp2   |\n  | svetla (releji) |          | temperature      |\n  | BASELINE        |          | PREDMET ANALIZE  |\n  +-----------------+          +------------------+" },
+    { "type": "p", "text": "Dva čvora se namerno razlikuju samo po transportu kojim komuniciraju sa brokerom. Prvi čvor koristi običan *MQTT* na portu 1883 i predstavlja referentnu tačku (engl. baseline), dok drugi koristi *MQTTS* — *MQTT* preko sloja *Transport Layer Security (TLS)* — na portu 8883 i predstavlja predmet analize opterećenja. Oba čvora izvršavaju identičan deljeni kod, pa je *TLS* jedina razlika između njih; ta okolnost čini poređenje poštenim jer se razlika u izmerenim veličinama može pripisati isključivo *TLS* sloju." },
+
+    { "type": "h", "level": 3, "text": "Softverski stek" },
+    { "type": "p", "text": "Sistem je izgrađen od otvorenih, široko korišćenih komponenti, raspoređenih u jasno razdvojene slojeve. Naredna tabela daje pregled steka na nivou celog sistema; verzije i detalji instrumentacije preciziraju se u poglavlju o okruženju merenja." },
+    { "type": "table", "caption": "Softverski stek sistema po slojevima", "header": ["Sloj", "Tehnologija", "Uloga"], "rows": [
+      ["Kontroler i interfejs", "Home Assistant (jezgro 2026.7.4)", "Centralna platforma pametne kuće; entiteti, automatizacija i korisnički interfejs"],
+      ["Broker poruka", "Eclipse Mosquitto 2.1.2", "Posredovanje MQTT saobraćaja; dva listenera (1883 plain i 8883 TLS)"],
+      ["Firmver čvorova", "čist C na ESP-IDF 5.5.0", "Mrežni stek, MQTT klijent i aplikaciona logika na ESP32"],
+      ["Build alat", "PlatformIO", "Prevođenje, flešovanje i nadzor; izbor aktivne ploče"],
+      ["Konkurentnost", "FreeRTOS", "Periodični zadaci; mrežna i aplikaciona logika razdvojene po jezgrima"],
+      ["MQTT klijent", "esp-mqtt", "Povezivanje, Last-Will, pretplata i objavljivanje"],
+      ["Bezbednost transporta", "mbedTLS (TLS 1.2)", "Enkripcija kanala čvora esp2 i verifikacija sertifikata servera"]
+    ]},
+
+    { "type": "h", "level": 2, "text": "Topologija mreže i uloge čvorova" },
+    { "type": "p", "text": "Svi učesnici nalaze se na istoj lokalnoj Wi-Fi mreži. Sistem čine tri fizička učesnika: Raspberry Pi kao čvorište (broker i kontroler), referentni čvor i čvor koji je predmet analize. Raspberry Pi ima adresu 192.168.0.10 i hostname `pihome`; referentni čvor esp1 dobija adresu 192.168.0.11, a čvor esp2 adresu 192.168.0.12. Uloge, portovi i transport sažeti su u narednoj tabeli." },
+    { "type": "table", "caption": "Uloge čvorova, portovi i transport", "header": ["Čvor", "Uloga u radu", "Port", "Transport"], "rows": [
+      ["Raspberry Pi 4B (pihome)", "Broker poruka (Mosquitto) + kontroler (Home Assistant)", "1883 i 8883", "sluša oba: plain i TLS"],
+      ["esp1_lights", "Referentna tačka (baseline) — upravljanje svetlima", "1883", "plain MQTT (nezaštićeno)"],
+      ["esp2_temperature", "Predmet analize — objava temperatura", "8883", "MQTTS (MQTT preko TLS 1.2)"]
+    ]},
+    { "type": "p", "text": "Referentni čvor `esp1_lights` izgrađen je na modulu *ESP32-D0WDQ6* (WROOM), sa *CP2102* mostom ka računaru preko USB veze, i upravlja sa četiri releja za svetla, koja se u kontroleru pojavljuju kao prekidački (switch) entiteti. Pošto komunicira nezaštićenim kanalom, ovaj čvor služi kao referenca prema kojoj se meri trošak enkripcije." },
+    { "type": "p", "text": "Čvor `esp2_temperature` izgrađen je na razvojnoj ploči *ESP-WROVER-KIT V4.1* (modul *ESP32-D0WD* sa dodatnom PSRAM memorijom), sa dvokanalnim *FT2232* USB mostom i ugrađenim *ILI9341* LCD ekranom. Ovaj čvor objavljuje četiri simulirane temperature (po modelu nasumičnog hoda) i prikazuje ih na ekranu, a sav njegov saobraćaj ka brokeru odvija se enkriptovanim kanalom, zbog čega je upravo on predmet analize opterećenja koje *TLS* unosi." },
+    { "type": "p", "text": "Raspberry Pi opslužuje oba čvora istovremeno preko dva listenera brokera. Home Assistant se na broker povezuje lokalnom (loopback) vezom preko običnog porta 1883, pa broker poruku koju esp2 objavi enkriptovano na portu 8883 dekriptuje i isporučuje kontroleru nepromenjenu (i obrnuto). Time jedan broker i jedan kontroler ravnopravno opslužuju i plain i TLS čvor, a poređenje ostaje pošteno." },
+
+    { "type": "h", "level": 2, "text": "Tok podataka i komunikacioni obrasci" },
+    { "type": "p", "text": "Oba čvora prolaze kroz identičan redosled pokretanja i povezivanja, jer taj tok živi u deljenoj `common` komponenti firmvera. Postupak od uključivanja napajanja do prijavljivanja entiteta u kontroleru odvija se u sledećim koracima." },
+    { "type": "list", "ordered": true, "items": [
+      "Reset i pokretanje: funkcija `app_main()` definiše pinove i poziva jedan `*_start()` ulaz specifičan za ploču, nakon čega prelazi u stanje mirovanja.",
+      "Povezivanje na mrežu: `wifi_sta_start(hostname)` inicijalizuje NVS, mrežni interfejs i petlju događaja, povezuje se na pristupnu tačku u STA režimu i blokira dok ne dobije IP adresu.",
+      "Uspostava MQTT sesije: `mqtt_start(board, on_message, on_connect)` konfiguriše klijenta i postavlja Last-Will poruku (retained `offline` na temi `home/<board>/status`) koju broker objavljuje u ime čvora ako veza neočekivano padne.",
+      "Potvrda povezivanja: po prijemu događaja povezivanja klijent objavljuje `online` (retained) i poziva `on_connect()`.",
+      "Periodični zadaci: čvor koji čita ili simulira hardver pokreće bezdriftni periodični FreeRTOS zadatak preko `rtos_every_ms(...)`."
+    ]},
+    { "type": "p", "text": "Povratni poziv `on_connect()` je centralno mesto svakog čvora i mora biti *idempotentan*, jer se izvršava pri svakom (ponovnom) povezivanju. U njemu se čvor pretplaćuje na svoje komandne teme, objavljuje retained *MQTT Discovery* konfiguraciju za svaki entitet na temi `homeassistant/<component>/<board>/<object_id>/config` i objavljuje trenutno stanje. Čim broker prosledi ove retained poruke kontroleru, entiteti se u Home Assistant-u pojavljuju kao dostupni." },
+    { "type": "p", "text": "U ustaljenom stanju sistem razmenjuje poruke u dva smera. U silaznom smeru korisnik ili automatizacija u kontroleru objavljuje komandu na `set` temu; broker je prosleđuje čvoru, `on_message()` uparuje temu i primenjuje komandu na hardver, a čvor potom objavljuje novo stanje (retained eho) na odgovarajućoj `state` temi — tako radi na primer prebacivanje svetla na čvoru esp1. U uzlaznom smeru periodični zadatak čvora esp2 očitava simulirane senzore, sastavlja *JSON* poruku i objavljuje je (retained) na svakih 30 sekundi, pa kontroler ažurira prikazane vrednosti." },
+    { "type": "p", "text": "Pri prekidu veze broker objavljuje Last-Will poruku `offline`, čime kontroler odmah saznaje da je čvor nedostupan. Klijent `esp-mqtt` se zatim automatski ponovo povezuje, nakon čega se `on_connect()` izvršava iznova; upravo zato je njegova idempotentnost neophodna — ponovno objavljivanje pretplata, discovery konfiguracije i stanja dovodi sistem u konzistentno stanje bez obzira na broj ponovnih povezivanja." },
+    { "type": "p", "text": "Zadržavanje poruka (retained) je namerna projektantska odluka koja se provlači kroz ceo tok: dostupnost, discovery konfiguracija i sva stanja objavljuju se kao retained, pa svaki novi pretplatnik — na primer kontroler posle ponovnog pokretanja — odmah dobija poslednju poznatu vrednost bez čekanja na sledeći ciklus objave." },
+
+    { "type": "h", "level": 2, "text": "Konvencije MQTT topica" },
+    { "type": "p", "text": "Imenovanje tema (topica) sledi jednostavan hijerarhijski prostor imena. Aplikacione teme počinju prefiksom `home/<board>/...`, dok se teme automatskog otkrivanja nalaze pod prefiksom `homeassistant/...` koji Home Assistant nadgleda. Oznaka `<board>` je kratak identifikator ploče koji se koristi i u temama i u imenu OTA manifesta (`lights` za esp1, odnosno `temperature` za esp2). Naredna tabela sažima ustaljene konvencije." },
+    { "type": "table", "caption": "Konvencije MQTT tema u sistemu", "header": ["Kategorija", "Šablon teme", "Napomena"], "rows": [
+      ["Aplikacione komande", "home/<board>/<entitet>/set", "npr. home/lights/light1/set"],
+      ["Aplikaciona stanja", "home/<board>/<entitet>/state", "retained; npr. home/temperature/sensor/state (JSON)"],
+      ["Dostupnost", "home/<board>/status", "retained, preko Last-Will poruke (online/offline)"],
+      ["Automatsko otkrivanje", "homeassistant/<component>/<board>/<object_id>/config", "retained konfiguracija entiteta (MQTT Discovery)"],
+      ["OTA ažuriranje", "home/<board>/ota/{set,install,state}", "daljinsko ažuriranje firmvera po ploči"]
+    ]},
+    { "type": "p", "text": "Dosledna primena ove šeme omogućava da se OTA i integracija sa kontrolerom povežu na jednom mestu, u deljenoj komponenti, bez izmena u kodu pojedinih ploča. Treba napomenuti i jednu implementacionu konvenciju bitnu za pouzdanost: dolazne teme i sadržaj poruka *nisu* null-terminisani, pa se poređenje uvek radi po eksplicitnoj dužini (`strncmp` uz proveru dužine), nikada nad sirovim pokazivačem." },
+
+    { "type": "h", "level": 2, "text": "Bezbednosni model" },
+    { "type": "p", "text": "U svom osnovnom obliku *MQTT* saobraćaj nije šifrovan. Na portu 1883 sve — nazivi tema, korisni sadržaj poruka i, presudno, kredencijali za pristup brokeru (korisničko ime i lozinka) — putuje u čistom tekstu. Bilo koji učesnik na lokalnoj mreži može pasivno da presretne taj saobraćaj i pročita ga. Zbog toga čvor esp2 komunicira preko *MQTTS*-a na portu 8883: isti *MQTT* protokol, ali unutar *TLS* tunela." },
+    { "type": "p", "text": "Na kanalu čvora esp2 *TLS* obezbeđuje četiri svojstva. *Poverljivost* — sadržaj je šifrovan simetričnom šifrom *AES-256-GCM*. *Integritet* — svaki *TLS* zapis nosi *Authenticated Encryption with Associated Data (AEAD)* oznaku autentičnosti (16 bajtova), pa je svaka izmena u prenosu otkrivena. *Autentičnost servera* — čvor verifikuje serverski sertifikat protiv ugrađenog `ca.crt`, pa napad tipa „čovek u sredini\" bez privatnog ključa tog izdavaoca (CA) nije moguć. *Forward secrecy* — razmena ključeva koristi efemerni *ECDHE*. Puna verifikacija identiteta potvrđena je nezavisno (Verify return code: 0), sa serverskim sertifikatom `CN=pihome.local` i adresom u polju SAN (`IP:192.168.0.10`). Pregovoreni cipher paket je `ECDHE-RSA-AES256-GCM-SHA384` pod *TLS 1.2*, uz hardversko ubrzanje AES/SHA na uređaju." },
+    { "type": "table", "caption": "Bezbednosna svojstva plain (1883) i MQTTS (8883) kanala", "header": ["Svojstvo", "1883 (plain)", "8883 (MQTTS)"], "rows": [
+      ["Poverljivost sadržaja", "izloženo (čist tekst)", "zaštićeno (AES-256-GCM)"],
+      ["Kredencijali (korisnik/lozinka)", "vidljivi golim okom", "šifrovani (TLS Application Data)"],
+      ["Integritet poruke", "bez zaštite", "AEAD oznaka autentičnosti (16 B)"],
+      ["Autentičnost servera", "nema", "verifikacija lanca protiv ugrađenog CA"],
+      ["Forward secrecy", "—", "ECDHE (efemerni ključevi)"]
+    ]},
+    { "type": "p", "text": "Kontrast između dva kanala neposredno je uočljiv na nivou paketa: rekonstrukcija toka nad saobraćajem porta 1883 golim okom otkriva teme, korisne sadržaje i *MQTT* kredencijale (korisničko ime `homeuser` i pripadajuću lozinku) u čistom tekstu, dok je na portu 8883 sve nečitljiv *TLS* Application Data. Detaljna analiza saobraćaja i taj bezbednosni dokaz razrađuju se u poglavlju o analizi mrežnog saobraćaja." },
+    { "type": "p", "text": "Domet *TLS* zaštite ograničen je na deonicu čvor–broker. Deonica broker–kontroler odvija se lokalno preko loopback veze na portu 1883, pa broker dekriptuje esp2 saobraćaj i prosleđuje ga kontroleru u čistom tekstu unutar istog uređaja. Ovakav model je uobičajen i prihvatljiv za lokalno čvorište, jer osetljiva deonica preko mreže (bežična) ostaje zaštićena, dok komunikacija unutar samog Raspberry Pi-ja ne napušta uređaj." },
+    { "type": "quote", "text": "Uprkos merljivim opterećenjima (RAM, latencija/veličina paketa, vreme handshake-a), degradacija performansi ostaje unutar prihvatljivih granica (odziv < 200 ms) za normalno funkcionisanje Smart Home sistema — bezbednost se drastično povećava bez narušavanja korisničkog iskustva." },
+    { "type": "p", "text": "Ovako postavljen bezbednosni model motiviše mernu studiju: *TLS* drastično podiže nivo zaštite, ali to nije besplatno. Zadatak koji sledi jeste da se taj trošak izmeri i da se pokaže ključna distinkcija — postoje dva različita troška, jednokratni trošak uspostavljanja veze (*TLS* handshake) i trošak po komandi u ustaljenom stanju — pri čemu se hipotezna granica od 200 ms odnosi na ovaj drugi. Kvantifikacija oba troška i provera hipoteze predmet su narednih poglavlja." }
+  ]
+}

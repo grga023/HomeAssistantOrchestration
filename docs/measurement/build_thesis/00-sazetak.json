@@ -1,0 +1,48 @@
+{
+  "id": "00-sazetak",
+  "title": "Sažetak",
+  "blocks": [
+    {
+      "type": "h",
+      "level": 1,
+      "text": "Sažetak"
+    },
+    {
+      "type": "p",
+      "text": "Savremeni sistemi pametne kuće (engl. *Smart Home*) sve se više oslanjaju na lagani protokol za razmenu poruka **Message Queuing Telemetry Transport (MQTT)**, koji u svojoj osnovnoj varijanti prenosi podatke u čistom tekstu i time izlaže korisničke kredencijale, komande i telemetriju svakome ko je u stanju da prisluškuje mrežni saobraćaj. Ovaj rad analizira trošak koji uvođenje sloja bezbednosti transporta — **Transport Layer Security (TLS)** — unosi u MQTT komunikaciju (MQTTS) na resursno ograničenim ESP32 čvorovima. Cilj je da se utvrdi da li se bezbednost može postići bez narušavanja odziva sistema, odnosno da se proveri hipoteza po kojoj degradacija performansi, uprkos merljivim opterećenjima, ostaje unutar prihvatljivih granica (odziv ispod 200 ms) uz drastičan porast bezbednosti."
+    },
+    {
+      "type": "p",
+      "text": "Merenja su sprovedena na živom hardveru, upoređivanjem dva ravnopravna čvora: referentnog čvora sa običnim MQTT-om (port 1883) i predmetnog čvora sa MQTTS-om (port 8883). Trošak TLS-a izdvojen je unakrsnim oduzimanjem rezultata dvaju čvorova duž pet mernih dimenzija: potrošnje radne memorije, vremena povezivanja i TLS *handshake*-a, veličine paketa na žici, end-to-end vremena odziva na komandu i opterećenja procesora. Statistička osnova obuhvata 30 boot-ciklusa po čvoru, 100 merenja po kanalu za vreme odziva i analizu mrežnog snimka od 126 paketa."
+    },
+    {
+      "type": "p",
+      "text": "Rezultati pokazuju da TLS unosi merljiv, ali ograničen trošak: zadržana radna memorija raste za približno *33,3 KB*, jednokratni *handshake* dodaje oko *0,53 s* po povezivanju, svaka poruka je veća za *29 bajtova*, a opterećenje procesora prolazno raste za oko *6%* tokom *handshake*-a. Uprkos tome, end-to-end vreme odziva po komandi ostaje ispod 200 ms — 95. percentil iznosi *190 ms* naspram 182 ms kod običnog MQTT-a, uz razliku aritmetičke sredine od svega 1,2 ms. Bezbednosna analiza potvrđuje da su na običnom kanalu kredencijali i podaci vidljivi golim okom, dok su na MQTTS kanalu potpuno nečitljivi (AES-256-GCM). Zaključuje se da je hipoteza potvrđena: postoje dva različita troška — jednokratni *handshake* pri povezivanju i zanemarljiv trošak po komandi u ustaljenom stanju — pri čemu se granica od 200 ms odnosi na ovaj drugi, te je TLS u ustaljenom radu jeftin, a dobitak u bezbednosti dramatičan."
+    },
+    {
+      "type": "p",
+      "text": "**Ključne reči:** MQTT, MQTTS, TLS, ESP32, pametna kuća, bezbednost, mbedTLS, Home Assistant."
+    },
+    {
+      "type": "h",
+      "level": 1,
+      "text": "Abstract"
+    },
+    {
+      "type": "p",
+      "text": "Modern Smart Home systems increasingly rely on the lightweight **Message Queuing Telemetry Transport (MQTT)** protocol, which in its basic form transmits data in clear text and thereby exposes user credentials, commands and telemetry to anyone able to intercept the network traffic. This thesis analyses the cost that adding **Transport Layer Security (TLS)** introduces into MQTT communication (MQTTS) on resource-constrained ESP32 nodes. The aim is to determine whether security can be attained without degrading system responsiveness, that is, to test the hypothesis that — despite measurable overheads — the performance degradation remains within acceptable limits (response below 200 ms) while security is drastically increased."
+    },
+    {
+      "type": "p",
+      "text": "The measurements were carried out on live hardware by comparing two equivalent nodes: a reference node running plain MQTT (port 1883) and the node under study running MQTTS (port 8883). The TLS cost was isolated through cross-subtraction of the two nodes' results along five measurement dimensions: working-memory consumption, connection and TLS handshake time, on-the-wire packet size, end-to-end command response time and processor load. The statistical basis comprises 30 boot cycles per node, 100 measurements per channel for response time, and analysis of a 126-packet network capture."
+    },
+    {
+      "type": "p",
+      "text": "The results show that TLS introduces a measurable but bounded cost: retained working memory increases by approximately *33.3 KB*, the one-time handshake adds about *0.53 s* per connection, each message grows by *29 bytes*, and processor load rises transiently by roughly *6%* during the handshake. Despite this, the end-to-end per-command response time remains below 200 ms — the 95th percentile is *190 ms* versus 182 ms for plain MQTT, with a mean difference of only 1.2 ms. The security analysis confirms that on the plain channel credentials and data are visible in plain sight, whereas on the MQTTS channel they are entirely unreadable (AES-256-GCM). It is concluded that the hypothesis is confirmed: two distinct costs exist — a one-time handshake at connection and a negligible per-command cost in the steady state — with the 200 ms bound applying to the latter; hence TLS is inexpensive in steady-state operation, while the gain in security is dramatic."
+    },
+    {
+      "type": "p",
+      "text": "**Keywords:** MQTT, MQTTS, TLS, ESP32, Smart Home, security, mbedTLS, Home Assistant."
+    }
+  ]
+}

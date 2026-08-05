@@ -1,0 +1,184 @@
+{
+  "id": "06-rezultati",
+  "title": "Rezultati merenja",
+  "blocks": [
+    { "type": "h", "level": 1, "text": "Rezultati merenja" },
+
+    { "type": "p", "text": "Ovo poglavlje objedinjuje rezultate svih sprovedenih merenja i predstavlja ih kroz tabele i grafikone, izolujući trošak koji Transport Layer Security (TLS) sloj unosi u komunikaciju Message Queuing Telemetry Transport (MQTT) protokola. Metodološki pristup počiva na uparenom poređenju dva ESP32 čvora: čvor esp1_lights komunicira običnim MQTT-om preko porta 1883 i predstavlja referentnu tačku (baseline), dok čvor esp2_temperature koristi MQTT preko TLS-a (MQTTS) na portu 8883 i predstavlja predmet analize. TLS trošak se dobija „unakrsnim oduzimanjem” izmerenih vrednosti dva čvora, čime se zajednička komponenta (Wi-Fi, broker, mreža) poništava, a izoluje se doprinos samog sloja bezbednosti. Svi navedeni brojevi stvarno su izmereni na hardveru sa firmverom verzije v3.0.0, a ne procenjeni." },
+
+    { "type": "p", "text": "Naredna tabela sažima svih pet mernih dimenzija, sa TLS troškom prikazanim kao razlika između dva čvora i sažetim nalazom po svakoj dimenziji." },
+
+    { "type": "table", "caption": "Sažetak svih pet mernih dimenzija sa izolovanim TLS troškom", "header": ["Metrika", "Plain (esp1)", "MQTTS (esp2)", "TLS trošak", "Nalaz"], "rows": [
+      ["Memorija — zadržani heap", "7,35 KB", "40,65 KB", "+33,3 KB", "≈15 % heap-a; fragmentacija nepromenjena"],
+      ["Vreme povezivanja (median)", "56 ms", "584 ms", "+528 ms", "jednokratno po konekciji"],
+      ["Veličina PUBLISH-a na žici", "45 B", "74 B", "+29 B (+64 %)", "konstantan AEAD okvir"],
+      ["Command RTT (p95)", "182,11 ms", "189,60 ms", "+7,5 ms", "oba kanala < 200 ms"],
+      ["CPU (prozor povezivanja, avg)", "28 %", "34 %", "+6", "tranzijentni šiljak; idle ≈1 %"]
+    ] },
+
+    { "type": "p", "text": "Ukratko, TLS unosi merljivo opterećenje na memoriju, na jednokratno vreme povezivanja i na veličinu poruke, ali odziv po komandi ostaje ispod granice od 200 ms. Naredni odeljci razlažu svaku dimenziju pojedinačno." },
+
+    { "type": "h", "level": 2, "text": "Memorijski overhead (heap)" },
+
+    { "type": "p", "text": "Slobodan heap meren je pozivom funkcije `esp_get_free_heap_size` u četiri fiksne tačke životnog ciklusa čvora, kroz n=30 boot-ciklusa po čvoru; prijavljuju se srednje vrednosti. Ključna izvedena veličina je zadržani heap, definisan kao razlika slobodne memorije pre uspostavljanja konekcije i posle nje (pre_start − connected) — ona predstavlja memoriju koju sloj komunikacije trajno zauzme dok je veza aktivna." },
+
+    { "type": "table", "caption": "Slobodan heap po fazama i izvedeni zadržani heap (n=30 po čvoru)", "header": ["Faza", "Plain (esp1)", "MQTTS (esp2)", "Razlika"], "rows": [
+      ["entry (baseline posle Wi-Fi)", "226 919 B (221,6 KB)", "223 037 B (217,8 KB)", "—"],
+      ["pre_start (pre konekcije)", "223 800 B (218,6 KB)", "219 921 B (214,8 KB)", "—"],
+      ["connected (posle konekcije)", "216 268 B (211,2 KB)", "178 201 B (174,0 KB)", "—"],
+      ["zadržani = pre_start − connected", "7 526 B (7,35 KB)", "41 628 B (40,65 KB)", "+33,3 KB"],
+      ["low_water_5s (kumulativni min)", "174 100 B (170,0 KB)", "135 507 B (132,3 KB)", "gornja granica"],
+      ["najveći slobodan blok", "110 592 B", "110 592 B", "nepromenjen"]
+    ] },
+
+    { "type": "figure", "file": "fig-heap.png", "caption": "Zadržani heap: obični MQTT naspram MQTTS (TLS).", "width_in": 5.3 },
+
+    { "type": "p", "text": "Razlika u zadržanom heap-u iznosi 41 628 − 7 526 = 34 102 B, odnosno približno **33,3 KB** — to je neto memorijska cena TLS-a. Vrednost predstavlja oko 15 % dostupnog heap-a nakon inicijalizacije Wi-Fi steka (≈217 KB) i sastoji se pretežno od mbedTLS ulaznih i izlaznih bafera (`IN_CONTENT_LEN=16384` i `OUT_CONTENT_LEN=4096` bajtova), TLS sesijskog stanja i parsiranog lanca sertifikata. Uzorci su izrazito stabilni kroz svih 30 ciklusa, pa je razlika pouzdana. Posebno je značajno to da je najveći slobodan blok identičan na oba čvora (110 592 B): TLS, dakle, ne pogoršava fragmentaciju heap-a u ustaljenom stanju — njegov trošak je jednokratna „bulk” alokacija, a ne rascepkanost slobodnog prostora. Time se potvrđuje da MQTTS udobno staje na standardne ESP32 module bez PSRAM-a uz stalnu cenu od približno 33 KB." },
+
+    { "type": "h", "level": 2, "text": "Vreme povezivanja i TLS handshake" },
+
+    { "type": "p", "text": "Vreme povezivanja mereno je kao raspon `connect_span = CONNECTED − BEFORE_CONNECT`, koji obuhvata uspostavljanje TCP veze, TLS handshake (gde postoji) i MQTT razmenu CONNECT/CONNACK. Merenje je izvedeno kroz n=30 boot-ciklusa po čvoru." },
+
+    { "type": "table", "caption": "Statistika vremena povezivanja / TLS handshake (n=30 po čvoru)", "header": ["Statistika", "Plain (esp1)", "MQTTS (esp2)", "TLS trošak"], "rows": [
+      ["n", "30", "30", "—"],
+      ["mean", "161 ms", "693 ms", "+532 ms"],
+      ["median", "56 ms", "584 ms", "+528 ms"],
+      ["p95", "470 ms", "1048 ms", "+578 ms"],
+      ["min", "34 ms", "521 ms", "+487 ms"],
+      ["max", "1103 ms", "1082 ms", "—"]
+    ] },
+
+    { "type": "figure", "file": "fig-handshake.png", "caption": "Vreme handshake-a: obični MQTT naspram MQTTS (TLS).", "width_in": 5.3 },
+
+    { "type": "p", "text": "Kao reprezentativna vrednost koristi se medijana, jer obična konekcija ima veliku disperziju (medijana 56 ms naspram srednje vrednosti 161 ms i maksimuma 1103 ms) usled promenljive latencije koju unose Wi-Fi asocijacija, dodela adrese preko DHCP-a i autentifikacija na strani brokera (pbkdf2 heš uz poziv ka pozadinskom servisu Home Assistant-a). Ta latencija pogađa oba kanala podjednako, pa unakrsno oduzimanje ostaje validno: medijana-delta (528 ms) i srednja-delta (532 ms) se poklapaju jer se zajednička varijansa poništava. Robustan zaključak glasi da TLS handshake dodaje približno **0,53 s**." },
+
+    { "type": "p", "text": "Presudno je da je ovaj trošak **jednokratan** — plaća se pri svakom uspostavljanju veze (uključujući reconnect), a ne po poruci. Dominiraju ga ECDHE razmena ključeva, provera RSA-2048 potpisa servera i parsiranje lanca sertifikata; hardversko AES/SHA ubrzanje skraćuje simetrični deo, ali asimetrični deo ostaje glavni doprinos. Sve dok se MQTT sesija održava, handshake se ne ponavlja, te ovaj trošak ne ulazi u odziv po komandi, koji se analizira u nastavku poglavlja." },
+
+    { "type": "h", "level": 2, "text": "Mrežni overhead i dokaz enkripcije" },
+
+    { "type": "p", "text": "Mrežni saobraćaj snimljen je na brokeru (interfejs `wlan0`, alatom tcpdump), ukupno 126 paketa. Da bi poređenje bilo pošteno, isti PUBLISH — identičan topic (`test/meas`) i payload od 32 bajta — poslat je na oba kanala, pa se veličina na žici razlikuje isključivo zbog TLS okvira." },
+
+    { "type": "table", "caption": "Mrežni overhead: uparen PUBLISH i ukupan saobraćaj sesije", "header": ["Veličina", "Plain (1883)", "MQTTS (8883)", "Overhead"], "rows": [
+      ["PUBLISH na žici (uparen)", "45 B", "74 B", "+29 B (+64 %)"],
+      ["TLS handshake (jednokratno)", "—", "≈6 041 B (26 zapisa)", "jednokratno"],
+      ["Saobraćaj sesije", "3 370 B / 48 pkt", "10 478 B / 78 pkt", "≈3,1×"],
+      ["Samo uređaj", "3 053 B", "6 791 B", "≈2,2×"],
+      ["Payload čitljiv?", "DA (cleartext)", "NE (opaque)", "—"]
+    ] },
+
+    { "type": "figure", "file": "fig-packet.png", "caption": "Veličina PUBLISH-a na žici: obični MQTT naspram MQTTS (TLS).", "width_in": 5.3 },
+
+    { "type": "p", "text": "Overhead po poruci od 29 bajtova (74 − 45) tačno odgovara okviru koji TLS 1.2 sa AES-GCM šifrom propisuje: 5 bajtova zaglavlja TLS zapisa, 8 bajtova eksplicitnog nonce-a i 16 bajtova AEAD (Authenticated Encryption with Associated Data) autentifikacionog taga. Za male IoT payload-e ovo je proporcionalno veliko (+64 %), ali apsolutno zanemarljivo — reč je o desetinama bajtova po poruci, i taj okvir je konstantan, ne raste s brojem poruka. Ukupan saobraćaj TLS sesije u snimku je oko 3,1 puta veći, ali najveći deo te razlike otpada na jednokratni handshake (≈6 041 B kroz 26 zapisa), a ne na po-poruci cenu." },
+
+    { "type": "h", "level": 3, "text": "Dokaz bezbednosti" },
+
+    { "type": "p", "text": "Najznačajniji nalaz mrežne analize nije kvantitativan nego kvalitativan i tiče se poverljivosti podataka. Rekonstrukcija toka „Follow TCP Stream” pokazuje da je na portu 1883 (obični MQTT) ceo razgovor čitljiv u čistom tekstu. U paketu CONNECT golim okom se vide klijentski identifikator, topici, payload-i i — kritično — MQTT kredencijali. Naredni isečak iz snimljenog CONNECT paketa (kontrolni znaci zamenjeni tačkom) otkriva korisničko ime i lozinku u čistom tekstu:" },
+
+    { "type": "code", "text": "....MQTT....ESP32_02F600..home/lights/status..offline..homeuser..N7kQ2pX9\n                                                        ^^^^^^^^   ^^^^^^^^\n                                              korisnicko ime + lozinka (cist tekst)" },
+
+    { "type": "p", "text": "Vizuelni dokaz pruža rekonstrukcija Wireshark pogleda na saobraćaj porta 1883, gde su svi tokeni čitljivi, kao što prikazuje naredni grafikon." },
+
+    { "type": "figure", "file": "ws-stream-1883.png", "caption": "Follow TCP Stream na portu 1883: čitljiv MQTT sa kredencijalima u čistom tekstu.", "width_in": 6.2 },
+
+    { "type": "p", "text": "Nasuprot tome, isti pogled na port 8883 (MQTTS), nakon handshake-a, sadrži isključivo TLS zapise tipa Application Data — 25 zapisa, nula čitljivih MQTT tokena i nula plaintext curenja. Kredencijali, topici i payload-i su enkriptovani algoritmom AES-256-GCM i za pasivnog posmatrača ostaju potpuno neprozirni, što prikazuje sledeći grafikon." },
+
+    { "type": "figure", "file": "ws-stream-8883.png", "caption": "Follow TCP Stream na portu 8883: samo neprozirni TLS Application Data zapisi.", "width_in": 6.2 },
+
+    { "type": "p", "text": "Pregovoreni bezbednosni parametri potvrđeni su iz dva nezavisna izvora — dissection-a paketa ServerHello u Wireshark-u i loga samog brokera. Oba potvrđuju TLS 1.2 i cipher ECDHE-RSA-AES256-GCM-SHA384, odnosno razmenu ključeva ECDHE sa svojstvom forward secrecy, autentifikaciju servera preko RSA-2048 sertifikata (pun lanac verifikovan, `Verify return code: 0`), simetričnu šifru AES-256-GCM i integritet zasnovan na SHA-384. Naredni grafikon prikazuje polja paketa ServerHello sa pregovorenim cipher suite-om." },
+
+    { "type": "figure", "file": "ws-serverhello.png", "caption": "Detalji paketa TLS ServerHello: verzija protokola i pregovoreni cipher suite.", "width_in": 6.2 },
+
+    { "type": "p", "text": "Reč je o konkretnoj, izmerenoj — a ne teorijskoj — ranjivosti običnog MQTT-a: bilo ko sa pristupom mreži može pasivnim snimanjem pročitati kredencijale `homeuser`/`N7kQ2pX9` i preuzeti potpunu kontrolu nad sistemom, budući da su i svi komandni topici vidljivi. MQTTS ovu ranjivost u potpunosti eliminiše, što i jeste suštinski razlog uvođenja sloja bezbednosti." },
+
+    { "type": "h", "level": 2, "text": "End-to-end command RTT" },
+
+    { "type": "p", "text": "Odziv sistema po komandi meren je kao vreme kruženja (Round-Trip Time, RTT) od objave komande na topic `.../set` do prijema povratne potvrde stanja na topic `.../state`, jednim satom visoke rezolucije (`perf_counter`), kroz n=100 uzoraka po kanalu i bez ijednog izgubljenog uzorka. Ovo je metrika na koju se hipoteza direktno odnosi." },
+
+    { "type": "table", "caption": "End-to-end command RTT, set→state echo (n=100 po kanalu)", "header": ["Statistika", "Plain (1883)", "TLS (8883)", "TLS trošak"], "rows": [
+      ["n / drops", "100 / 0", "100 / 0", "—"],
+      ["mean", "158,68 ms", "159,87 ms", "+1,19 ms"],
+      ["median", "158,79 ms", "159,20 ms", "+0,41 ms"],
+      ["p95", "182,11 ms", "189,60 ms", "+7,5 ms"],
+      ["min", "120,56 ms", "90,64 ms", "—"],
+      ["max", "202,98 ms", "398,13 ms", "—"]
+    ] },
+
+    { "type": "figure", "file": "fig-rtt.png", "caption": "Command RTT sa granicom od 200 ms.", "width_in": 5.3 },
+
+    { "type": "p", "text": "TLS dodaje svega ≈1,2 ms na srednju vrednost i ≈7,5 ms na 95. percentil odziva. Oba kanala ostaju ispod granice od 200 ms — presudno, **p95 od 190 ms na TLS kanalu je manji od 200 ms**, kao i 182 ms na običnom kanalu. Razlog tako male razlike jeste to što se, jednom uspostavljena, TLS sesija po poruci naplaćuje samo simetričnom AES-GCM operacijom, hardverski ubrzanom i reda mikrosekundi; handshake se ne ponavlja." },
+
+    { "type": "p", "text": "Apsolutna vrednost „poda” RTT-a od približno 158 ms viša je od naivnog očekivanja za lokalnu mrežu, ali njen uzrok nije ni broker ni TLS, već Wi-Fi štednja energije (modem-sleep) na ESP32. U režimu štednje uređaj budi radio-deo tek na DTIM beacon (interval 2 × 102,4 ms), pa nishodna komanda čeka do sledećeg beacon prozora. Dokaz da je to uzrok jeste činjenica da obični kanal ima identičan pod od ≈158 ms — da je TLS krivac, ta dva poda bi se razlikovala. Latencija bi se mogla sniziti isključivanjem Wi-Fi štednje, po ceni veće potrošnje, što je van obima ovog merenja. Jedini TLS ispad (max 398 ms) izolovan je reconnect/retransmisija, a ne trend; korišćena metrika (p95) ostaje na 190 ms." },
+
+    { "type": "h", "level": 2, "text": "Iskorišćenost procesora i runtime dijagnostika" },
+
+    { "type": "p", "text": "Peta merna dimenzija, uvedena firmverom v3.0.0 kroz namenski `diag` modul, jeste iskorišćenost procesora po jezgru. Modul na svakih 5 s očitava FreeRTOS run-time statistiku (`uxTaskGetSystemState`) i računa intervalni load po jezgru iz udela idle taskova, po formuli `load = 100 · (1 − idle_delta / per_core)`. Metod je jedinično-nezavisan (odnos), pa ne zavisi od rezolucije sata. Mere se tri režima: prozor povezivanja, ustaljeno stanje i sintetičko opterećenje." },
+
+    { "type": "table", "caption": "CPU u prozoru povezivanja (prosek dva jezgra, jedan hladan boot)", "header": ["Prozor „connect” (avg)", "esp1 (plain)", "esp2 (MQTTS/TLS)", "Δ (TLS)"], "rows": [
+      ["izmereno (boot log)", "28 %", "34 %", "+6"]
+    ] },
+
+    { "type": "p", "text": "Tokom povezivanja MQTTS čvor troši ≈34 % prosečnog CPU-a naspram ≈28 % kod običnog čvora — razlika od šest procentnih poena posledica je ECDHE razmene, RSA-2048 verifikacije i parsiranja sertifikata. Reč je o jednokratnom šiljku po konekciji, koji traje delić sekunde i usrednjen je preko petosekundnog prozora, pa je trenutni pik viši; nalaz je konzistentan sa izmerenim handshake vremenom od ≈0,53 s." },
+
+    { "type": "table", "caption": "CPU i dijagnostika u ustaljenom stanju (idle)", "header": ["Ustaljeno stanje", "esp1 (plain)", "esp2 (MQTTS/TLS)"], "rows": [
+      ["cpu_avg (median)", "1 %", "1 %"],
+      ["pik u idle-u", "2 %", "2 % (na 30 s)"],
+      ["slobodan heap", "207 392 B", "169 360 B"],
+      ["min heap", "165 784 B", "118 488 B"],
+      ["RSSI", "−57 dBm", "−54 dBm"],
+      ["broj taskova", "12", "13 (+1 TLS)"]
+    ] },
+
+    { "type": "p", "text": "U ustaljenom stanju oba čvora padaju na prosek od ≈1 %. MQTTS čvor pokazuje pravilne skokove od ≈2 % na svakih 30 s — to je AES-256-GCM enkripcija periodičnog temperaturnog PUBLISH-a — dok je obični čvor, bez periodične objave, ravan. Zaključak je da TLS u ustaljenom stanju košta zanemarljivo, jer se po poruci izvršava samo hardverski ubrzana simetrična operacija, što se poklapa sa nalazom o command-RTT trošku od ≈1 ms." },
+
+    { "type": "table", "caption": "CPU pod opterećenjem — light-toggle test na esp1 (≈1312 komandi za ≈45 s)", "header": ["esp1 (plain) tokom testa", "Vrednost"], "rows": [
+      ["baseline (idle)", "≈1 %"],
+      ["pod opterećenjem (avg)", "≈14 % (pik 15 %)"],
+      ["jezgro 0 (mreža/MQTT)", "≈23 %"],
+      ["slobodan heap (min u testu)", "204 288 B (pad ≈3 KB, bez curenja)"],
+      ["oporavak posle testa", "≈1 % (odmah)"]
+    ] },
+
+    { "type": "p", "text": "Da bi se izmerio CPU pri stvarnom radu, na esp1 je preko REST API-ja Home Assistant-a poslato 1312 switch komandi za oko 45 s (≈29 komandi/s). Čvor je obradio sve komande i vratio stanje uz prosečno opterećenje od ≈14 %, pri čemu obrada pada na jezgro 0 (networking jezgro) sa ≈23 %. Heap je ostao stabilan (pad od svega ≈3 KB, bez curenja), a oporavak na baseline bio je trenutan. Time se pokazuje da je sam sistem daleko od CPU zasićenja i da poseduje veliku rezervu." },
+
+    { "type": "figure", "file": "fig-cpu.png", "caption": "CPU load kroz vreme: light-toggle test na esp1 naspram idle stanja esp2.", "width_in": 6.0 },
+
+    { "type": "table", "caption": "Izbor ključnih taskova: stack head-room (reči) i kumulativni CPU udeo (‰)", "header": ["Task", "esp1 stack", "esp1 ‰", "esp2 stack", "esp2 ‰"], "rows": [
+      ["wifi", "3608", "172", "3612", "49"],
+      ["IDLE0", "920", "293", "912", "398"],
+      ["IDLE1", "1028", "430", "1036", "488"],
+      ["main", "1468", "31", "1444", "48"],
+      ["diag", "3232", "0", "3236", "0"],
+      ["tiT (lwIP)", "2220", "1", "2212", "1"],
+      ["ipc0/ipc1", "500/508", "1/67", "500/508", "1/8"]
+    ] },
+
+    { "type": "p", "text": "Analiza tabele taskova potvrđuje zdravu rezervu steka: nijedan task nema kritično malo slobodnog prostora (najmanji je `ipc` task sa ≈500 reči, odnosno oko 2 KB head-room). MQTTS čvor ima jedan task više (za TLS) i nešto niži idle-udeo tokom boot-a, jer handshake troši procesorsko vreme — što je konzistentno sa nalazom iz prozora povezivanja." },
+
+    { "type": "h", "level": 2, "text": "Temperaturni vremenski niz (validacija uživo)" },
+
+    { "type": "p", "text": "Radi validacije da sistem funkcioniše uživo i da MQTTS kanal isporučuje ispravne podatke, snimljen je vremenski niz temperatura koje MQTTS čvor objavljuje. Čvor esp2 na svakih 30 s objavljuje četiri simulirane temperature (random walk sa korakom ±0,5 °C, ograničen na opseg 15–30 °C) kao jedan retained JSON, koji Home Assistant i lokalni LCD ekran preslikavaju. Naredni grafikon prikazuje 13 uzoraka snimljenih uživo sa brokera: svaki senzor kreće iz svoje početne trake i lagano „šeta”, što je stvaran izlaz uređaja i dokaz da enkriptovani kanal ne narušava isporuku podataka." },
+
+    { "type": "figure", "file": "fig-timeseries.png", "caption": "MQTTS čvor: četiri simulirana senzora kroz vreme (uživo, v3.0.0).", "width_in": 6.0 },
+
+    { "type": "h", "level": 2, "text": "Validacija realnim podacima sa uređaja" },
+
+    { "type": "p", "text": "Verodostojnost agregiranih rezultata dodatno je potvrđena poređenjem sa sirovim podacima očitanim direktno sa uređaja. Firmver sam instrumentira boot proces i preko serijskog UART-a ispisuje `MEAS` linije — isti izvor koji skripta za prikupljanje kasnije parsira. Vrednosti iz jednog jedinog uživo boot-a poklapaju se sa dokumentovanim prosekom kroz 30 ciklusa, kao što prikazuje naredna tabela." },
+
+    { "type": "table", "caption": "Cross-validacija: serijski MEAS iz jednog boot-a naspram proseka (n=30)", "header": ["Metrika", "Serijski MEAS (1 boot)", "Dokumentovano (n=30)", "Slaganje"], "rows": [
+      ["Zadržani heap — esp1 (plain)", "7 480 B", "7 526 B (mean)", "✓"],
+      ["Zadržani heap — esp2 (TLS)", "41 356 B", "41 628 B (mean)", "✓"],
+      ["TLS heap trošak (esp2 − esp1)", "33 876 B (33,1 KB)", "+33,3 KB", "✓"],
+      ["TLS baferi (mbedTLS IN/OUT)", "16384 + 4096", "16384 + 4096", "✓"],
+      ["connect_span — esp1", "46 ms", "161 ms mean / 56 ms median", "✓"],
+      ["connect_span — esp2", "790 ms", "693 ms mean", "~"]
+    ] },
+
+    { "type": "p", "text": "Slaganje je izvrsno: TLS memorijski trošak od približno 33 KB reprodukovan je iz živog loga uz odstupanje reda 0,1 KB. Jednokratna vremena povezivanja iz jednog hladnog boot-a leže pri vrhu distribucije (jer uključuju Wi-Fi asocijaciju), zbog čega se za headline vrednosti koriste medijana i srednja vrednost nad 30 ciklusa." },
+
+    { "type": "p", "text": "Nezavisnu potvrdu daje i log samog brokera Mosquitto (verzija 2.1.2), koji za MQTTS čvor beleži pregovoreni cipher — isti onaj koji je izmeren iz Wireshark paketa ServerHello:" },
+
+    { "type": "code", "text": "New connection from 192.168.0.12:50063 on port 8883.\nNew client connected from 192.168.0.12:50063 as ESP32_4505F4 (p4, c1, k120, u'homeuser').\nClient ESP32_4505F4 negotiated TLSv1.2 cipher ECDHE-RSA-AES256-GCM-SHA384\nNew client connected from 192.168.0.11:50724 as ESP32_02F600 (p4, c1, k120, u'homeuser')." },
+
+    { "type": "p", "text": "Log potvrđuje da se MQTTS čvor (192.168.0.12) povezuje na port 8883 uz TLS 1.2 i cipher ECDHE-RSA-AES256-GCM-SHA384, dok se obični čvor (192.168.0.11) povezuje na port 1883 bez enkripcije. Dvostruka potvrda cipher-a — iz brokera i iz snimka saobraćaja — otklanja svaku sumnju da je enkripcija zaista aktivna i ispravno pregovorena. Time je zaokružen dokazni lanac: agregirani rezultati, sirovi serijski logovi i nezavisni log brokera međusobno se slažu." }
+  ]
+}
